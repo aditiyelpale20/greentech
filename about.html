@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | BHARTI GREEN TECH</title>
+  <meta name="description" content="Learn about BHARTI GREEN TECH's commitment to biological agriculture, our mission, vision, research, Satara plant infrastructure, and scientific timeline.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  
+  <style>
+    /* About Page Custom CSS */
+    .about-hero {
+      background: linear-gradient(135deg, rgba(18, 61, 42, 0.93) 30%, rgba(18, 61, 42, 0.7) 100%), 
+                  url('assets/images/hero-bg.png') center/cover no-repeat;
+      padding: 140px 0 70px 0;
+      color: var(--white);
+      text-align: center;
+    }
+    .about-hero h1 {
+      color: var(--white);
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .breadcrumbs {
+      font-size: 0.9rem;
+      color: var(--lime-accent);
+      font-weight: 600;
+    }
+    .breadcrumbs a:hover {
+      text-decoration: underline;
+    }
+    
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    
+    .about-img-box {
+      position: relative;
+      padding-right: 25px;
+      padding-bottom: 25px;
+    }
+    
+    .about-img-box::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 90%;
+      height: 90%;
+      border: 4px solid var(--leaf-green);
+      border-radius: var(--radius-leaf-1);
+      z-index: 1;
+    }
+    
+    .about-img-box img {
+      border-radius: var(--radius-leaf-1);
+      position: relative;
+      z-index: 2;
+      box-shadow: var(--shadow-lg);
+    }
+    
+    /* Timeline styles */
+    .timeline-container {
+      position: relative;
+      max-width: 800px;
+      margin: 50px auto 0 auto;
+    }
+    
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 3px;
+      height: 100%;
+      background-color: var(--border-light);
+      transform: translateX(-50%);
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin-bottom: 50px;
+      width: 50%;
+      padding: 0 40px;
+      box-sizing: border-box;
+    }
+    
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background-color: var(--leaf-green);
+      border: 4px solid var(--white);
+      border-radius: 50%;
+      top: 20px;
+      z-index: 10;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .timeline-left {
+      left: 0;
+      text-align: right;
+    }
+    
+    .timeline-left::after {
+      right: -12px;
+    }
+    
+    .timeline-right {
+      left: 50%;
+      text-align: left;
+    }
+    
+    .timeline-right::after {
+      left: -12px;
+    }
+    
+    .timeline-card {
+      background-color: var(--white);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+    }
+    
+    .timeline-year {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary-green);
+      font-family: var(--font-heading);
+      margin-bottom: 8px;
+    }
+    
+    /* Value Cards */
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+      margin-top: 40px;
+    }
+    
+    .value-card {
+      background-color: var(--white);
+      border-radius: var(--radius-md);
+      padding: 30px 24px;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+    }
+    
+    .value-card-icon {
+      width: 48px;
+      height: 48px;
+      background-color: rgba(101, 168, 68, 0.1);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--leaf-green);
+      margin-bottom: 18px;
+    }
+    
+    .value-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    
+    .value-card p {
+      font-size: 0.85rem;
+      color: var(--muted-text);
+      line-height: 1.6;
+    }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .split-layout { grid-template-columns: 1fr; gap: 40px; }
+      .about-img-box { order: -1; max-width: 500px; margin: 0 auto; }
+      .value-grid { grid-template-columns: 1fr 1fr; }
+    }
+    
+    @media (max-width: 768px) {
+      .about-hero h1 { font-size: 2.25rem; }
+      .value-grid { grid-template-columns: 1fr; }
+      .timeline-container::before { left: 20px; }
+      .timeline-item { width: 100%; padding: 0 0 0 45px; text-align: left; }
+      .timeline-item::after { left: 8px; }
+      .timeline-right { left: 0; }
+      .timeline-left::after { left: 8px; }
+    }
+  </style>
+  <!-- Global i18n Translation Engine -->
+  <script src="translations.js"></script>
+  <script src="i18n.js"></script>
+  <script src="languageManager.js"></script>
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div id="pageLoader">
+    <div class="loader-spinner"></div>
+    <div class="loader-logo">BHARTI GREEN TECH</div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo-block" id="headerLogo">
+        <img src="assets/images/logo.png" alt="BHARTI GREEN TECH Logo" class="company-logo">
+        <div class="brand-info">
+          <span class="brand-name">BHARTI GREEN TECH</span>
+          <span class="brand-tagline" id="brandTagline">Solution for Better Life</span>
+        </div>
+      </a>
+      
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link" data-i18n="nav.home">Home</a>
+        <a href="about.html" class="nav-link active" data-i18n="nav.about">About Us</a>
+        <a href="products.html" class="nav-link" data-i18n="nav.products">Our Products</a>
+        <a href="farmer-stories.html" class="nav-link" data-i18n="nav.farmerStories">Farmer Stories</a>
+        <a href="videos.html" class="nav-link" data-i18n="nav.videos">Videos Library</a>
+        <a href="contact.html" class="nav-link" data-i18n="nav.contact">Contact Us</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="products.html" class="btn btn-primary" style="padding: 10px 18px; font-size: 0.85rem;" data-i18n="exploreBtn">Explore Products</a>
+        <div class="lang-selector">
+          <select id="languageSelect" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="mr">मराठी (Marathi)</option>
+          </select>
+        </div>
+        <button class="burger-menu" id="burgerToggle" aria-label="Toggle Navigation">
+          <span class="line1"></span>
+          <span class="line2"></span>
+          <span class="line3"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO BANNER -->
+  <section class="about-hero">
+    <div class="container">
+      <h1 data-i18n="aboutUsHeading">About Our Company</h1>
+      <div class="breadcrumbs">
+        <a href="index.html" data-i18n="home">Home</a>
+        <span>/</span>
+        <span data-i18n="about">About Us</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- OVERVIEW SECTION -->
+  <section class="section section-white">
+    <div class="container split-layout">
+      <div class="about-content reveal">
+        <span class="section-tag" data-i18n="companyOverviewTag">Overview</span>
+        <h2 class="section-title" data-i18n="companyOverviewTitle">Bridging Biotechnology and Agriculture</h2>
+        <p style="color: var(--muted-text); margin-bottom: 20px;" data-i18n="aboutText1">BHARTI GREEN TECH is an Indian agricultural biotechnology company dedicated to building research-backed, high-efficacy crop feed and biological protection solutions. Based out of our registered office in Navi Mumbai and manufacturing units in Satara, Maharashtra, we formulate biological solutions that enrich the soil, stimulate seeds, and fortify foliage against fungal or pest stresses.</p>
+        <p style="color: var(--muted-text); margin-bottom: 30px;" data-i18n="aboutText2">We operate with a farmer-first philosophy. Rather than relying on generic chemicals that damage soil carbon over time, our laboratory processes isolate specific microbial organisms, including Nitrogen-fixers, Phosphate solubilizers, and entomopathogenic fungi. These are refined into water-soluble dextrose carrier powders, stable liquid consortia, and slow-release granules for diverse crop requirements.</p>
+        
+        <!-- CTA -->
+        <a href="contact.html" class="btn btn-primary" data-i18n="contactSupport">Talk to an Advisor</a>
+      </div>
+      
+      <div class="about-img-box reveal delay-1">
+        <img src="assets/images/about-biotech.png" alt="Biotech Lab Testing at BHARTI GREEN TECH">
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES SECTION -->
+  <section class="section section-cream">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag" data-i18n="whyTag">Core Values</span>
+        <h2 class="section-title" data-i18n="valuesTitle">The Principles We Stand By</h2>
+        <p class="section-subtitle" data-i18n="valuesSubtitle">We formulate bio-solutions with maximum responsibility, ensuring safety for the environment, soil structure, and humans.</p>
+      </div>
+
+      <div class="value-grid">
+        <!-- Value 1 -->
+        <div class="value-card reveal">
+          <div class="value-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 data-i18n="val1Title">Scientific Authenticity</h3>
+          <p data-i18n="val1Desc">Every batch is formulated based on documented microbiological principles, avoiding unverified yield claims.</p>
+        </div>
+
+        <!-- Value 2 -->
+        <div class="value-card reveal delay-1">
+          <div class="value-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 data-i18n="val2Title">Farmer Empowerment</h3>
+          <p data-i18n="val2Desc">We supply clear application guidelines, dilutions, and precautions to help farmers achieve success.</p>
+        </div>
+
+        <!-- Value 3 -->
+        <div class="value-card reveal delay-2">
+          <div class="value-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8l4 4-4 4M8 12h8"/></svg>
+          </div>
+          <h3 data-i18n="val3Title">Eco-Responsibility</h3>
+          <p data-i18n="val3Desc">Products degrade naturally without chemical runoff, maintaining earthworm populations and groundwater safety.</p>
+        </div>
+
+        <!-- Value 4 -->
+        <div class="value-card reveal delay-3">
+          <div class="value-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h3 data-i18n="val4Title">Quality Consistency</h3>
+          <p data-i18n="val4Desc">Strict R&D checks to ensure high spore viability and colony-forming counts in every package.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INFRASTRUCTURE SECTION -->
+  <section class="section section-white">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag" data-i18n="infraTag">Our Facilities</span>
+        <h2 class="section-title" data-i18n="infraTitle">State-of-the-Art Infrastructure</h2>
+        <p class="section-subtitle" data-i18n="infraSubtitle">Details of our corporate coordinates and manufacturing centers where biological solutions are designed and packed.</p>
+      </div>
+
+      <div class="split-layout" style="align-items: stretch;">
+        <!-- Office Card -->
+        <div class="value-card reveal" style="text-align: left; padding: 40px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div class="value-card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="10" r="3"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3 style="font-size: 1.4rem; margin-bottom: 15px;" data-i18n="officeTitle">Corporate Office</h3>
+            <p style="font-size: 0.95rem; margin-bottom: 20px;">Located in Navi Mumbai, Maharashtra, our corporate office manages national logistics, customer care relations, product registrations, and agricultural university R&D associations.</p>
+          </div>
+          <div style="font-weight: 700; color: var(--forest-green); border-top: 1px solid var(--border-light); padding-top: 20px; font-size: 0.9rem;">
+            Prakash Resi., 702, Sector 10E, Road Pali, Navi Mumbai, MH
+          </div>
+        </div>
+
+        <!-- Plant Card -->
+        <div class="value-card reveal delay-1" style="text-align: left; padding: 40px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div class="value-card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <h3 style="font-size: 1.4rem; margin-bottom: 15px;" data-i18n="plantTitle">Manufacturing Plant</h3>
+            <p style="font-size: 0.95rem; margin-bottom: 20px;">Our specialized formulation plant is located in Sokasan, Satara. It features sterile biological fermentation vats, packaging lines, dextrose blending chambers, and quality assessment facilities.</p>
+          </div>
+          <div style="font-weight: 700; color: var(--forest-green); border-top: 1px solid var(--border-light); padding-top: 20px; font-size: 0.9rem;">
+            Gat No. 629, At Post Sokasan, Tal-Man, Satara, MH - 415508
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE / MILESTONES -->
+  <section class="section section-cream">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag" data-i18n="timelineTag">Our History</span>
+        <h2 class="section-title" data-i18n="timelineTitle">Milestones & Growth Timeline</h2>
+        <p class="section-subtitle" data-i18n="timelineSubtitle">How BHARTI GREEN TECH expanded its research and product line to support farming communities.</p>
+      </div>
+
+      <div class="timeline-container reveal">
+        <!-- Milestone 1 -->
+        <div class="timeline-item timeline-left">
+          <div class="timeline-card">
+            <div class="timeline-year" data-i18n="aboutPage.t2Year">2020</div>
+            <h4 style="margin-bottom: 8px;">Company Foundation</h4>
+            <p style="font-size: 0.85rem; color: var(--muted-text);">Establishment of BHARTI GREEN TECH in Navi Mumbai, focusing on isolating beneficial soil-borne bacterial strains (Azotobacter, PSB).</p>
+          </div>
+        </div>
+
+        <!-- Milestone 2 -->
+        <div class="timeline-item timeline-right">
+          <div class="timeline-card">
+            <div class="timeline-year" data-i18n="aboutPage.t3Year">2022</div>
+            <h4 style="margin-bottom: 8px;">Manufacturing Expansion</h4>
+            <p style="font-size: 0.85rem; color: var(--muted-text);">Commissioning of our dedicated formulation plant in Satara, Maharashtra, setting up high-volume liquid fermentation vats.</p>
+          </div>
+        </div>
+
+        <!-- Milestone 3 -->
+        <div class="timeline-item timeline-left">
+          <div class="timeline-card">
+            <div class="timeline-year">2024</div>
+            <h4 style="margin-bottom: 8px;">Dextrose-Solubles Launch</h4>
+            <p style="font-size: 0.85rem; color: var(--muted-text);">Release of our water-soluble dextrose base powder line (Urva Fungo, Urva Wilto, Urva Nutri, Urva K-Plus), receiving excellent feedback from pomegranate growers.</p>
+          </div>
+        </div>
+
+        <!-- Milestone 4 -->
+        <div class="timeline-item timeline-right">
+          <div class="timeline-card">
+            <div class="timeline-year">2026</div>
+            <h4 style="margin-bottom: 8px;">Supporting 50,000+ Farmers</h4>
+            <p style="font-size: 0.85rem; color: var(--muted-text);">Supplying 26 primary biological products plus granular lines to over 50,000 farmers nationwide via distributor networks.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo-block">
+          <img src="assets/images/logo.png" alt="BHARTI GREEN TECH Logo" class="company-logo" style="background-color: var(--white); padding: 4px; border-radius: var(--radius-sm);">
+          <div class="brand-info">
+            <span class="brand-name">BHARTI GREEN TECH</span>
+            <span class="brand-tagline" style="color: var(--lime-accent);">Solution for Better Life</span>
+          </div>
+        </a>
+        <p>Advanced biotechnology manufacturing biological soil feeds, seed inoculants, and eco-friendly crop protection solutions to support farming growth.</p>
+        <div class="footer-socials">
+          <a href="https://share.google/ll2JtTK9mPVKhZ2xx" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook">FB</a>
+          
+          <a href="https://www.instagram.com/bharti_green_t?igsh=cm1rZDd1aWhxMW84" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Instagram">IG</a>
+          <a href="https://youtube.com/@bhartigreentechshetimitra6078" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="YouTube">YT</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="quickLinksTitle">Quick Links</h4>
+        <div class="footer-links">
+          <a href="index.html" data-i18n="nav.home">Home</a>
+          <a href="about.html" data-i18n="nav.about">About Us</a>
+          <a href="products.html" data-i18n="nav.products">Our Products</a>
+          <a href="farmer-stories.html" data-i18n="nav.farmerStories">Farmer Stories</a>
+          <a href="videos.html" data-i18n="nav.videos">Videos Library</a>
+          <a href="contact.html" data-i18n="nav.contact">Contact Us</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="categoriesTitle">Categories</h4>
+        <div class="footer-links">
+          <a href="products.html?formulation=Liquid" data-i18n="liquidCategory">Liquid Biologicals</a>
+          <a href="products.html?formulation=Powder" data-i18n="powderCategory">Powder Dextrose Base</a>
+          <a href="products.html?formulation=Granules" data-i18n="granulesCategory">Granule Base Range</a>
+          <a href="products.html?category=soil-health">Soil Health Solutions</a>
+          <a href="products.html?category=crop-protection">Crop Protection</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="contact.section">Contact Details</h4>
+        <div class="footer-contact-info">
+          <div class="footer-contact-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p>Prakash Resi., 702, Sector 10E, Road Pali, Navi Mumbai</p>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <p data-i18n="company.plant">Plant: Gat No. 629, Sokasan, Tal-Man, Satara - 415508</p>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <p>9049 747 555</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p data-i18n="footerLegal">BHARTI GREEN TECH Private Limited © 2026. All Rights Reserved. Solution for Better Life.</p>
+      <div class="footer-legal-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Disclaimer</a>
+        <a href="#">Terms of Use</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Top Button -->
+  <div class="scroll-top" id="scrollTop" aria-label="Scroll to Top">↑</div>
+
+  <!-- Scripts -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

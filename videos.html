@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Library | BHARTI GREEN TECH</title>
+  <meta name="description" content="Watch video tutorials, dosage guidelines, and application methods for BHARTI GREEN TECH organic and biological products.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  
+  <style>
+    /* Videos Specific Custom CSS */
+    .videos-hero {
+      background: linear-gradient(135deg, rgba(18, 61, 42, 0.93) 30%, rgba(18, 61, 42, 0.7) 100%), 
+                  url('assets/images/hero-bg.png') center/cover no-repeat;
+      padding: 140px 0 70px 0;
+      color: var(--white);
+      text-align: center;
+    }
+    .videos-hero h1 {
+      color: var(--white);
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .breadcrumbs {
+      font-size: 0.9rem;
+      color: var(--lime-accent);
+      font-weight: 600;
+    }
+    .breadcrumbs a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Control Panel */
+    .video-controls {
+      background-color: var(--white);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: -30px;
+      margin-bottom: 45px;
+      position: relative;
+      z-index: 10;
+    }
+    
+    .select-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .select-group label {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--soil-brown);
+      text-transform: uppercase;
+    }
+    
+    .select-control {
+      padding: 10px 14px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-cream);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--forest-green);
+    }
+    
+    /* Grid */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+    
+    .video-card {
+      background-color: var(--white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .video-thumbnail {
+      position: relative;
+      aspect-ratio: 16/9;
+      background-color: var(--dark-text);
+      overflow: hidden;
+    }
+    
+    .video-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+      transition: transform 0.5s ease;
+    }
+    
+    .video-card:hover .video-thumbnail img {
+      transform: scale(1.05);
+    }
+    
+    .video-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: rgba(255, 0, 0, 0.95);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(255, 0, 0, 0.4);
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+    
+    .video-card:hover .video-play-btn {
+      background-color: #CC0000;
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+    
+    .video-duration {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: var(--white);
+      padding: 2px 6px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      border-radius: 4px;
+    }
+    
+    .video-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+    
+    .video-body h3 {
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      color: var(--forest-green);
+    }
+    
+    .video-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--muted-text);
+      font-weight: 600;
+      margin-bottom: 16px;
+      border-top: 1px solid var(--border-light);
+      padding-top: 10px;
+    }
+    
+    .no-results-box {
+      text-align: center;
+      padding: 60px 20px;
+      background-color: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+      display: none;
+    }
+    
+    .no-results-box.active {
+      display: block;
+    }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .video-grid { grid-template-columns: 1fr 1fr; }
+    }
+    
+    @media (max-width: 768px) {
+      .videos-hero h1 { font-size: 2.25rem; }
+      .video-controls { grid-template-columns: 1fr; }
+      .video-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+  <!-- Global i18n Translation Engine -->
+  <script src="translations.js"></script>
+  <script src="i18n.js"></script>
+  <script src="languageManager.js"></script>
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div id="pageLoader">
+    <div class="loader-spinner"></div>
+    <div class="loader-logo">BHARTI GREEN TECH</div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo-block" id="headerLogo">
+        <img src="assets/images/logo.png" alt="BHARTI GREEN TECH Logo" class="company-logo">
+        <div class="brand-info">
+          <span class="brand-name">BHARTI GREEN TECH</span>
+          <span class="brand-tagline" id="brandTagline">Solution for Better Life</span>
+        </div>
+      </a>
+      
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link" data-i18n="nav.home">Home</a>
+        <a href="about.html" class="nav-link" data-i18n="nav.about">About Us</a>
+        <a href="products.html" class="nav-link" data-i18n="nav.products">Our Products</a>
+        <a href="farmer-stories.html" class="nav-link" data-i18n="nav.farmerStories">Farmer Stories</a>
+        <a href="videos.html" class="nav-link active" data-i18n="nav.videos">Videos Library</a>
+        <a href="contact.html" class="nav-link" data-i18n="nav.contact">Contact Us</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="products.html" class="btn btn-primary" style="padding: 10px 18px; font-size: 0.85rem;" data-i18n="exploreBtn">Explore Products</a>
+        <div class="lang-selector">
+          <select id="languageSelect" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="mr">मराठी (Marathi)</option>
+          </select>
+        </div>
+        <button class="burger-menu" id="burgerToggle" aria-label="Toggle Navigation">
+          <span class="line1"></span>
+          <span class="line2"></span>
+          <span class="line3"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO BANNER -->
+  <section class="videos-hero">
+    <div class="container">
+      <h1 data-i18n="videoLibHeading">Videos Library</h1>
+      <div class="breadcrumbs">
+        <a href="index.html" data-i18n="home">Home</a>
+        <span>/</span>
+        <span data-i18n="videos">Videos</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO FILTER AND LIBRARY -->
+  <main class="container" style="padding: 60px 0 90px 0;">
+    
+    <!-- Controls -->
+    <div class="video-controls reveal">
+      <!-- Category/Product Filter -->
+      <div class="select-group">
+        <label for="videoCategory" data-i18n="filterByProduct">Filter by Product Class</label>
+        <select id="videoCategory" class="select-control">
+          <option value="all">All Product Classes</option>
+          <option value="bio-fertilizers" data-i18n="cats.fertilizers">Bio-Fertilizers</option>
+          <option value="crop-protection">Crop Protection & Fungicides</option>
+          <option value="growth-boosters">Growth Boosters & Nutrition</option>
+          <option value="soil-health">Soil Care & Composting</option>
+        </select>
+      </div>
+
+      <!-- Language Filter -->
+      <div class="select-group">
+        <label for="videoLanguage" data-i18n="filterByLanguage">Filter by Language</label>
+        <select id="videoLanguage" class="select-control">
+          <option value="all" data-i18n="all">All Languages</option>
+          <option value="English">English</option>
+          <option value="Hindi">Hindi (हिंदी)</option>
+          <option value="Marathi">Marathi (मराठी)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Video Grid -->
+    <div class="video-grid" id="videoContainer">
+      <!-- Injected Dynamically -->
+    </div>
+    
+    <!-- Empty State -->
+    <div class="no-results-box" id="noVideosBox">
+      <svg width="50" height="50" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin: 0 auto 16px auto;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <h3>No Guidance Videos Found</h3>
+      <p style="color: var(--muted-text);">We couldn't find any tutorial videos matching your selected filters. Try choosing different options.</p>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo-block">
+          <img src="assets/images/logo.png" alt="BHARTI GREEN TECH Logo" class="company-logo" style="background-color: var(--white); padding: 4px; border-radius: var(--radius-sm);">
+          <div class="brand-info">
+            <span class="brand-name">BHARTI GREEN TECH</span>
+            <span class="brand-tagline" style="color: var(--lime-accent);">Solution for Better Life</span>
+          </div>
+        </a>
+        <p>Advanced biotechnology manufacturing biological soil feeds, seed inoculants, and eco-friendly crop protection solutions to support farming growth.</p>
+        <div class="footer-socials">
+          <a href="https://share.google/ll2JtTK9mPVKhZ2xx" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook">FB</a>
+          
+          <a href="https://www.instagram.com/bharti_green_t?igsh=cm1rZDd1aWhxMW84" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Instagram">IG</a>
+          <a href="https://youtube.com/@bhartigreentechshetimitra6078" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="YouTube">YT</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="quickLinksTitle">Quick Links</h4>
+        <div class="footer-links">
+          <a href="index.html" data-i18n="nav.home">Home</a>
+          <a href="about.html" data-i18n="nav.about">About Us</a>
+          <a href="products.html" data-i18n="nav.products">Our Products</a>
+          <a href="farmer-stories.html" data-i18n="nav.farmerStories">Farmer Stories</a>
+          <a href="videos.html" data-i18n="nav.videos">Videos Library</a>
+          <a href="contact.html" data-i18n="nav.contact">Contact Us</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="categoriesTitle">Categories</h4>
+        <div class="footer-links">
+          <a href="products.html?formulation=Liquid" data-i18n="liquidCategory">Liquid Biologicals</a>
+          <a href="products.html?formulation=Powder" data-i18n="powderCategory">Powder Dextrose Base</a>
+          <a href="products.html?formulation=Granules" data-i18n="granulesCategory">Granule Base Range</a>
+          <a href="products.html?category=soil-health">Soil Health Solutions</a>
+          <a href="products.html?category=crop-protection">Crop Protection</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="contact.section">Contact Details</h4>
+        <div class="footer-contact-info">
+          <div class="footer-contact-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p>Prakash Resi., 702, Sector 10E, Road Pali, Navi Mumbai</p>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <p data-i18n="company.plant">Plant: Gat No. 629, Sokasan, Tal-Man, Satara - 415508</p>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <p>9049 747 555</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p data-i18n="footerLegal">BHARTI GREEN TECH Private Limited © 2026. All Rights Reserved. Solution for Better Life.</p>
+      <div class="footer-legal-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Disclaimer</a>
+        <a href="#">Terms of Use</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Top Button -->
+  <div class="scroll-top" id="scrollTop" aria-label="Scroll to Top">↑</div>
+
+  <!-- Scripts -->
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/main.js"></script>
+  
+  <!-- Video rendering logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('videoContainer');
+      const noVideosBox = document.getElementById('noVideosBox');
+      const catFilter = document.getElementById('videoCategory');
+      const langFilter = document.getElementById('videoLanguage');
+
+      // Video items combining products with youtubeUrl and a few general categories
+      const VIDEOS_LIST = [
+        {
+          title: "Sugarcane Trash Composting Process (पाचटापासून कम्पोस्ट - खोडव्यातील)",
+          image: "assets/products/urva-compost-culture.jpg",
+          category: "soil-health",
+          lang: "Marathi",
+          duration: "6:12",
+          url: "https://www.youtube.com/watch?v=9uFUVN8-Q2w"
+        },
+        {
+          title: "White Grub Control Plot - Biological Treatment (हुमणी नियंत्रित क्षेत्र)",
+          image: "assets/products/urva-bvm.jpg",
+          category: "crop-protection",
+          lang: "Marathi",
+          duration: "4:35",
+          url: "https://www.youtube.com/watch?v=ZKKAcyiqyJs"
+        },
+        {
+          title: "How to Make Slurry in 24 hours (जिवाम्रृत स्लरी 24 तासात बनवण्याची सोपी पद्धत)",
+          image: "assets/products/urva-jaivik.jpg",
+          category: "soil-health",
+          lang: "Marathi",
+          duration: "5:18",
+          url: "https://www.youtube.com/watch?v=nQ0ykYnQF80"
+        },
+        {
+          title: "How To Control White Grub Biological Sprays (हुमणी नियंत्रणात कशी आणावी)",
+          image: "assets/products/urva-nemato.jpg",
+          category: "crop-protection",
+          lang: "Marathi",
+          duration: "5:42",
+          url: "https://www.youtube.com/watch?v=VOeUKFpcRas"
+        },
+        {
+          title: "Phosphate Solubilizing Bacteria (PSB) & Rhizobium Seed Treatment (बियाणे प्रक्रिया)",
+          image: "assets/products/urva-rhizo.jpg",
+          category: "bio-fertilizers",
+          lang: "Marathi",
+          duration: "4:12",
+          url: "https://www.youtube.com/watch?v=6nCgNwytOes"
+        },
+        {
+          title: "Farmer Feedback On Urva Urja Growth Promoter",
+          image: "assets/products/urva-urja.jpg",
+          category: "growth-boosters",
+          lang: "Marathi",
+          duration: "3:25",
+          url: "https://www.youtube.com/watch?v=f6dNnKNqKFA"
+        },
+        {
+          title: "Urva Pinaca Foliar Spray Guidance (ऊर्वा पिनाका)",
+          image: "assets/products/urva-pinaca.jpg",
+          category: "growth-boosters",
+          lang: "Marathi",
+          duration: "4:50",
+          url: "https://www.youtube.com/watch?v=xoQpS-DTibs"
+        }
+      ];
+
+      const renderVideos = () => {
+        if (!container) return;
+
+        const catVal = catFilter.value;
+        const langVal = langFilter.value;
+
+        const filtered = VIDEOS_LIST.filter(item => {
+          const matchesCat = catVal === 'all' || item.category === catVal;
+          const matchesLang = langVal === 'all' || item.lang === langVal;
+          return matchesCat && matchesLang;
+        });
+
+        container.innerHTML = '';
+
+        if (filtered.length === 0) {
+          container.style.display = 'none';
+          noVideosBox.classList.add('active');
+          return;
+        }
+
+        noVideosBox.classList.remove('active');
+        container.style.display = 'grid';
+
+        filtered.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'video-card reveal active';
+          
+          card.innerHTML = `
+            <div class="video-thumbnail">
+              <img src="${item.image}" alt="${item.title}">
+              <div class="video-play-btn">▶</div>
+              <span class="video-duration">${item.duration}</span>
+            </div>
+            <div class="video-body">
+              <h3>${item.title}</h3>
+              <div class="video-meta">
+                <span>BHARTI GREEN TECH</span>
+                <span>${item.lang}</span>
+              </div>
+              <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="btn btn-youtube-red" style="width:100%; padding:10px;" data-i18n="watchBtn">Watch on YouTube</a>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      };
+
+      catFilter.addEventListener('change', renderVideos);
+      langFilter.addEventListener('change', renderVideos);
+
+      // Initial render
+      renderVideos();
+    });
+  </script>
+</body>
+</html>

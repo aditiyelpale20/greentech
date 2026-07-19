@@ -1,0 +1,2348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - BHARTI GREEN TECH</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-green: #2E7D32;
+      --forest-green: #1B4332;
+      --soil-brown: #8D6E63;
+      --bg-light: #F4F6F4;
+      --white: #FFFFFF;
+      --text-dark: #212121;
+      --text-muted: #666666;
+      --border-light: #E0E2E0;
+      --shadow: 0 4px 12px rgba(0,0,0,0.05);
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding-bottom: 100px; /* Space for bulk bar */
+    }
+
+    /* LOGIN SCREEN */
+    .login-container {
+      max-width: 400px;
+      margin: 100px auto;
+      background: var(--white);
+      padding: 40px 30px;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      border: 1px solid var(--border-light);
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .login-logo img {
+      height: 60px;
+      background: var(--white);
+      padding: 4px;
+      border-radius: var(--radius-sm);
+    }
+
+    .login-logo h2 {
+      font-family: 'Outfit', sans-serif;
+      color: var(--forest-green);
+      font-size: 1.5rem;
+      margin-top: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .form-group input {
+      padding: 12px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      outline: none;
+      font-size: 0.95rem;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary-green);
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary-green);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-login:hover {
+      background: var(--forest-green);
+    }
+
+    .login-error {
+      color: #C62828;
+      background-color: #FFEBEE;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 15px;
+      font-size: 0.88rem;
+      text-align: center;
+      display: none;
+    }
+
+    /* HEADER */
+    header {
+      background-color: var(--forest-green);
+      color: var(--white);
+      padding: 20px 30px;
+      border-radius: var(--radius);
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-container {
+      background-color: var(--white);
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+    }
+
+    .brand-logo {
+      height: 45px;
+      width: auto;
+    }
+
+    .brand-title h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-title p {
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .portal-badge {
+      background-color: var(--primary-green);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .admin-lang-selector select {
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.15);
+      color: var(--white);
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .admin-lang-selector select option {
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .btn-logout {
+      background-color: rgba(255,255,255,0.15);
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-logout:hover {
+      background-color: rgba(255,255,255,0.3);
+    }
+
+    /* STATS CARDS */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background-color: var(--white);
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border-top: 4px solid var(--primary-green);
+    }
+
+    .stat-card.inq-card {
+      border-top-color: var(--soil-brown);
+    }
+
+    .stat-card h3 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+
+    .stat-card .value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--forest-green);
+    }
+
+    /* SECTION TABS */
+    .section-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--border-light);
+      padding-bottom: 10px;
+      overflow-x: auto;
+    }
+
+    .section-tab-btn {
+      background: none;
+      border: none;
+      padding: 12px 20px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    .section-tab-btn:hover {
+      color: var(--forest-green);
+    }
+
+    .section-tab-btn.active {
+      color: var(--primary-green);
+    }
+
+    .section-tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background-color: var(--primary-green);
+      border-radius: 2px;
+    }
+
+    /* CONTROLS PANEL */
+    .controls-panel {
+      background-color: var(--white);
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .search-box-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 16px 12px 42px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary-green);
+    }
+
+    .search-box svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    .clear-filters-link {
+      font-size: 0.85rem;
+      color: var(--soil-brown);
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 0.2s;
+    }
+
+    .clear-filters-link:hover {
+      color: var(--forest-green);
+      text-decoration: underline;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background-color: var(--bg-light);
+      border: 1px solid var(--border-light);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      background-color: #E8EBE8;
+      color: var(--text-dark);
+    }
+
+    .filter-btn.active {
+      background-color: var(--primary-green);
+      color: var(--white);
+      border-color: var(--primary-green);
+    }
+
+    .btn-export {
+      background-color: var(--soil-brown);
+      color: var(--white);
+      border: none;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      transition: opacity 0.2s;
+    }
+
+    .btn-export:hover {
+      opacity: 0.9;
+    }
+
+    /* GRID / DATA CARDS */
+    .data-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .data-card {
+      background-color: var(--white);
+      padding: 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-light);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      position: relative;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 12px;
+    }
+
+    .card-title-box h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--forest-green);
+    }
+
+    .card-title-box p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .badge-status {
+      border-radius: 20px;
+    }
+
+    .badge-primary { background-color: #E8F5E9; color: var(--primary-green); }
+    .badge-secondary { background-color: #EFEBE9; color: #5D4037; }
+    
+    .status-pending { background-color: #ECEFF1; color: #455A64; }
+    .status-approved { background-color: #E8F5E9; color: #2E7D32; }
+    .status-rejected { background-color: #FFEBEE; color: #C62828; }
+    
+    .status-new { background-color: #E3F2FD; color: #1E88E5; }
+    .status-inprogress { background-color: #FFF8E1; color: #F57F17; }
+    .status-contacted { background-color: #FFF3E0; color: #E65100; }
+    .status-resolved { background-color: #E8F5E9; color: #1B5E20; }
+    .status-spam { background-color: #FFEBEE; color: #B71C1C; }
+    .status-closed { background-color: #ECEFF1; color: #37474F; }
+
+    .card-body {
+      color: #333;
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+    }
+
+    .card-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      background-color: var(--bg-light);
+      padding: 15px;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+    }
+
+    .meta-item strong {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .meta-item span {
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+      align-items: center;
+      border-top: 1px solid var(--border-light);
+      padding-top: 15px;
+      margin-top: 5px;
+    }
+
+    /* ACTION BUTTONS */
+    .btn-action {
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-approve { background-color: #E8F5E9; color: #2E7D32; }
+    .btn-approve:hover { background-color: #C8E6C9; }
+    .btn-reject { background-color: #FFEBEE; color: #C62828; }
+    .btn-reject:hover { background-color: #FFCDD2; }
+    .btn-hide { background-color: #ECEFF1; color: #455A64; }
+    .btn-hide:hover { background-color: #CFD8DC; }
+    .btn-show { background-color: #E3F2FD; color: #1E88E5; }
+    .btn-show:hover { background-color: #BBDEFB; }
+    
+    .btn-edit { background-color: var(--bg-light); border-color: var(--border-light); color: var(--text-dark); }
+    .btn-edit:hover { background-color: #E8EBE8; }
+    .btn-delete { background-color: #FFEBEE; border-color: #FFCDD2; color: #C62828; }
+    .btn-delete:hover { background-color: #FFCDD2; }
+    .btn-restore { background-color: #E8F5E9; color: #2E7D32; border-color: #C8E6C9; }
+    .btn-restore:hover { background-color: #C8E6C9; }
+
+    /* EDIT INLINE BOX */
+    .edit-box {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .edit-box textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--primary-green);
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      outline: none;
+      resize: vertical;
+    }
+
+    .edit-btn-group {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .btn-save {
+      background-color: var(--primary-green);
+      color: var(--white);
+      border: none;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-cancel {
+      background-color: #ECEFF1;
+      color: var(--text-dark);
+      border: none;
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* INQUIRY FIELDS (NOTES, STAFF ASSIGN) */
+    .admin-notes-section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .admin-notes-section label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--soil-brown);
+      text-transform: uppercase;
+    }
+
+    .admin-notes-section textarea {
+      padding: 10px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      outline: none;
+      resize: vertical;
+    }
+
+    .admin-notes-section textarea:focus {
+      border-color: var(--soil-brown);
+    }
+
+    .assign-select-row {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .assign-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 200px;
+    }
+
+    .assign-box label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .assign-box input {
+      padding: 8px 12px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      outline: none;
+    }
+
+    .assign-box input:focus {
+      border-color: var(--primary-green);
+    }
+
+    .status-select-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 150px;
+    }
+
+    .status-select-box label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .status-select {
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-light);
+      font-size: 0.88rem;
+      font-weight: 600;
+      outline: none;
+      background: var(--white);
+      cursor: pointer;
+    }
+
+    .empty-state {
+      background-color: var(--white);
+      border-radius: var(--radius);
+      padding: 60px;
+      text-align: center;
+      color: var(--text-muted);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-light);
+    }
+
+    .empty-state svg {
+      color: var(--border-light);
+      margin-bottom: 15px;
+    }
+
+    /* BULK ACTIONS FLOATING BAR */
+    .bulk-actions-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background-color: var(--forest-green);
+      color: var(--white);
+      padding: 15px 30px;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      z-index: 100;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid rgba(255,255,255,0.1);
+      width: 90%;
+      max-width: 900px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .bulk-actions-bar.active {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .bulk-selected-count {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .bulk-btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .bulk-btn {
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s, opacity 0.2s;
+    }
+
+    .bulk-btn-primary { background-color: var(--primary-green); color: var(--white); }
+    .bulk-btn-primary:hover { background-color: #246628; }
+    .bulk-btn-secondary { background-color: rgba(255,255,255,0.15); color: var(--white); }
+    .bulk-btn-secondary:hover { background-color: rgba(255,255,255,0.25); }
+    .bulk-btn-danger { background-color: #C62828; color: var(--white); }
+    .bulk-btn-danger:hover { background-color: #B71C1C; }
+
+    /* SETTINGS CARD */
+    .settings-card {
+      background-color: var(--white);
+      padding: 30px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* LOADING OVERLAY */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255,255,255,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      display: none;
+    }
+
+    .spinner {
+      border: 4px solid rgba(0,0,0,0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border-left-color: var(--primary-green);
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading spinner overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Permanent Delete Confirmation Modal -->
+  <div class="loading-overlay" id="deleteConfirmModal" style="display: none; background-color: rgba(0,0,0,0.5);">
+    <div style="background: var(--white); padding: 30px; border-radius: var(--radius); max-width: 500px; width: 95%; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 20px;">
+      <h3 style="font-family:'Outfit'; color:#C62828;" data-admin-i18n="actions.deletePermanently">Delete Selected Permanently</h3>
+      <p id="deleteConfirmWarningText" style="font-size: 0.92rem; color: var(--text-dark); line-height: 1.5;" data-admin-i18n="alerts.confirmDeletePermanent">This action will permanently remove the record and cannot be undone. Type DELETE to continue.</p>
+      <div class="form-group" style="margin-bottom: 0;">
+        <input type="text" id="deleteConfirmInput" placeholder="Type DELETE to confirm" style="text-align: center; font-weight: 700; letter-spacing: 1px; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); width: 100%; outline: none;" oninput="onDeleteConfirmInput(this.value)">
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button class="btn-cancel" style="padding: 8px 16px; border-radius: var(--radius-sm); background: #ECEFF1; border: none; font-weight: 600; cursor: pointer;" onclick="closeDeleteConfirmModal()" data-admin-i18n="actions.cancel">Cancel</button>
+        <button id="deleteConfirmBtn" class="btn-save" style="background-color: #C62828; color: var(--white); opacity: 0.4; cursor: not-allowed; padding: 8px 16px; border-radius: var(--radius-sm); border: none; font-weight: 600;" disabled onclick="confirmExecuteDeletion()">DELETE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. LOGIN CONTAINER -->
+  <div class="login-container" id="loginContainer">
+    <div class="login-logo">
+      <img src="assets/images/logo.png" alt="BHARTI GREEN TECH Logo">
+      <h2 data-admin-i18n="login.title">BHARTI GREEN TECH</h2>
+    </div>
+    <div class="login-error" id="loginError" data-admin-i18n="login.error">Invalid credentials</div>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="loginUser" data-admin-i18n="login.userLabel">Username</label>
+        <input type="text" id="loginUser" data-admin-i18n-placeholder="login.userPlaceholder" required>
+      </div>
+      <div class="form-group">
+        <label for="loginPass" data-admin-i18n="login.passLabel">Password</label>
+        <input type="password" id="loginPass" data-admin-i18n-placeholder="login.passPlaceholder" required>
+      </div>
+      <button type="submit" class="btn-login" data-admin-i18n="login.submitBtn">Log In</button>
+    </form>
+  </div>
+
+  <!-- 2. MAIN ADMIN PORTAL WRAPPER (HIDDEN UNTIL AUTHENTICATED) -->
+  <div id="adminPortal" style="display: none;">
+    <div class="container">
+      <header>
+        <div class="brand-box">
+          <div class="logo-container">
+            <img src="assets/images/logo.png" alt="BHARTI GREEN TECH Logo" class="brand-logo">
+          </div>
+          <div class="brand-title">
+            <h1>BHARTI GREEN TECH</h1>
+            <p data-admin-i18n="header.subtitle">Solution for Better Life | Administrative Control Center</p>
+          </div>
+        </div>
+        <div class="header-right">
+          <!-- Localized Selector Dropdown -->
+          <div class="admin-lang-selector">
+            <select id="adminLanguageSelect" aria-label="Select Language" onchange="window.adminI18n.changeLanguage(this.value)">
+              <option value="en">🌐 English</option>
+              <option value="hi">हिन्दी (Hindi)</option>
+              <option value="mr">मराठी (Marathi)</option>
+            </select>
+          </div>
+          <div class="portal-badge" data-admin-i18n="header.badge">ADMIN MODERATION</div>
+          <button class="btn-logout" id="logoutBtn" data-admin-i18n="header.logout">Log Out</button>
+        </div>
+      </header>
+
+      <!-- Stats summary cards -->
+      <div class="stats-container" id="statsContainer">
+        <!-- Dynamically rendered -->
+      </div>
+
+      <!-- Mode Selector Tabs -->
+      <div class="section-tabs">
+        <button class="section-tab-btn active" id="tabFeedbackBtn" onclick="switchTab('feedback')" data-admin-i18n="tabs.feedback">Feedback Management</button>
+        <button class="section-tab-btn" id="tabInquiriesBtn" onclick="switchTab('inquiries')" data-admin-i18n="tabs.inquiries">Inquiry Management</button>
+        <button class="section-tab-btn" id="tabTrashBtn" onclick="switchTab('trash')" data-admin-i18n="tabs.trash">Trash Bin</button>
+        <button class="section-tab-btn" id="tabActivityLogBtn" onclick="switchTab('activityLog')" data-admin-i18n="tabs.activityLog">Activity Log</button>
+        <button class="section-tab-btn" id="tabSettingsBtn" onclick="switchTab('settings')" data-admin-i18n="tabs.settings">Settings</button>
+      </div>
+
+      <!-- FEEDBACK TAB PANEL -->
+      <div id="panelFeedback" style="display: block;">
+        <div class="controls-panel">
+          <div class="search-box-container">
+            <div class="search-box">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="feedbackSearch" data-admin-i18n-placeholder="controls.fbSearchPlaceholder">
+            </div>
+            <a href="#" onclick="resetAllFilters(event)" class="clear-filters-link">Clear Filters</a>
+          </div>
+
+          <div class="filter-tabs" id="feedbackFilters">
+            <button class="filter-btn active" data-filter="all" data-admin-i18n="controls.filterAll">All</button>
+            <button class="filter-btn" data-filter="pending" data-admin-i18n="controls.filterPending">Pending</button>
+            <button class="filter-btn" data-filter="approved" data-admin-i18n="controls.filterApproved">Approved</button>
+            <button class="filter-btn" data-filter="rejected" data-admin-i18n="controls.filterRejected">Rejected</button>
+            <button class="filter-btn" data-filter="hidden" data-admin-i18n="controls.filterHidden">Hidden</button>
+            <button class="filter-btn" data-filter="archived" data-admin-i18n="controls.filterArchived">Archived</button>
+          </div>
+        </div>
+
+        <div class="data-grid" id="feedbackGrid">
+          <!-- Dyn rows -->
+        </div>
+      </div>
+
+      <!-- INQUIRIES TAB PANEL -->
+      <div id="panelInquiries" style="display: none;">
+        <div class="controls-panel">
+          <div class="search-box-container">
+            <div class="search-box">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="inquiriesSearch" data-admin-i18n-placeholder="controls.inqSearchPlaceholder">
+            </div>
+            <a href="#" onclick="resetAllFilters(event)" class="clear-filters-link">Clear Filters</a>
+          </div>
+
+          <div class="filter-tabs" id="inquiryFilters">
+            <button class="filter-btn active" data-filter="all" data-admin-i18n="controls.filterAll">All</button>
+            <button class="filter-btn" data-filter="unresolved" data-admin-i18n="stats.unresolvedInquiries">Unresolved</button>
+            <button class="filter-btn" data-filter="new" data-admin-i18n="controls.filterNew">New</button>
+            <button class="filter-btn" data-filter="in_progress" data-admin-i18n="controls.filterInProgress">In Progress</button>
+            <button class="filter-btn" data-filter="contacted" data-admin-i18n="controls.filterContacted">Contacted</button>
+            <button class="filter-btn" data-filter="resolved" data-admin-i18n="controls.filterResolved">Resolved</button>
+            <button class="filter-btn" data-filter="spam" data-admin-i18n="controls.filterSpam">Spam</button>
+            <button class="filter-btn" data-filter="closed" data-admin-i18n="controls.filterClosed">Closed</button>
+            <button class="filter-btn" data-filter="archived" data-admin-i18n="controls.filterArchived">Archived</button>
+          </div>
+
+          <button class="btn-export" onclick="exportInquiriesToCsv()">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
+            </svg>
+            <span data-admin-i18n="controls.exportBtn">Export to CSV</span>
+          </button>
+        </div>
+
+        <div class="data-grid" id="inquiriesGrid">
+          <!-- Dyn rows -->
+        </div>
+      </div>
+
+      <!-- TRASH TAB PANEL -->
+      <div id="panelTrash" style="display: none;">
+        <div class="controls-panel">
+          <div style="font-weight: 700; color: var(--forest-green); font-size: 1.05rem;" data-admin-i18n="tabs.trash">Trash Bin</div>
+          <div class="filter-tabs" id="trashFilters">
+            <button class="filter-btn active" data-filter="all" data-admin-i18n="controls.filterAll">All</button>
+            <button class="filter-btn" data-filter="feedback" data-admin-i18n="tabs.feedback">Feedback</button>
+            <button class="filter-btn" data-filter="inquiries" data-admin-i18n="tabs.inquiries">Inquiries</button>
+          </div>
+        </div>
+        <div class="data-grid" id="trashGrid">
+          <!-- Dyn rows -->
+        </div>
+      </div>
+
+      <!-- ACTIVITY LOG TAB PANEL -->
+      <div id="panelActivityLog" style="display: none;">
+        <div style="background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow); padding:25px; border:1px solid var(--border-light); overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; min-width: 800px;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-light); font-weight: 700; color: var(--text-dark);">
+                <th style="padding: 12px 10px;">Time</th>
+                <th style="padding: 12px 10px;">Admin</th>
+                <th style="padding: 12px 10px;">Action</th>
+                <th style="padding: 12px 10px;">Type</th>
+                <th style="padding: 12px 10px;">Record ID</th>
+                <th style="padding: 12px 10px;">Previous State</th>
+                <th style="padding: 12px 10px;">New State</th>
+              </tr>
+            </thead>
+            <tbody id="activityLogTableBody">
+              <!-- Dyn rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SETTINGS TAB PANEL -->
+      <div id="panelSettings" style="display: none;">
+        <div class="settings-card">
+          <h3 style="margin-bottom: 20px; font-family:'Outfit'; color: var(--forest-green);" data-admin-i18n="tabs.settings">Settings</h3>
+          <div id="settingsMessage" style="display: none; padding: 12px; background: #E8F5E9; color: var(--primary-green); border-radius: var(--radius-sm); font-size: 0.9rem; font-weight: 600; margin-bottom: 15px; text-align: center;"></div>
+          <form id="settingsForm" onsubmit="saveConfigSettings(event)">
+            <div class="form-group">
+              <label for="settingRetentionDays" data-admin-i18n="settingsPanel.retentionDays">Trash Retention Period (Days)</label>
+              <input type="number" id="settingRetentionDays" min="1" max="365" style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); outline: none;" required>
+            </div>
+            <div class="form-group" style="flex-direction: row; align-items: center; gap: 10px; cursor: pointer; margin-top: 10px; margin-bottom: 25px;">
+              <input type="checkbox" id="settingAutoCleanup" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-green);">
+              <label for="settingAutoCleanup" style="cursor: pointer; font-weight: 500; font-size: 0.92rem;" data-admin-i18n="settingsPanel.autoCleanup">Enable automatic cleanup after retention period</label>
+            </div>
+            <button type="submit" class="btn-login" data-admin-i18n="settingsPanel.saveBtn">Save Configuration</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Shared Empty state placeholder -->
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <p id="emptyStateText" data-admin-i18n="empty.noRecords">No records found matching your query filters.</p>
+      </div>
+
+      <!-- 3. FLOATING BULK ACTIONS PANEL -->
+      <div class="bulk-actions-bar" id="bulkActionsBar">
+        <div>
+          <span id="bulkSelectedText">0</span> <span data-admin-i18n="bulkPanel.selected">selected</span>
+        </div>
+        <div class="bulk-btn-group">
+          <!-- Archive / Unarchive triggers dynamically shown -->
+          <button class="bulk-btn bulk-btn-secondary" id="bulkArchiveBtn" onclick="executeBulkAction('archive')" data-admin-i18n="bulkPanel.archive">Archive Selected</button>
+          <button class="bulk-btn bulk-btn-secondary" id="bulkRestoreBtn" onclick="executeBulkAction('restore')" data-admin-i18n="bulkPanel.restore" style="display: none;">Restore Selected</button>
+          <button class="bulk-btn bulk-btn-danger" id="bulkTrashBtn" onclick="executeBulkAction('trash')" data-admin-i18n="bulkPanel.trash">Trash Selected</button>
+          <button class="bulk-btn bulk-btn-danger" id="bulkDeletePermBtn" onclick="openBulkDeleteModal()" data-admin-i18n="bulkPanel.deletePerm" style="display: none;">Delete Selected Permanently</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Load Translation Pack and i18n Engine -->
+  <script src="assets/js/admin-translations.js"></script>
+  <script src="assets/js/admin-language.js"></script>
+
+  <script>
+    // State variables
+    let token = localStorage.getItem('adminToken') || '';
+    let currentTab = 'feedback'; // 'feedback', 'inquiries', 'trash', 'activityLog', 'settings'
+    let feedbackList = [];
+    let inquiriesList = [];
+    let activityLogs = [];
+    
+    let fbFilter = 'all'; // Starts as lowercase default
+    let fbSearch = '';
+    let inqFilter = 'all'; // Starts as lowercase default
+    let inqSearch = '';
+    let trashFilter = 'all'; // Starts as lowercase default
+
+    // API success check variables for specific empty states
+    let apiFeedbackSuccess = true;
+    let apiInquiriesSuccess = true;
+    let apiActivitySuccess = true;
+
+    // Bulk selection tracking
+    let selectedIds = new Set();
+
+    // Permanent delete targets
+    let deleteTargetId = null;
+    let deleteTargetType = null; // 'feedback', 'inquiries', 'bulk'
+
+    const API_BASE = 'http://localhost:3000/api';
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    function showLoading() { loadingOverlay.style.display = 'flex'; }
+    function hideLoading() { loadingOverlay.style.display = 'none'; }
+
+    // STATUS NORMALIZER (case-insensitive & whitespace-safe)
+    function normalizeStatus(status) {
+      return String(status || '').trim().toLowerCase().replace(/\s+/g, '_');
+    }
+
+    // Check token presence on boot
+    window.addEventListener('DOMContentLoaded', () => {
+      // Clear spaces or hidden characters from search fields on boot
+      const fbSearchField = document.getElementById('feedbackSearch');
+      const inqSearchField = document.getElementById('inquiriesSearch');
+      if (fbSearchField) fbSearchField.value = '';
+      if (inqSearchField) inqSearchField.value = '';
+
+      if (token) {
+        showPortal();
+      } else {
+        showLogin();
+      }
+    });
+
+    // Event listener: refresh layout on language change
+    window.addEventListener('adminLanguageChanged', () => {
+      if (window.adminI18n) {
+        window.adminI18n.translatePage();
+      }
+      renderData();
+      loadDashboardData(true); // silent update
+    });
+
+    function showLogin() {
+      document.getElementById('loginContainer').style.display = 'block';
+      document.getElementById('adminPortal').style.display = 'none';
+    }
+
+    function showPortal() {
+      document.getElementById('loginContainer').style.display = 'none';
+      document.getElementById('adminPortal').style.display = 'block';
+      
+      // Load both datasets immediately on boot
+      loadDashboardData();
+    }
+
+    // Login Form Handler
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const u = document.getElementById('loginUser').value.trim();
+      const p = document.getElementById('loginPass').value.trim();
+      const err = document.getElementById('loginError');
+      err.style.display = 'none';
+
+      showLoading();
+      try {
+        const response = await fetch(`${API_BASE}/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: u, password: p })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          token = data.token;
+          localStorage.setItem('adminToken', token);
+          showPortal();
+        } else {
+          err.style.display = 'block';
+        }
+      } catch (err) {
+        console.error('Login error:', err);
+        alert('Server unreachable. Make sure the backend server is running.');
+      } finally {
+        hideLoading();
+      }
+    });
+
+    // Logout Handler
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      token = '';
+      localStorage.removeItem('adminToken');
+      showLogin();
+    });
+
+    // Handle session expiration
+    function handleApiError(res) {
+      if (res.status === 401) {
+        alert('Session expired. Please log in again.');
+        token = '';
+        localStorage.removeItem('adminToken');
+        showLogin();
+        return true;
+      }
+      return false;
+    }
+
+    // Reset Filters helper
+    function resetAllFilters(event) {
+      if (event) event.preventDefault();
+      
+      // Clear inputs
+      document.getElementById('feedbackSearch').value = '';
+      document.getElementById('inquiriesSearch').value = '';
+      fbSearch = '';
+      inqSearch = '';
+
+      // Reset filter tabs to lowercase defaults
+      fbFilter = 'all';
+      inqFilter = 'all';
+      trashFilter = 'all';
+
+      // Apply active visual styling
+      document.querySelectorAll('#feedbackFilters .filter-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-filter') === 'all');
+      });
+      document.querySelectorAll('#inquiryFilters .filter-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-filter') === 'all');
+      });
+      document.querySelectorAll('#trashFilters .filter-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-filter') === 'all');
+      });
+
+      clearBulkSelection();
+      renderData();
+    }
+
+    // Switch between panels
+    function switchTab(tab) {
+      currentTab = tab;
+      document.getElementById('tabFeedbackBtn').classList.toggle('active', tab === 'feedback');
+      document.getElementById('tabInquiriesBtn').classList.toggle('active', tab === 'inquiries');
+      document.getElementById('tabTrashBtn').classList.toggle('active', tab === 'trash');
+      document.getElementById('tabActivityLogBtn').classList.toggle('active', tab === 'activityLog');
+      document.getElementById('tabSettingsBtn').classList.toggle('active', tab === 'settings');
+
+      document.getElementById('panelFeedback').style.display = tab === 'feedback' ? 'block' : 'none';
+      document.getElementById('panelInquiries').style.display = tab === 'inquiries' ? 'block' : 'none';
+      document.getElementById('panelTrash').style.display = tab === 'trash' ? 'block' : 'none';
+      document.getElementById('panelActivityLog').style.display = tab === 'activityLog' ? 'block' : 'none';
+      document.getElementById('panelSettings').style.display = tab === 'settings' ? 'block' : 'none';
+
+      // Reset selection when tab switches
+      clearBulkSelection();
+
+      // Reset filter variables to lowercase defaults
+      fbFilter = 'all';
+      inqFilter = 'all';
+      trashFilter = 'all';
+
+      // Make All buttons active
+      document.querySelectorAll('#feedbackFilters .filter-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-filter') === 'all');
+      });
+      document.querySelectorAll('#inquiryFilters .filter-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-filter') === 'all');
+      });
+      document.querySelectorAll('#trashFilters .filter-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-filter') === 'all');
+      });
+
+      // Clear search fields if only spaces
+      const fbSearchField = document.getElementById('feedbackSearch');
+      const inqSearchField = document.getElementById('inquiriesSearch');
+      if (fbSearchField && (!fbSearchField.value || !fbSearchField.value.trim())) {
+        fbSearchField.value = '';
+        fbSearch = '';
+      }
+      if (inqSearchField && (!inqSearchField.value || !inqSearchField.value.trim())) {
+        inqSearchField.value = '';
+        inqSearch = '';
+      }
+      
+      // Load specific tab datasets
+      loadDashboardData();
+    }
+
+    // Fetch and load data
+    async function loadDashboardData(silent = false) {
+      if (!token) return;
+      if (!silent) showLoading();
+      try {
+        // Stats
+        const statsRes = await fetch(`${API_BASE}/admin/stats`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (handleApiError(statsRes)) return;
+        const stats = await statsRes.json();
+        renderStats(stats);
+
+        // Settings tab config
+        if (currentTab === 'settings') {
+          const configRes = await fetch(`${API_BASE}/admin/config`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (!handleApiError(configRes)) {
+            const config = await configRes.json();
+            document.getElementById('settingRetentionDays').value = config.trashRetentionDays;
+            document.getElementById('settingAutoCleanup').checked = config.autoCleanupEnabled;
+          }
+        }
+
+        // Activity log tab
+        if (currentTab === 'activityLog') {
+          try {
+            const logRes = await fetch(`${API_BASE}/admin/activity-log`, {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!handleApiError(logRes)) {
+              const data = await logRes.json();
+              activityLogs = data.records || []; // Read from response.records
+              apiActivitySuccess = true;
+              renderActivityLogs();
+            }
+          } catch (err) {
+            console.error("Failed to load activity logs:", err);
+            apiActivitySuccess = false;
+            renderActivityLogs();
+          }
+        }
+
+        // Fetch active/deleted Feedback
+        if (currentTab === 'feedback' || currentTab === 'trash') {
+          try {
+            const fbUrl = currentTab === 'trash' ? `${API_BASE}/admin/feedback?trash=true` : `${API_BASE}/admin/feedback`;
+            const fbRes = await fetch(fbUrl, {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!handleApiError(fbRes)) {
+              const data = await fbRes.json();
+              feedbackList = data.records || []; // Read from response.records
+              apiFeedbackSuccess = true;
+            }
+          } catch (err) {
+            console.error("Failed to load feedback:", err);
+            apiFeedbackSuccess = false;
+          }
+        }
+
+        // Fetch active/deleted Inquiries
+        if (currentTab === 'inquiries' || currentTab === 'trash') {
+          try {
+            const inqUrl = currentTab === 'trash' ? `${API_BASE}/admin/inquiries?trash=true` : `${API_BASE}/admin/inquiries`;
+            const inqRes = await fetch(inqUrl, {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!handleApiError(inqRes)) {
+              const data = await inqRes.json();
+              inquiriesList = data.records || []; // Read from response.records
+              apiInquiriesSuccess = true;
+            }
+          } catch (err) {
+            console.error("Failed to load inquiries:", err);
+            apiInquiriesSuccess = false;
+          }
+        }
+
+        // Render lists
+        renderData();
+
+      } catch (err) {
+        console.error('Error loading admin dashboard details:', err);
+      } finally {
+        if (!silent) hideLoading();
+      }
+    }
+
+    // Render summary stats counters
+    function renderStats(s) {
+      const statsContainer = document.getElementById('statsContainer');
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+      
+      statsContainer.innerHTML = `
+        <div class="stat-card">
+          <h3>${t('stats.totalFeedback')}</h3>
+          <div class="value">${s.totalFeedback}</div>
+        </div>
+        <div class="stat-card">
+          <h3>${t('stats.pendingFeedback')}</h3>
+          <div class="value" style="color: #FB8C00;">${s.pendingFeedback}</div>
+        </div>
+        <div class="stat-card">
+          <h3>${t('stats.approvedFeedback')}</h3>
+          <div class="value" style="color: var(--primary-green);">${s.approvedFeedback}</div>
+        </div>
+        <div class="stat-card">
+          <h3>${t('stats.hiddenFeedback')}</h3>
+          <div class="value" style="color: #78909c;">${s.hiddenFeedback}</div>
+        </div>
+        <div class="stat-card inq-card">
+          <h3>${t('stats.newInquiries')}</h3>
+          <div class="value" style="color: #1E88E5;">${s.newInquiries}</div>
+        </div>
+        <div class="stat-card inq-card">
+          <h3>${t('stats.unresolvedInquiries')}</h3>
+          <div class="value" style="color: #FB8C00;">${s.unresolvedInquiries}</div>
+        </div>
+        <div class="stat-card inq-card">
+          <h3>${t('stats.resolvedInquiries')}</h3>
+          <div class="value" style="color: var(--primary-green);">${s.resolvedInquiries}</div>
+        </div>
+      `;
+    }
+
+    // --- DUPLICATE SCANNING ALGORITHM ---
+    function getDuplicateIds(list, type) {
+      const duplicateIds = new Set();
+      if (!list || list.length === 0) return duplicateIds;
+
+      for (let i = 0; i < list.length; i++) {
+        for (let j = i + 1; j < list.length; j++) {
+          const a = list[i];
+          const b = list[j];
+          if (a.is_deleted || b.is_deleted) continue;
+
+          if (type === 'feedback') {
+            const sameMobile = a.mobileNumber && b.mobileNumber && a.mobileNumber === b.mobileNumber;
+            const sameText = a.text && b.text && a.text.toLowerCase().trim() === b.text.toLowerCase().trim();
+            const sameNameAndRating = a.name && b.name && a.name.toLowerCase().trim() === b.name.toLowerCase().trim() && a.rating === b.rating;
+
+            if (sameMobile || sameText || sameNameAndRating) {
+              duplicateIds.add(a.id);
+              duplicateIds.add(b.id);
+            }
+          } else if (type === 'inquiries') {
+            const samePhoneAndProduct = a.mobileNumber && b.mobileNumber && a.mobileNumber === b.mobileNumber && a.interestedProduct === b.interestedProduct;
+            const sameEmailAndDay = a.emailAddress && b.emailAddress && a.emailAddress === b.emailAddress && a.submissionDateTime.slice(0, 10) === b.submissionDateTime.slice(0, 10);
+            
+            const aMsg = a.inquiryMessage || '';
+            const bMsg = b.inquiryMessage || '';
+            const similarMsg = aMsg.slice(0, 25).toLowerCase() === bMsg.slice(0, 25).toLowerCase();
+
+            if (samePhoneAndProduct || sameEmailAndDay || (a.mobileNumber === b.mobileNumber && similarMsg)) {
+              duplicateIds.add(a.id);
+              duplicateIds.add(b.id);
+            }
+          }
+        }
+      }
+      return duplicateIds;
+    }
+
+    // Render lists based on active tab, search, and filters
+    function renderData() {
+      const emptyState = document.getElementById('emptyState');
+      emptyState.style.display = 'none';
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+
+      // FEEDBACK TAB
+      if (currentTab === 'feedback') {
+        const grid = document.getElementById('feedbackGrid');
+        grid.innerHTML = '';
+
+        // Total active feedback list count (excluding deleted)
+        const totalActiveFeedbackCount = feedbackList.filter(fb => fb.is_deleted !== true).length;
+
+        const duplicateIds = getDuplicateIds(feedbackList, 'feedback');
+
+        const filtered = feedbackList.filter(fb => {
+          const matchesSearch = fb.name.toLowerCase().includes(fbSearch) ||
+                                fb.district.toLowerCase().includes(fbSearch) ||
+                                fb.crop.toLowerCase().includes(fbSearch) ||
+                                fb.text.toLowerCase().includes(fbSearch);
+          
+          const normalized = normalizeStatus(fb.status);
+          let matchesFilter = true;
+
+          // Case-insensitive, whitespace-safe status routing
+          if (fbFilter === 'all') matchesFilter = !fb.is_archived;
+          else if (fbFilter === 'archived') matchesFilter = fb.is_archived === true;
+          else if (fbFilter === 'hidden') matchesFilter = normalized === 'approved' && fb.is_visible !== true;
+          else if (fbFilter === 'approved') matchesFilter = normalized === 'approved' && fb.is_visible === true;
+          else matchesFilter = normalized === fbFilter;
+
+          return matchesSearch && matchesFilter;
+        });
+
+        // Debugging logging as requested
+        console.log("API records:", feedbackList);
+        console.log("Selected filter:", fbFilter);
+        console.log("Filtered records:", filtered);
+
+        if (!apiFeedbackSuccess) {
+          document.getElementById('emptyStateText').textContent = "Unable to load feedback. Please try again.";
+          emptyState.style.display = 'block';
+          return;
+        } else if (totalActiveFeedbackCount === 0) {
+          document.getElementById('emptyStateText').textContent = "No feedback has been submitted yet.";
+          emptyState.style.display = 'block';
+          return;
+        } else if (filtered.length === 0) {
+          document.getElementById('emptyStateText').textContent = "No feedback matches the selected filter. Try selecting All.";
+          emptyState.style.display = 'block';
+          return;
+        }
+
+        filtered.forEach(fb => {
+          const card = document.createElement('div');
+          card.className = 'data-card';
+          card.id = `fb-card-${fb.id}`;
+
+          let stars = '';
+          for (let i = 0; i < 5; i++) stars += i < fb.rating ? '★' : '☆';
+
+          // Status badges
+          let statusBadge = `<span class="badge status-pending">${t('statuses.Pending')}</span>`;
+          const normalized = normalizeStatus(fb.status);
+          if (normalized === 'approved') {
+            statusBadge = fb.is_visible 
+              ? `<span class="badge status-approved">${t('statuses.ApprovedVisible')}</span>`
+              : `<span class="badge status-pending" style="background-color: #ECEFF1; color: #607D8B;">${t('statuses.ApprovedHidden')}</span>`;
+          } else if (normalized === 'rejected') {
+            statusBadge = `<span class="badge status-rejected">${t('statuses.Rejected')}</span>`;
+          }
+
+          const defaultBadge = fb.is_default ? `<span class="badge badge-secondary">${t('cards.preloaded')}</span>` : '';
+          const duplicateBadge = duplicateIds.has(fb.id) ? `<span class="badge" style="background-color: #FFEBEE; color: #C62828; border: 1px solid #FFCDD2;">⚠️ ${t('duplicate')}</span>` : '';
+
+          // Actions
+          let actionsHtml = '';
+          const normalizedStatus = normalizeStatus(fb.status);
+          if (normalizedStatus === 'pending') {
+            actionsHtml += `<button class="btn-action btn-approve" onclick="moderateFeedback('${fb.id}', { status: 'Approved', is_visible: true })">${t('actions.approve')}</button>`;
+            actionsHtml += `<button class="btn-action btn-reject" onclick="moderateFeedback('${fb.id}', { status: 'Rejected' })">${t('actions.reject')}</button>`;
+          } else if (normalizedStatus === 'approved') {
+            if (fb.is_visible) {
+              actionsHtml += `<button class="btn-action btn-hide" onclick="moderateFeedback('${fb.id}', { is_visible: false })">${t('actions.hide')}</button>`;
+            } else {
+              actionsHtml += `<button class="btn-action btn-show" onclick="moderateFeedback('${fb.id}', { is_visible: true })">${t('actions.show')}</button>`;
+            }
+            actionsHtml += `<button class="btn-action btn-reject" onclick="moderateFeedback('${fb.id}', { status: 'Rejected', is_visible: false })">${t('actions.reject')}</button>`;
+          } else if (normalizedStatus === 'rejected') {
+            actionsHtml += `<button class="btn-action btn-approve" onclick="moderateFeedback('${fb.id}', { status: 'Approved', is_visible: true })">${t('actions.approve')}</button>`;
+          }
+          
+          actionsHtml += `<button class="btn-action btn-edit" onclick="showEditFeedbackBox('${fb.id}', \`${fb.text.replace(/`/g, '\\`').replace(/\n/g, '\\n')}\`)">${t('actions.edit')}</button>`;
+          
+          if (fb.is_archived) {
+            actionsHtml += `<button class="btn-action btn-restore" onclick="moderateFeedback('${fb.id}', { is_archived: false })">${t('actions.restore')}</button>`;
+          } else {
+            actionsHtml += `<button class="btn-action btn-hide" style="background:#EFEBE9; color:#5D4037;" onclick="moderateFeedback('${fb.id}', { is_archived: true })">${t('bulkPanel.archive')}</button>`;
+          }
+          
+          actionsHtml += `<button class="btn-action btn-delete" onclick="softDeleteFeedback('${fb.id}')">${t('actions.delete')}</button>`;
+
+          // Checkbox check state
+          const isChecked = selectedIds.has(fb.id) ? 'checked' : '';
+
+          card.innerHTML = `
+            <div class="card-header">
+              <div class="card-title-box">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <input type="checkbox" class="record-checkbox" data-id="${fb.id}" ${isChecked} onchange="onRecordSelectChange()" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-green);">
+                  <h3>${fb.name}</h3>
+                </div>
+                <p style="padding-left:28px;">${t('cards.submitted')} ${formatTime(fb.submissionDateTime)} | ${t('cards.phone')} ${fb.mobileNumber || 'N/A'}</p>
+                <div class="badge-row" style="padding-left:28px;">
+                  ${statusBadge}
+                  ${defaultBadge}
+                  ${duplicateBadge}
+                  <span class="badge badge-primary">${t('cards.district')} ${fb.district}</span>
+                  <span class="badge badge-secondary">${t('cards.crop')} ${fb.crop || 'None'}</span>
+                </div>
+              </div>
+              <span style="color: #FFB300; font-size: 1.2rem; font-weight: 700;">${stars}</span>
+            </div>
+            
+            <div class="card-body" style="padding-left:28px;" id="fb-text-container-${fb.id}">"${fb.text}"</div>
+            
+            <div class="card-actions" id="fb-actions-${fb.id}">
+              ${actionsHtml}
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+      } 
+      // INQUIRIES TAB
+      else if (currentTab === 'inquiries') {
+        const grid = document.getElementById('inquiriesGrid');
+        grid.innerHTML = '';
+
+        // Total active inquiries list count (excluding deleted)
+        const totalActiveInquiriesCount = inquiriesList.filter(inq => inq.is_deleted !== true).length;
+
+        const duplicateIds = getDuplicateIds(inquiriesList, 'inquiries');
+
+        const filtered = inquiriesList.filter(inq => {
+          const matchesSearch = inq.fullName.toLowerCase().includes(inqSearch) ||
+                                inq.mobileNumber.toLowerCase().includes(inqSearch) ||
+                                (inq.emailAddress && inq.emailAddress.toLowerCase().includes(inqSearch)) ||
+                                inq.state.toLowerCase().includes(inqSearch) ||
+                                inq.district.toLowerCase().includes(inqSearch) ||
+                                inq.interestedProduct.toLowerCase().includes(inqSearch) ||
+                                inq.cropType.toLowerCase().includes(inqSearch) ||
+                                inq.inquiryMessage.toLowerCase().includes(inqSearch);
+          
+          const normalized = normalizeStatus(inq.status);
+          let matchesFilter = true;
+
+          // Case-insensitive, whitespace-safe status routing
+          if (inqFilter === 'all') matchesFilter = !inq.is_archived;
+          else if (inqFilter === 'unresolved') {
+            matchesFilter = ['new', 'in_progress', 'contacted'].includes(normalized) && !inq.is_archived;
+          } else if (inqFilter === 'archived') {
+            matchesFilter = inq.is_archived === true;
+          } else {
+            matchesFilter = normalized === inqFilter && !inq.is_archived;
+          }
+
+          return matchesSearch && matchesFilter;
+        });
+
+        // Debugging logging as requested
+        console.log("API records:", inquiriesList);
+        console.log("Selected filter:", inqFilter);
+        console.log("Filtered records:", filtered);
+
+        if (!apiInquiriesSuccess) {
+          document.getElementById('emptyStateText').textContent = "Unable to load inquiries. Please try again.";
+          emptyState.style.display = 'block';
+          return;
+        } else if (totalActiveInquiriesCount === 0) {
+          document.getElementById('emptyStateText').textContent = "No inquiries have been submitted yet.";
+          emptyState.style.display = 'block';
+          return;
+        } else if (filtered.length === 0) {
+          document.getElementById('emptyStateText').textContent = "No inquiries match the selected filter. Try selecting All.";
+          emptyState.style.display = 'block';
+          return;
+        }
+
+        filtered.forEach(inq => {
+          const card = document.createElement('div');
+          card.className = 'data-card';
+
+          const normalized = normalizeStatus(inq.status);
+          let statusClass = 'status-new';
+          if (normalized === 'in_progress') statusClass = 'status-inprogress';
+          else if (normalized === 'contacted') statusClass = 'status-contacted';
+          else if (normalized === 'resolved') statusClass = 'status-resolved';
+          else if (normalized === 'spam') statusClass = 'status-spam';
+          else if (normalized === 'closed') statusClass = 'status-closed';
+
+          const localizedStatus = t(`statuses.${inq.status}`) || inq.status;
+          const duplicateBadge = duplicateIds.has(inq.id) ? `<span class="badge" style="background-color: #FFEBEE; color: #C62828; border: 1px solid #FFCDD2;">⚠️ ${t('duplicate')}</span>` : '';
+
+          const isChecked = selectedIds.has(inq.id) ? 'checked' : '';
+
+          // Determine archive toggle btn
+          let archiveActionBtn = '';
+          if (inq.is_archived) {
+            archiveActionBtn = `<button class="btn-action btn-restore" onclick="saveInquiryAdminData('${inq.id}', { is_archived: false })">${t('actions.restore')}</button>`;
+          } else {
+            archiveActionBtn = `<button class="btn-action btn-hide" style="background:#EFEBE9; color:#5D4037;" onclick="saveInquiryAdminData('${inq.id}', { is_archived: true })">${t('bulkPanel.archive')}</button>`;
+          }
+
+          card.innerHTML = `
+            <div class="card-header">
+              <div class="card-title-box">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <input type="checkbox" class="record-checkbox" data-id="${inq.id}" ${isChecked} onchange="onRecordSelectChange()" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-green);">
+                  <h3>${t('cards.inquiryFrom')} ${inq.fullName}</h3>
+                </div>
+                <p style="padding-left:28px;">${t('cards.submitted')} ${formatTime(inq.submissionDateTime)}</p>
+                <div class="badge-row" style="padding-left:28px;">
+                  <span class="badge badge-status ${statusClass}">${localizedStatus}</span>
+                  ${duplicateBadge}
+                </div>
+              </div>
+            </div>
+
+            <div class="card-meta-grid" style="margin-left:28px;">
+              <div class="meta-item">
+                <strong>📞 ${t('cards.phoneLabel')}</strong>
+                <span>${inq.mobileNumber}</span>
+              </div>
+              <div class="meta-item">
+                <strong>✉️ ${t('cards.emailLabel')}</strong>
+                <span>${inq.emailAddress || 'N/A'}</span>
+              </div>
+              <div class="meta-item">
+                <strong>📍 ${t('cards.locationLabel')}</strong>
+                <span>${inq.district}, ${inq.state}</span>
+              </div>
+              <div class="meta-item">
+                <strong>🌾 ${t('cards.cropProductLabel')}</strong>
+                <span>${t('cards.crop')} ${inq.cropType || 'N/A'} | ${t('cards.product')} ${inq.interestedProduct || 'None'}</span>
+              </div>
+            </div>
+
+            <div class="card-body" style="font-weight: 500; border-left: 3px solid var(--primary-green); padding-left: 15px; margin-left:28px;">
+              ${inq.inquiryMessage}
+            </div>
+
+            <div class="admin-notes-section" style="margin-left:28px;">
+              <label>${t('cards.notesLabel')}</label>
+              <textarea placeholder="${t('cards.notesPlaceholder')}" rows="2" onblur="saveInquiryAdminData('${inq.id}', { notes: this.value })">${inq.notes || ''}</textarea>
+            </div>
+
+            <div class="card-actions" style="justify-content: space-between; border-top: 1px solid var(--border-light); padding-top: 15px; margin-left:28px;">
+              <div class="assign-select-row">
+                <div class="assign-box">
+                  <label>${t('cards.assignLabel')}</label>
+                  <input type="text" value="${inq.assignedTo || ''}" placeholder="${t('cards.assignPlaceholder')}" onblur="saveInquiryAdminData('${inq.id}', { assignedTo: this.value })">
+                </div>
+
+                <div class="status-select-box">
+                  <label>${t('cards.statusLabel')}</label>
+                  <select class="status-select" onchange="saveInquiryAdminData('${inq.id}', { status: this.value })">
+                    <option value="New" ${normalized === 'new' ? 'selected' : ''}>${t('statuses.New')}</option>
+                    <option value="In Progress" ${normalized === 'in_progress' ? 'selected' : ''}>${t('statuses.In Progress')}</option>
+                    <option value="Contacted" ${normalized === 'contacted' ? 'selected' : ''}>${t('statuses.Contacted')}</option>
+                    <option value="Resolved" ${normalized === 'resolved' ? 'selected' : ''}>${t('statuses.Resolved')}</option>
+                    <option value="Spam" ${normalized === 'spam' ? 'selected' : ''}>${t('statuses.Spam')}</option>
+                    <option value="Closed" ${normalized === 'closed' ? 'selected' : ''}>${t('statuses.Closed')}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="display:flex; gap:10px;">
+                ${archiveActionBtn}
+                <button class="btn-action btn-delete" onclick="softDeleteInquiry('${inq.id}')">${t('actions.deleteInquiry')}</button>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+      // TRASH BIN TAB
+      else if (currentTab === 'trash') {
+        const grid = document.getElementById('trashGrid');
+        grid.innerHTML = '';
+
+        let trashedItems = [];
+
+        // Mix feedback and inquiries in Trash grid
+        if (trashFilter === 'all' || trashFilter === 'feedback') {
+          feedbackList.forEach(fb => {
+            if (fb.is_deleted) trashedItems.push({ ...fb, recordType: 'feedback' });
+          });
+        }
+        if (trashFilter === 'all' || trashFilter === 'inquiries') {
+          inquiriesList.forEach(inq => {
+            if (inq.is_deleted) trashedItems.push({ ...inq, recordType: 'inquiry' });
+          });
+        }
+
+        // Sort by deleted timestamp
+        trashedItems.sort((a, b) => new Date(b.deleted_at || b.submissionDateTime) - new Date(a.deleted_at || a.submissionDateTime));
+
+        if (trashedItems.length === 0) {
+          document.getElementById('emptyStateText').textContent = t('empty.noTrash');
+          emptyState.style.display = 'block';
+          return;
+        }
+
+        trashedItems.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'data-card';
+
+          const isChecked = selectedIds.has(item.id) ? 'checked' : '';
+          const nameTitle = item.recordType === 'feedback' ? item.name : `${t('cards.inquiryFrom')} ${item.fullName}`;
+          const localizedRecordType = item.recordType === 'feedback' ? t('tabs.feedback') : t('tabs.inquiries');
+
+          let bodyText = item.recordType === 'feedback' ? item.text : item.inquiryMessage;
+
+          card.innerHTML = `
+            <div class="card-header">
+              <div class="card-title-box">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <input type="checkbox" class="record-checkbox" data-id="${item.id}" ${isChecked} onchange="onRecordSelectChange()" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-green);">
+                  <h3>${nameTitle}</h3>
+                </div>
+                <div class="badge-row" style="padding-left:28px; margin-top: 6px;">
+                  <span class="badge badge-secondary">${t('cards.recordType')} ${localizedRecordType}</span>
+                  <span class="badge badge-status status-rejected" style="background-color: #FFEBEE; color: #C62828;">${t('controls.filterRejected')}</span>
+                </div>
+                <p style="padding-left:28px; margin-top: 6px; font-size:0.8rem; color: var(--soil-brown); font-weight:600;">
+                  📅 ${t('cards.deletedBy')} ${item.deleted_by || 'system'} | ${formatTime(item.deleted_at)}
+                </p>
+              </div>
+            </div>
+
+            <div class="card-body" style="padding-left:28px; font-style: italic; color: var(--text-muted);">
+              "${bodyText}"
+            </div>
+
+            <div class="card-actions">
+              <button class="btn-action btn-restore" onclick="restoreFromTrash('${item.id}', '${item.recordType}')">${t('actions.restore')}</button>
+              <button class="btn-action btn-delete" onclick="openDeletePermanentModal('${item.id}', '${item.recordType}')">${t('actions.deletePermanently')}</button>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+    }
+
+    // Render activity audit logs in a table
+    function renderActivityLogs() {
+      const tableBody = document.getElementById('activityLogTableBody');
+      const emptyState = document.getElementById('emptyState');
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+
+      tableBody.innerHTML = '';
+      if (!apiActivitySuccess) {
+        document.getElementById('emptyStateText').textContent = "Unable to load activity logs. Please try again.";
+        emptyState.style.display = 'block';
+        return;
+      } else if (activityLogs.length === 0) {
+        document.getElementById('emptyStateText').textContent = t('empty.noLogs');
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+
+      activityLogs.forEach(log => {
+        const row = document.createElement('tr');
+        row.style.borderBottom = '1px solid var(--border-light)';
+        
+        let typeBadge = `<span class="badge badge-primary" style="font-size:0.7rem;">${log.recordType}</span>`;
+        if (log.recordType === 'feedback') {
+          typeBadge = `<span class="badge badge-primary" style="font-size:0.7rem; background:#E8F5E9; color:#2E7D32;">Feedback</span>`;
+        } else if (log.recordType === 'inquiry') {
+          typeBadge = `<span class="badge badge-secondary" style="font-size:0.7rem; background:#EFEBE9; color:#5D4037;">Inquiry</span>`;
+        }
+
+        row.innerHTML = `
+          <td style="padding: 12px 10px; font-weight: 500; color: var(--text-muted); font-size: 0.8rem;">${formatTime(log.timestamp)}</td>
+          <td style="padding: 12px 10px; font-weight: 700; color: var(--forest-green);">${log.admin}</td>
+          <td style="padding: 12px 10px; font-weight: 600; text-transform: uppercase; font-size: 0.78rem;">${log.action.replace(/_/g, ' ')}</td>
+          <td style="padding: 12px 10px;">${typeBadge}</td>
+          <td style="padding: 12px 10px; font-family: monospace; font-size: 0.75rem; color: var(--soil-brown);">${log.recordId}</td>
+          <td style="padding: 12px 10px; font-weight: 600; color: #C62828;">${log.prevStatus}</td>
+          <td style="padding: 12px 10px; font-weight: 600; color: var(--primary-green);">${log.newStatus}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // --- BULK ACTION SELECTIONS ---
+
+    function onRecordSelectChange() {
+      const checkboxes = document.querySelectorAll('.record-checkbox');
+      selectedIds.clear();
+
+      checkboxes.forEach(cb => {
+        if (cb.checked) {
+          selectedIds.add(cb.getAttribute('data-id'));
+        }
+      });
+
+      updateBulkPanelVisibility();
+    }
+
+    function clearBulkSelection() {
+      selectedIds.clear();
+      document.querySelectorAll('.record-checkbox').forEach(cb => cb.checked = false);
+      updateBulkPanelVisibility();
+    }
+
+    function updateBulkPanelVisibility() {
+      const bar = document.getElementById('bulkActionsBar');
+      const countLabel = document.getElementById('bulkSelectedText');
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+
+      if (selectedIds.size > 0) {
+        countLabel.textContent = selectedIds.size;
+
+        const archiveBtn = document.getElementById('bulkArchiveBtn');
+        const restoreBtn = document.getElementById('bulkRestoreBtn');
+        const trashBtn = document.getElementById('bulkTrashBtn');
+        const deletePermBtn = document.getElementById('bulkDeletePermBtn');
+
+        if (currentTab === 'trash') {
+          archiveBtn.style.display = 'none';
+          trashBtn.style.display = 'none';
+          restoreBtn.style.display = 'inline-block';
+          deletePermBtn.style.display = 'inline-block';
+        } else {
+          archiveBtn.style.display = 'inline-block';
+          trashBtn.style.display = 'inline-block';
+          restoreBtn.style.display = 'none';
+          deletePermBtn.style.display = 'none';
+
+          // If filter tab is Archived, show Restore Selected
+          if (fbFilter === 'archived' || inqFilter === 'archived') {
+            restoreBtn.style.display = 'inline-block';
+            archiveBtn.style.display = 'none';
+          }
+        }
+
+        bar.classList.add('active');
+      } else {
+        bar.classList.remove('active');
+      }
+    }
+
+    async function executeBulkAction(action) {
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+      
+      let type = 'feedback';
+      if (currentTab === 'inquiries') type = 'inquiries';
+      else if (currentTab === 'trash') {
+        const idArray = Array.from(selectedIds);
+        const hasFeedback = feedbackList.some(fb => idArray.includes(fb.id));
+        type = hasFeedback ? 'feedback' : 'inquiries';
+      }
+
+      // Confirmations
+      let confirmMsg = '';
+      if (action === 'trash') confirmMsg = t('alerts.confirmBulkMoveToTrash');
+      else if (action === 'restore') confirmMsg = t('alerts.confirmBulkRestore');
+      else if (action === 'archive') confirmMsg = t('alerts.confirmBulkArchive');
+
+      if (confirmMsg && !confirm(confirmMsg)) {
+        return;
+      }
+
+      showLoading();
+      try {
+        const response = await fetch(`${API_BASE}/admin/bulk-action`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            type: type,
+            action: action,
+            ids: Array.from(selectedIds)
+          })
+        });
+
+        if (handleApiError(response)) return;
+
+        if (response.ok) {
+          clearBulkSelection();
+          await loadDashboardData();
+        } else {
+          alert('Bulk operation failed.');
+        }
+      } catch (err) {
+        console.error('Error executing bulk operation:', err);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // --- PERMANENT DELETE SECURITY MODAL ---
+
+    function onDeleteConfirmInput(val) {
+      const btn = document.getElementById('deleteConfirmBtn');
+      if (val.trim().toUpperCase() === 'DELETE') {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.cursor = 'pointer';
+      } else {
+        btn.disabled = true;
+        btn.style.opacity = '0.4';
+        btn.style.cursor = 'not-allowed';
+      }
+    }
+
+    function openDeletePermanentModal(id, type) {
+      deleteTargetId = id;
+      deleteTargetType = type;
+      document.getElementById('deleteConfirmInput').value = '';
+      onDeleteConfirmInput('');
+      
+      document.getElementById('deleteConfirmModal').style.display = 'flex';
+    }
+
+    function openBulkDeleteModal() {
+      deleteTargetId = 'bulk';
+      const idArray = Array.from(selectedIds);
+      const hasFeedback = feedbackList.some(fb => idArray.includes(fb.id));
+      deleteTargetType = hasFeedback ? 'feedback' : 'inquiries';
+
+      document.getElementById('deleteConfirmInput').value = '';
+      onDeleteConfirmInput('');
+      
+      document.getElementById('deleteConfirmModal').style.display = 'flex';
+    }
+
+    function closeDeleteConfirmModal() {
+      document.getElementById('deleteConfirmModal').style.display = 'none';
+      deleteTargetId = null;
+      deleteTargetType = null;
+    }
+
+    async function confirmExecuteDeletion() {
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+      const confirmVal = document.getElementById('deleteConfirmInput').value.trim().toUpperCase();
+      if (confirmVal !== 'DELETE') return;
+
+      closeDeleteConfirmModal();
+      showLoading();
+
+      try {
+        if (deleteTargetId === 'bulk') {
+          // Bulk deletion permanent
+          const response = await fetch(`${API_BASE}/admin/bulk-action`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              type: deleteTargetType,
+              action: 'delete_perm',
+              ids: Array.from(selectedIds)
+            })
+          });
+
+          if (handleApiError(response)) return;
+          if (response.ok) {
+            clearBulkSelection();
+            await loadDashboardData();
+          } else {
+            const data = await response.json().catch(() => ({}));
+            alert(data.error || data.message || 'Bulk permanent deletion failed.');
+          }
+        } else {
+          // Single deletion permanent
+          const response = await fetch(`${API_BASE}/admin/trash/${deleteTargetType}/${deleteTargetId}`, {
+            method: 'DELETE',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          });
+
+          if (handleApiError(response)) return;
+
+          let data;
+          try {
+            data = await response.json();
+          } catch (e) {
+            data = {};
+          }
+
+          if (response.ok && data.success) {
+            alert(data.message || 'Record deleted successfully.');
+            await loadDashboardData();
+          } else {
+            alert(data.message || 'Permanent deletion failed.');
+          }
+        }
+      } catch (err) {
+        console.error('Error executing permanent deletion:', err);
+      } finally {
+        hideLoading();
+      }
+    }
+
+
+    // --- MODERATION API CALLS ---
+
+    // Feedback status / visibility updates
+    async function moderateFeedback(id, payload) {
+      showLoading();
+      try {
+        const response = await fetch(`${API_BASE}/admin/feedback/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (handleApiError(response)) return;
+
+        if (response.ok) {
+          await loadDashboardData(); // Refresh UI and stats
+        } else {
+          const errData = await response.json();
+          alert('Error updating feedback: ' + (errData.error || 'Failed.'));
+        }
+      } catch (err) {
+        console.error('Error moderating feedback:', err);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // Soft delete feedback
+    async function softDeleteFeedback(id) {
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+      if (!confirm(t('alerts.deleteFeedbackConfirm'))) {
+        return;
+      }
+      showLoading();
+      try {
+        const response = await fetch(`${API_BASE}/admin/feedback/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (handleApiError(response)) return;
+
+        if (response.ok) {
+          await loadDashboardData();
+        } else {
+          alert('Failed to delete feedback.');
+        }
+      } catch (err) {
+        console.error('Error deleting feedback:', err);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // Edit feedback inline text
+    function showEditFeedbackBox(id, currentText) {
+      const textContainer = document.getElementById(`fb-text-container-${id}`);
+      const actionsContainer = document.getElementById(`fb-actions-${id}`);
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+
+      actionsContainer.style.display = 'none';
+
+      // Insert editing text area
+      textContainer.innerHTML = `
+        <div class="edit-box">
+          <textarea id="edit-textarea-${id}" rows="4">${currentText}</textarea>
+          <div class="edit-btn-group">
+            <button class="btn-cancel" onclick="cancelEditFeedback('${id}', \`${currentText.replace(/`/g, '\\`').replace(/\n/g, '\\n')}\`)">${t('actions.cancel')}</button>
+            <button class="btn-save" onclick="saveEditFeedback('${id}')">${t('actions.save')}</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function cancelEditFeedback(id, originalText) {
+      document.getElementById(`fb-text-container-${id}`).innerHTML = `"${originalText}"`;
+      document.getElementById(`fb-actions-${id}`).style.display = 'flex';
+    }
+
+    async function saveEditFeedback(id) {
+      const newText = document.getElementById(`edit-textarea-${id}`).value.trim();
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+      if (!newText) {
+        alert(t('alerts.fbTextEmpty'));
+        return;
+      }
+      await moderateFeedback(id, { text: newText });
+    }
+
+    // Inquiries PATCH updates (notes, assigned staff, status)
+    async function saveInquiryAdminData(id, payload) {
+      showLoading();
+      try {
+        const response = await fetch(`${API_BASE}/admin/inquiries/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (handleApiError(response)) return;
+
+        if (response.ok) {
+          // Silent local data reload to update stats
+          const statsRes = await fetch(`${API_BASE}/admin/stats`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (!handleApiError(statsRes)) {
+            const stats = await statsRes.json();
+            renderStats(stats);
+          }
+
+          // Update local inquiry record
+          const inqRes = await fetch(`${API_BASE}/admin/inquiries`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (!handleApiError(inqRes)) {
+            const data = await inqRes.json();
+            inquiriesList = data.records || []; // Read from response.records
+            renderData();
+          }
+        } else {
+          alert('Failed to save inquiry data.');
+        }
+      } catch (err) {
+        console.error('Error saving inquiry details:', err);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // Soft delete inquiry
+    async function softDeleteInquiry(id) {
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+      if (!confirm(t('alerts.deleteInquiryConfirm'))) {
+        return;
+      }
+      showLoading();
+      try {
+        const response = await fetch(`${API_BASE}/admin/inquiries/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (handleApiError(response)) return;
+
+        if (response.ok) {
+          await loadDashboardData();
+        } else {
+          alert('Failed to delete inquiry record.');
+        }
+      } catch (err) {
+        console.error('Error deleting inquiry:', err);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // Restore record from trash bin
+    async function restoreFromTrash(id, type) {
+      showLoading();
+      const url = `${API_BASE}/admin/${type === 'feedback' ? 'feedback' : 'inquiries'}/${id}`;
+      try {
+        const response = await fetch(url, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ is_deleted: false, is_archived: false })
+        });
+
+        if (handleApiError(response)) return;
+
+        if (response.ok) {
+          await loadDashboardData();
+        } else {
+          alert('Failed to restore record.');
+        }
+      } catch (err) {
+        console.error('Error restoring record:', err);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // --- CONFIG RETENTION HANDLERS ---
+
+    async function saveConfigSettings(e) {
+      e.preventDefault();
+      const retentionDays = parseInt(document.getElementById('settingRetentionDays').value);
+      const autoCleanup = document.getElementById('settingAutoCleanup').checked;
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+
+      showLoading();
+      try {
+        const response = await fetch(`${API_BASE}/admin/config`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            trashRetentionDays: retentionDays,
+            autoCleanupEnabled: autoCleanup
+          })
+        });
+
+        if (handleApiError(response)) return;
+
+        if (response.ok) {
+          const msg = document.getElementById('settingsMessage');
+          msg.textContent = t('settingsPanel.success');
+          msg.style.display = 'block';
+          setTimeout(() => {
+            msg.style.display = 'none';
+          }, 4000);
+        } else {
+          alert('Failed to save settings.');
+        }
+      } catch (err) {
+        console.error('Error saving configs:', err);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // --- CSV EXPORTER ---
+    function exportInquiriesToCsv() {
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+      if (inquiriesList.length === 0) {
+        alert(t('alerts.noInquiriesExport'));
+        return;
+      }
+
+      const headers = ['ID', 'Date & Time', 'Name', 'Mobile', 'Email', 'Product', 'State', 'District', 'Crop', 'Message', 'Status', 'Notes', 'Assigned To'];
+      const rows = [headers];
+
+      inquiriesList.forEach(inq => {
+        rows.push([
+          inq.id,
+          inq.submissionDateTime,
+          inq.fullName,
+          inq.mobileNumber,
+          inq.emailAddress || '',
+          inq.interestedProduct || '',
+          inq.state,
+          inq.district,
+          inq.cropType || '',
+          inq.inquiryMessage.replace(/\n/g, ' ').replace(/"/g, '""'),
+          inq.status,
+          (inq.notes || '').replace(/\n/g, ' ').replace(/"/g, '""'),
+          inq.assignedTo || ''
+        ]);
+      });
+
+      // Generate CSV string
+      const csvString = rows.map(e => e.map(val => `"${String(val).replace(/"/g, '""')}"`).join(",")).join("\n");
+      
+      // Create blob and download link
+      const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `inquiries_export_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // UTILITY: TIME FORMATTER
+    function formatTime(isoString) {
+      if (!isoString) return 'N/A';
+      try {
+        const d = new Date(isoString);
+        return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      } catch (e) {
+        return isoString;
+      }
+    }
+
+    // --- CONTROL EVENT HANDLERS ---
+    
+    // Feedback search
+    document.getElementById('feedbackSearch').addEventListener('input', (e) => {
+      fbSearch = e.target.value.toLowerCase().trim();
+      renderData();
+    });
+
+    // Inquiries search
+    document.getElementById('inquiriesSearch').addEventListener('input', (e) => {
+      inqSearch = e.target.value.toLowerCase().trim();
+      renderData();
+    });
+
+    // Feedback filter tabs
+    document.querySelectorAll('#feedbackFilters .filter-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('#feedbackFilters .filter-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        fbFilter = e.target.getAttribute('data-filter');
+        clearBulkSelection();
+        renderData();
+      });
+    });
+
+    // Inquiries filter tabs
+    document.querySelectorAll('#inquiryFilters .filter-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('#inquiryFilters .filter-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        inqFilter = e.target.getAttribute('data-filter');
+        clearBulkSelection();
+        renderData();
+      });
+    });
+
+    // Trash filter tabs
+    document.querySelectorAll('#trashFilters .filter-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('#trashFilters .filter-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        trashFilter = e.target.getAttribute('data-filter');
+        clearBulkSelection();
+        renderData();
+      });
+    });
+  </script>
+</body>
+</html>
