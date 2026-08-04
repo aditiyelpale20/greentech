@@ -1,5 +1,15 @@
 [
   {
+    "id": "1785739569334-cp0p55dif",
+    "admin": "system",
+    "action": "auto_cleanup_trash",
+    "recordType": "system",
+    "recordId": "all",
+    "prevStatus": "N/A",
+    "newStatus": "Deleted 6 records",
+    "timestamp": "2026-08-03T06:46:09.334Z"
+  },
+  {
     "id": "1784156723838-pxts3poru",
     "admin": "om_chavan",
     "action": "moved_to_trash",
