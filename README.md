@@ -89,46 +89,6 @@ graph TD
 
 ---
 
-## 🚀 Quick Start & Installation
-
-### Prerequisites
-* **Node.js** (v16.0.0 or higher)
-* **npm** (v8.0.0 or higher)
-
-### 1. Clone & Install
-```bash
-git clone https://github.com/aditiyelpale20/greentech.git
-cd greentech
-npm install
-```
-
-### 2. Run the Application
-```bash
-npm start
-```
-
-### 3. Access Portals
-* **Public Website**: `http://localhost:3000/index.html`
-* **Product Catalog**: `http://localhost:3000/products.html`
-* **Admin Dashboard**: `http://localhost:3000/admin.html`
-
-> [!NOTE]
-> For administrative access, credentials are configured securely on your private server environment.
-
----
-
-## ☁️ Deployment Guidelines
-
-The codebase is self-contained with dynamic relative endpoints, making it ready for instant cloud deployment:
-
-* **Node.js Cloud Hosts (Render, Railway, Heroku)**:
-  * Set Build Command: `npm install`
-  * Set Start Command: `npm start`
-* **Nginx / Apache Reverse Proxy**:
-  * Forward HTTP traffic on port `80`/`443` to local port `3000`.
-
----
-
 ## 📁 Repository Structure
 
 ```text
