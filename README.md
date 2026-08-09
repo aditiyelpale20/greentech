@@ -1,87 +1,91 @@
 # Bharti Green Tech 🌿
-*Solution for Better Life*
+> **Solution for Better Life** — Premium Organic Biotechnology & Sustainable Agricultural Solutions
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-16%2B-brightgreen.svg)](https://nodejs.org/)
-[![Multi-Lingual](https://img.shields.io/badge/Languages-English%20%7C%20%E0%A4%AE%E0%A4%B0%E0%A4%BE%E0%A4%A0%E0%A5%80%20%7C%20%E0%A4%B9%E0%A4%BF%E0%A4%82%E0%A4%A6%E0%A4%80-blue.svg)](#-multi-lingual-system)
+[![Express.js](https://img.shields.io/badge/Express.js-4.x-black.svg)](https://expressjs.com/)
+[![Multi-Lingual](https://img.shields.io/badge/Languages-English%20%7C%20%E0%A4%AE%E0%A4%B0%E0%A4%BE%E0%A4%A0%E0%A5%80%20%7C%20%E0%A4%B9%E0%A4%BF%E0%A4%82%E0%A4%A6%E0%A4%80-blue.svg)](#-multi-lingual-experience)
 
-**Bharti Green Tech** is a responsive, multi-lingual web platform and administrative management portal for modern biotechnology agricultural products and organic soil solutions.
-
-The platform connects farmers with bio-fertilizers, bio-fungicides, bio-pesticides, and soil conditioners, enables direct inquiries via web forms and WhatsApp, and provides a secure Administrative Control Panel for record management, testimonial moderation, and data governance.
-
----
-
-## 🌟 Key Features
-
-### 1. Multi-Lingual Architecture
-* **Full Multi-Lingual Support**: Seamless switching across **English**, **मराठी (Marathi)**, and **हिंदी (Hindi)**.
-* **Synchronous & Dynamic**: Translations are loaded instantly into memory with zero layout flicker or network delays.
-* **Reactive Modals & Catalogs**: Switching languages updates all product names, technical specifications, benefits, crop recommendations, dosages, and packaging details in real time.
-
-### 2. Interactive Product Catalog & Quick-View Modal
-* **High-Resolution Transparent Product Imagery**: 42+ standardized, transparent product assets (600x600) with zero background artifacts.
-* **Category Filtering & Search**: Instant filtering by Bio-Fertilizers, Growth Boosters, Bio-Fungicides, Bio-Pesticides, and Soil Health.
-* **Silky Smooth Quick-View Modal**: Instant slide-up modal with backdrop blur, spec tables, pricing breakdown, YouTube demo video links, and direct WhatsApp inquiry buttons.
-
-### 3. Smart Inquiry & Direct WhatsApp Integration
-* **Rate-Limited Inquiry Submissions**: 15-second double-submission lock with client & server-side validation for 10-digit mobile numbers.
-* **Pre-Filled WhatsApp Chats**: Direct click-to-chat links formatted with product names and technical details for instant farmer consultation (`+91 90497 47555`).
-
-### 4. Administrative Control Panel (`admin.html`)
-* **Secure Authentication**: Protected admin dashboard session (`om_chavan` / `123456`).
-* **Farmer Stories Moderation Pipeline**: Review, approve, hide, or restore farmer reviews and success stories before publishing to the public homepage.
-* **Inquiry Management**: View, filter, and respond to incoming farmer inquiries.
-* **Safe Trash Bin & Permanent Deletion**:
-  * **Soft Delete**: Move items to Trash with single-click restoration.
-  * **Hard Delete**: Permanent deletion allowed only on records already residing in Trash.
-  * **Automated Snapshot Backups**: Generates automated timestamped JSON snapshots in the `backups/` folder prior to any permanent erase operation.
-* **Activity Audit Trail**: Real-time logging of all administrative actions (logins, status updates, soft deletes, and permanent deletions).
+**Bharti Green Tech** is a full-featured, responsive multi-lingual agricultural portal and administrative management system. It showcases bio-fertilizers, bio-fungicides, bio-pesticides, and soil conditioners, provides click-to-chat WhatsApp consultations, and offers a secure governance dashboard for inquiry management and testimonial moderation.
 
 ---
 
-## 📦 Complete Product Catalog
+## 🏗️ System Architecture
 
-| Product | Category | Formulation | Technical Composition |
-| :--- | :--- | :--- | :--- |
-| **Urva Carbon** | Growth Booster | Liquid (1L / 5L) | Liquid Consortia (N:P:K) Enriched with Carbon |
-| **Urva N** | Bio-Fertilizer | Liquid (1L / 5L) | *Azotobacter chroococcum* |
-| **Urva P** | Bio-Fertilizer | Liquid (1L / 5L) | Phosphate Solubilizing Bacteria (PSB) |
-| **Urva K** | Bio-Fertilizer | Liquid (1L / 5L) | Potash Mobilizing Bacteria (KMB) |
-| **Urva Urja** | Growth Booster | Liquid (250ml - 5L) | Bio-Consortia & Vital Amino Complex |
-| **Urva Vajra** | Bio-Fungicide | Liquid (1L / 5L) | *Trichoderma viride* |
-| **Urva Ayudh** | Bio-Fungicide | Liquid (1L / 5L) | *Pseudomonas fluorescens* |
-| **Urva Sudarshan** | Bio-Fungicide | Liquid (1L / 5L) | *Bacillus subtilis* |
-| **Urva Ampelo** | Bio-Fungicide | Liquid (1L / 5L) | *Ampelomyces quisqualis* |
-| **Urva Shone** | Bio-Pesticide | Liquid (1L / 5L) | *Beauveria bassiana* |
-| **Urva Rakshak** | Bio-Pesticide | Liquid (1L / 5L) | *Paecilomyces lilacinus* |
-| **Urva Rudra** | Bio-Pesticide | Liquid (1L / 5L) | *Verticillium lecanii* |
-| **Urva Dhanush** | Bio-Pesticide | Liquid (250ml / 500ml) | *Bacillus thuringiensis* (BT) |
-| **Urva Pinaca (Liquid)** | Bio-Pesticide | Liquid (1L / 5L) | *Metarhizium anisopliae* |
-| **Urva BVM** | Bio-Pesticide | Liquid (1L / 5L) | Bio-Pesticide Consortia (B + V + M) |
-| **Urva Microbes** | Growth Booster | Bucket (2kg / 4kg) | *Penicillium pinophilum* + Micronutrient Solubilizers |
-| **Urva Wilto** | Bio-Fungicide | Bucket (2kg / 4kg) | *Aspergillus niger* + *Bacillus subtilis* + *Penicillium* |
-| **Urva K-Plus** | Bio-Fertilizer | Bucket (2kg / 4kg) | *Penicillium pinophilum* + KMB + ZSB + Silicon |
-| **Urva Nutri** | Bio-Fertilizer | Bucket (2kg / 4kg) | *Penicillium* + *Rhizobium* + *Azotobacter* + PSB + KMB + ZSB |
-| **Urva Fungo** | Bio-Fungicide | Bucket (2kg / 4kg) | *Trichoderma* + *Pseudomonas* + *Penicillium* |
-| **Urva Nemato** | Bio-Pesticide | Bucket (2kg / 4kg) | *Paecilomyces* + *Verticillium* + *Trichoderma* |
-| **Urva P2K2** | Growth Booster | Box (1kg) | *Penicillium pinophilum* (ICAR Patented) |
-| **Urva Combo Jaivik** | Bio-Fertilizer | Granular (25kg Bag) | Multi-Strain Granular N:P:K + Microbes |
-| **Urva Compost Culture** | Soil Health | Granular (25kg Bag) | Cellulolytic & Lignin Decomposing Fungi-Bacteria |
-| **Urva Potash (25kg)** | Bio-Fertilizer | Granular (25kg Bag) | Potash Mobilizing Bacteria (KMB) Granular |
-| **Urva Pinaca (25kg)** | Bio-Pesticide | Granular (25kg Bag) | *Metarhizium anisopliae* Granular Bio-Pesticide |
-| **Urva Spurad** | Bio-Fertilizer | Powder / Liquid | Phosphate Solubilizing Bacteria + Trichoderma |
-| **Urva Slurry Culture** | Soil Health | Liquid (250ml / 1L) | Algae, Micro-organisms & Useful Nematodes |
-| **Urva D-Compost** | Soil Health | Liquid Duo / Granular | *Trichoderma*, *Cellulomonas*, *Bacillus* |
-| **Urva AZO & Rhizo** | Seed Processing | Pouch / Granular | Seed Treatment Bacterial Consortia |
+The application follows a clean 3-tier decoupled architecture:
+
+```mermaid
+graph TD
+    subgraph Client ["Client Tier (Browser)"]
+        UI["Public Website & Admin Portal"]
+        i18n["Dynamic i18n Engine (EN / MR / HI)"]
+        Modal["Quick-View Product Modal"]
+        WhatsApp["Direct WhatsApp Integration"]
+        UI --> i18n
+        UI --> Modal
+        UI --> WhatsApp
+    end
+
+    subgraph Server ["Server Tier (Node.js & Express)"]
+        API["REST API Router (/api/*)"]
+        Auth["Session Authentication Middleware"]
+        Limiter["Rate Limiting & Anti-Spam"]
+        BackupEngine["Automated Snapshot Backup Engine"]
+        API --> Auth
+        API --> Limiter
+        API --> BackupEngine
+    end
+
+    subgraph Data ["Data Tier (JSON File Storage)"]
+        Inquiries[("inquiries.json")]
+        Feedback[("feedback.json")]
+        AuditLog[("activity_log.json")]
+        Backups[("backups/ Snapshots")]
+    end
+
+    Client <==>|"RESTful HTTP / JSON"| Server
+    Server <==>|"Atomic fs/promises"| Data
+```
 
 ---
 
 ## 🛠️ Technology Stack
 
-* **Frontend**: HTML5 (Semantic Structure), Vanilla CSS3 (Custom Design Tokens, Glassmorphism, Responsive Grid & Flexbox), Vanilla JavaScript ES6+ (Dynamic `Object.defineProperties` getters, Event-driven i18n manager).
-* **Backend**: Node.js, Express.js.
-* **Database & Persistence**: JSON Flat-File Storage (`inquiries.json`, `feedback.json`, `activity_log.json`, `config.json`) with atomic asynchronous file operations via `fs/promises`.
-* **Image Processing**: Python, OpenCV, PyMuPDF, PIL with alpha matting and GrabCut segmentation.
+| Layer | Technologies & Tools | Purpose |
+| :--- | :--- | :--- |
+| **Frontend** | HTML5, Semantic Elements | Structure and accessibility |
+| **Styling** | Vanilla CSS3, Custom Properties, Glassmorphism, Flexbox/Grid | Responsive styling & smooth animations |
+| **Logic & i18n** | Vanilla JavaScript (ES6+), Dynamic `Object.defineProperties` | Client interactivity & reactive multi-lingual switching |
+| **Backend** | Node.js, Express.js | High-performance REST API & static file serving |
+| **Persistence** | JSON Flat-File Engine (`fs/promises`) | Lightweight, self-contained data storage with zero DB setup |
+| **Security** | Rate Limiting, Soft-Delete Pipeline, Session Auth | Anti-spam protection & safe data governance |
+| **Asset Engine** | Python, OpenCV, PyMuPDF | Studio-grade transparent product asset extraction (600x600 PNG) |
+
+---
+
+## ✨ Highlights & Features
+
+* 🌐 **Multi-Lingual Experience**: Instant dynamic switching across **English**, **मराठी (Marathi)**, and **हिंदी (Hindi)** with zero page flicker.
+* 📦 **Interactive Product Catalog**: Clean transparent product photography, formulation filters, and instant Quick-View details modal.
+* 💬 **WhatsApp Consultation**: Pre-filled one-click WhatsApp chat links for immediate farmer support.
+* 🛡️ **Admin Control Panel**:
+  * Farmer Stories & Testimonial Moderation pipeline (Approve / Hide / Restore).
+  * Double-submission protected Inquiry management.
+  * Two-stage **Trash Bin** with automated snapshot backups prior to permanent deletion.
+  * Audit Activity Log recording administrative operations.
+
+---
+
+## 📦 Product Range
+
+| Category | Key Products | Formulations |
+| :--- | :--- | :--- |
+| **Bio-Fertilizers** | Urva N, Urva P, Urva K, Urva Potash (25kg), Urva Combo Jaivik, Urva Spurad | Liquid (1L/5L), Granular (25kg Bag), Powder |
+| **Growth Boosters** | Urva Carbon, Urva Urja, Urva Microbes, Urva P2K2 (ICAR Patented) | Liquid, Bucket (2kg/4kg), Box (1kg) |
+| **Bio-Fungicides** | Urva Vajra, Urva Ayudh, Urva Sudarshan, Urva Ampelo, Urva Wilto, Urva Fungo | Liquid (1L/5L), Bucket (2kg/4kg) |
+| **Bio-Pesticides** | Urva Shone, Urva Rakshak, Urva Rudra, Urva Dhanush, Urva Pinaca, Urva BVM, Urva Nemato | Liquid (250ml-5L), Granular (25kg), Bucket |
+| **Soil Health** | Urva Compost Culture, Urva Slurry Culture, Urva D-Compost | Granular (25kg), Liquid Duo (1L) |
+| **Seed Processing** | Urva AZO, Urva Rhizo | Pouch / Granular |
 
 ---
 
@@ -91,92 +95,69 @@ The platform connects farmers with bio-fertilizers, bio-fungicides, bio-pesticid
 * **Node.js** (v16.0.0 or higher)
 * **npm** (v8.0.0 or higher)
 
-### 1. Clone the Repository
+### 1. Clone & Install
 ```bash
 git clone https://github.com/aditiyelpale20/greentech.git
 cd greentech
-```
-
-### 2. Install Dependencies
-```bash
 npm install
 ```
 
-### 3. Start the Server
+### 2. Run the Application
 ```bash
 npm start
 ```
 
-### 4. Access the Platform
-* **Public Website**: [http://localhost:3000/index.html](http://localhost:3000/index.html)
-* **Product Catalog**: [http://localhost:3000/products.html](http://localhost:3000/products.html)
-* **Admin Control Panel**: [http://localhost:3000/admin.html](http://localhost:3000/admin.html)
-  * *Default Username*: `om_chavan`
-  * *Default Password*: `123456`
+### 3. Access Portals
+* **Public Website**: `http://localhost:3000/index.html`
+* **Product Catalog**: `http://localhost:3000/products.html`
+* **Admin Dashboard**: `http://localhost:3000/admin.html`
+
+> [!NOTE]
+> For administrative access, credentials are configured securely on your private server environment.
 
 ---
 
-## 🌐 Production Deployment
+## ☁️ Deployment Guidelines
 
-The platform is designed to be self-contained and deployable on any cloud provider or hosting environment:
+The codebase is self-contained with dynamic relative endpoints, making it ready for instant cloud deployment:
 
-### Deploying to Render / Railway / Heroku
-1. Connect your GitHub repository: `https://github.com/aditiyelpale20/greentech.git`.
-2. Build Command: `npm install`
-3. Start Command: `npm start`
-4. Set Environment Variable: `PORT=3000` (or leave default assigned by host).
-
-### Deploying Behind Nginx / Apache
-Configure a reverse proxy to forward traffic to `http://127.0.0.1:3000`:
-```nginx
-location / {
-    proxy_pass http://127.0.0.1:3000;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_cache_bypass $http_upgrade;
-}
-```
+* **Node.js Cloud Hosts (Render, Railway, Heroku)**:
+  * Set Build Command: `npm install`
+  * Set Start Command: `npm start`
+* **Nginx / Apache Reverse Proxy**:
+  * Forward HTTP traffic on port `80`/`443` to local port `3000`.
 
 ---
 
-## 📁 Directory Structure
+## 📁 Repository Structure
 
 ```text
 ├── assets/
-│   ├── css/
-│   │   └── style.css            # Central responsive stylesheet & modal animations
-│   ├── js/
-│   │   ├── main.js              # Header, navigation & general interactivity
-│   │   └── products.js          # Unified product catalog with dynamic i18n getters
-│   └── products/                # 42+ Clean transparent product images (600x600 PNG)
-│       └── originals/           # Raw high-resolution sources
-├── backups/                     # Auto-generated database backup snapshots
-├── activity_log.json            # Administrative audit trail log
-├── config.json                  # System configuration
-├── db.js                        # Flat-file database controller
-├── farmer-stories.html          # Farmer testimonials & submission form
-├── feedback.json                # User testimonials & moderation status
-├── i18n.js                      # Core i18n translation engine
-├── index.html                   # Public homepage
-├── inquiries.json               # Farmer inquiry records
-├── languageManager.js           # DOM language scanner & selector handler
-├── package.json                 # Node.js dependencies & scripts
-├── product-details.html         # Standalone full product specification page
-├── products.html                # Product catalog with Quick-View modal
-├── README.md                    # Comprehensive documentation
+│   ├── css/style.css            # Central responsive stylesheet & modal transitions
+│   ├── js/main.js               # Header, navigation & UI controllers
+│   ├── js/products.js           # Unified product catalog with dynamic i18n getters
+│   └── products/                # 42+ High-res transparent product PNGs (600x600)
+├── backups/                     # Auto-generated JSON database snapshots
+├── db.js                        # JSON database helper with atomic file locking
 ├── server.js                    # Express API server & routes
-└── translations.js              # Packed EN, MR, HI translations dictionary
+├── i18n.js                      # Core translation engine
+├── translations.js              # Central translation dictionary (EN, MR, HI)
+├── languageManager.js           # DOM language scanner & selector sync
+├── index.html                   # Public homepage
+├── products.html                # Product catalog with Quick-View modal
+├── farmer-stories.html          # Farmer reviews & submission form
+├── contact.html                 # Inquiry contact form
+└── admin.html                   # Secure administrative control panel
 ```
 
 ---
 
-## 📞 Support & Contact
+## 📞 Contact & Inquiries
 
 * **Company**: BHARTI GREEN TECH
-* **Phone / WhatsApp**: +91 90497 47555
+* **WhatsApp / Phone**: +91 90497 47555
 * **Email**: info@bhartigreentech.com
 * **Plant**: Gat No. 629, At Post Sokasan, Tal-Man, Satara, Maharashtra - 415508
 * **Corporate Office**: Prakash Resi., 702, Sector 10E, Road Pali, Navi Mumbai, Maharashtra
+
 
