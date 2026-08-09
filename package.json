@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "jimp": "^0.22.12",
+    "multer": "^2.2.0"
   }
 }

@@ -1,5 +1,15 @@
 [
   {
+    "id": "1785886054415-213xc8ak2",
+    "admin": "om_chavan",
+    "action": "upload_product_image",
+    "recordType": "product",
+    "recordId": "urva-p",
+    "prevStatus": "N/A",
+    "newStatus": "Uploaded image for product urva-p",
+    "timestamp": "2026-08-04T23:27:34.415Z"
+  },
+  {
     "id": "1785739569334-cp0p55dif",
     "admin": "system",
     "action": "auto_cleanup_trash",

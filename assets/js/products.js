@@ -1,6 +1,6 @@
 // BHARTI GREEN TECH - Unified Products Database and Config (i18n Enabled)
 
-const COMPANY_CONFIG = {
+const COMPANY_INFO = {
   name: "BHARTI GREEN TECH",
   phone: "+91 90497 47555",
   email: "info@bhartigreentech.com",
@@ -10,7 +10,87 @@ const COMPANY_CONFIG = {
   get plant() { return window.i18n ? window.i18n.t('company.plant') : "Gat No. 629, At Post Sokasan, Tal-Man, Satara, Maharashtra - 415508"; }
 };
 
-const PRODUCTS_DATA = [
+function attachProductGetters(p, fallbackName, fallbackTech) {
+  const id = p.id;
+  Object.defineProperties(p, {
+    name: {
+      get() {
+        const v = typeof window !== 'undefined' && window.i18n ? window.i18n.t(`products.${id}.name`) : fallbackName;
+        return (v && !v.startsWith('products.')) ? v : fallbackName;
+      },
+      enumerable: true,
+      configurable: true
+    },
+    technical: {
+      get() {
+        const v = typeof window !== 'undefined' && window.i18n ? window.i18n.t(`products.${id}.technical`) : fallbackTech;
+        return (v && !v.startsWith('products.')) ? v : fallbackTech;
+      },
+      enumerable: true,
+      configurable: true
+    },
+    shortDescription: {
+      get() {
+        const v = typeof window !== 'undefined' && window.i18n ? window.i18n.t(`products.${id}.shortDescription`) : "";
+        return (v && !v.startsWith('products.')) ? v : "";
+      },
+      enumerable: true,
+      configurable: true
+    },
+    overview: {
+      get() {
+        const v = typeof window !== 'undefined' && window.i18n ? window.i18n.t(`products.${id}.overview`) : "";
+        return (v && !v.startsWith('products.')) ? v : "";
+      },
+      enumerable: true,
+      configurable: true
+    },
+    benefits: {
+      get() {
+        const v = typeof window !== 'undefined' && window.i18n ? window.i18n.t(`products.${id}.benefits`) : [];
+        return (Array.isArray(v) && v.length > 0) ? v : [];
+      },
+      enumerable: true,
+      configurable: true
+    },
+    crops: {
+      get() {
+        const v = typeof window !== 'undefined' && window.i18n ? window.i18n.t(`products.${id}.crops`) : [];
+        return (Array.isArray(v) && v.length > 0) ? v : [];
+      },
+      enumerable: true,
+      configurable: true
+    },
+    application: {
+      get() {
+        const v = typeof window !== 'undefined' && window.i18n ? window.i18n.t(`products.${id}.application`) : [];
+        return (Array.isArray(v) && v.length > 0) ? v : [];
+      },
+      enumerable: true,
+      configurable: true
+    },
+    dosage: {
+      get() {
+        const v = typeof window !== 'undefined' && window.i18n ? window.i18n.t(`products.${id}.dosage`) : "";
+        return (v && !v.startsWith('products.')) ? v : "";
+      },
+      enumerable: true,
+      configurable: true
+    },
+    precautions: {
+      get() {
+        const v = typeof window !== 'undefined' && window.i18n ? window.i18n.t(`products.${id}.precautions`) : [];
+        return (Array.isArray(v) && v.length > 0) ? v : [];
+      },
+      enumerable: true,
+      configurable: true
+    }
+  });
+  return p;
+}
+
+const RAW_PRODUCTS_DATA = [
+  // 1. Bio-Fertilizers & Nutrients
   {
     id: "urva-n",
     slug: "urva-n",
@@ -18,17 +98,9 @@ const PRODUCTS_DATA = [
     formulation: "Liquid",
     packing: ["1000ml", "5000ml"],
     prices: [{"size": "1000ml", "dp": "240.00", "mrp": "555.00"}, {"size": "5000ml", "dp": "1475.00", "mrp": "2495.00"}],
-    image: "assets/products/image-coming-soon.jpg",
+    image: "assets/products/urva-n.png",
     youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-n.name') : "Urva N"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-n.technical') : "Azotobacter chroococcum"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-n.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-n.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-n.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-n.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-n.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-n.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-n.precautions') : []; }
+    _fallbackName: "Urva N", _fallbackTech: "Azotobacter chroococcum"
   },
   {
     id: "urva-p",
@@ -37,17 +109,9 @@ const PRODUCTS_DATA = [
     formulation: "Liquid",
     packing: ["1000ml", "5000ml"],
     prices: [{"size": "1000ml", "dp": "240.00", "mrp": "555.00"}, {"size": "5000ml", "dp": "1475.00", "mrp": "2495.00"}],
-    image: "assets/products/urva-p.jpg",
+    image: "assets/products/urva-p.png",
     youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-p.name') : "Urva P"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-p.technical') : "Phosphorus Solubilizing Bacteria (PSB)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-p.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-p.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-p.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-p.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-p.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-p.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-p.precautions') : []; }
+    _fallbackName: "Urva P", _fallbackTech: "Phosphate Solubilizing Bacteria (PSB)"
   },
   {
     id: "urva-k",
@@ -56,684 +120,358 @@ const PRODUCTS_DATA = [
     formulation: "Liquid",
     packing: ["1000ml", "5000ml"],
     prices: [{"size": "1000ml", "dp": "240.00", "mrp": "565.00"}, {"size": "5000ml", "dp": "1525.00", "mrp": "2535.00"}],
-    image: "assets/products/urva-k.jpg",
+    image: "assets/products/urva-k.png",
     youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-k.name') : "Urva K"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-k.technical') : "Potassium Mobilizing Bacteria (KMB)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-k.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-k.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-k.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-k.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-k.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-k.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-k.precautions') : []; }
+    _fallbackName: "Urva K", _fallbackTech: "Potash Mobilizing Bacteria (KMB)"
   },
   {
     id: "urva-urja",
     slug: "urva-urja",
     category: "growth-boosters",
     formulation: "Liquid",
-    packing: ["500ml", "1000ml", "5000ml"],
-    prices: [{"size": "500ml", "dp": "195.00", "mrp": "315.00"}, {"size": "1000ml", "dp": "290.00", "mrp": "565.00"}, {"size": "5000ml", "dp": "1525.00", "mrp": "2535.00"}],
-    image: "assets/products/urva-urja.jpg",
+    packing: ["250ml", "500ml", "1000ml", "5000ml"],
+    prices: [{"size": "250ml", "dp": "120.00", "mrp": "195.00"}, {"size": "500ml", "dp": "195.00", "mrp": "315.00"}, {"size": "1000ml", "dp": "290.00", "mrp": "565.00"}, {"size": "5000ml", "dp": "1525.00", "mrp": "2535.00"}],
+    image: "assets/products/urva-urja-liq.png",
     youtubeUrl: "https://www.youtube.com/watch?v=f6dNnKNqKFA",
-    get name() { return window.i18n ? window.i18n.t('products.urva-urja.name') : "Urva Urja"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-urja.technical') : "Bio-Consortia & Vital Amino Complexes"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-urja.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-urja.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-urja.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-urja.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-urja.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-urja.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-urja.precautions') : []; }
+    _fallbackName: "Urva Urja", _fallbackTech: "Liquid N:P:K Solubilizing Consortia"
+  },
+  {
+    id: "urva-carbon",
+    slug: "urva-carbon",
+    category: "growth-boosters",
+    formulation: "Liquid",
+    packing: ["1000ml", "5000ml"],
+    prices: [{"size": "1000ml", "dp": "320.00", "mrp": "595.00"}, {"size": "5000ml", "dp": "1590.00", "mrp": "2650.00"}],
+    image: "assets/products/urva-carbon.png",
+    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
+    _fallbackName: "Urva Carbon", _fallbackTech: "Liquid Consortia (N:P:K) Enriched with Carbon"
   },
   {
     id: "urva-slurry-culture",
     slug: "urva-slurry-culture",
     category: "soil-health",
     formulation: "Liquid",
-    packing: ["250ml"],
-    prices: [{"size": "250ml", "dp": "165.00", "mrp": "295.00"}],
-    image: "assets/products/image-coming-soon.jpg",
+    packing: ["250ml", "500ml", "1000ml"],
+    prices: [{"size": "250ml", "dp": "165.00", "mrp": "295.00"}, {"size": "1000ml", "dp": "395.00", "mrp": "695.00"}],
+    image: "assets/products/urva-slurry-culture.png",
     youtubeUrl: "https://www.youtube.com/watch?v=nQ0ykYnQF80",
-    get name() { return window.i18n ? window.i18n.t('products.urva-slurry-culture.name') : "Urva Slurry Culture"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-slurry-culture.technical') : "Cellulolytic & Fermentation Microbes"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-slurry-culture.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-slurry-culture.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-slurry-culture.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-slurry-culture.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-slurry-culture.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-slurry-culture.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-slurry-culture.precautions') : []; }
-  },
-  {
-    id: "urva-carbon",
-    slug: "urva-carbon",
-    category: "soil-health",
-    formulation: "Liquid",
-    packing: ["500ml", "1000ml"],
-    prices: [{"size": "500ml", "dp": "285.00", "mrp": "525.00"}, {"size": "1000ml", "dp": "555.00", "mrp": "955.00"}],
-    image: "assets/products/image-coming-soon.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-carbon.name') : "Urva Carbon"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-carbon.technical') : "Organic Carbon & Humate Consortium"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-carbon.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-carbon.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-carbon.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-carbon.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-carbon.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-carbon.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-carbon.precautions') : []; }
-  },
-  {
-    id: "urva-vajra",
-    slug: "urva-vajra",
-    category: "crop-protection",
-    formulation: "Liquid",
-    packing: ["1000ml", "5000ml"],
-    prices: [{"size": "1000ml", "dp": "290.00", "mrp": "755.00"}, {"size": "5000ml", "dp": "1625.00", "mrp": "3375.00"}],
-    image: "assets/products/urva-vajra.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-vajra.name') : "Urva Vajra"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-vajra.technical') : "Trichoderma viride"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-vajra.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-vajra.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-vajra.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-vajra.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-vajra.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-vajra.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-vajra.precautions') : []; }
-  },
-  {
-    id: "urva-aayudh",
-    slug: "urva-aayudh",
-    category: "crop-protection",
-    formulation: "Liquid",
-    packing: ["1000ml", "5000ml"],
-    prices: [{"size": "1000ml", "dp": "290.00", "mrp": "845.00"}, {"size": "5000ml", "dp": "1775.00", "mrp": "3755.00"}],
-    image: "assets/products/image-coming-soon.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-aayudh.name') : "Urva Aayudh"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-aayudh.technical') : "Pseudomonas fluorescens"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-aayudh.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-aayudh.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-aayudh.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-aayudh.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-aayudh.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-aayudh.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-aayudh.precautions') : []; }
-  },
-  {
-    id: "urva-sudarshan",
-    slug: "urva-sudarshan",
-    category: "crop-protection",
-    formulation: "Liquid",
-    packing: ["1000ml", "5000ml"],
-    prices: [{"size": "1000ml", "dp": "290.00", "mrp": "845.00"}, {"size": "5000ml", "dp": "1935.00", "mrp": "3755.00"}],
-    image: "assets/products/urva-sudarshan.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-sudarshan.name') : "Urva Sudarshan"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-sudarshan.technical') : "Bacillus subtilis"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-sudarshan.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-sudarshan.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-sudarshan.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-sudarshan.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-sudarshan.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-sudarshan.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-sudarshan.precautions') : []; }
-  },
-  {
-    id: "urva-e-pinaca",
-    slug: "urva-e-pinaca",
-    category: "crop-protection",
-    formulation: "Liquid",
-    packing: ["1000ml", "3000ml"],
-    prices: [{"size": "1000ml", "dp": "395.00", "mrp": "595.00"}, {"size": "3000ml", "dp": "1145.00", "mrp": "1495.00"}],
-    image: "assets/products/image-coming-soon.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-e-pinaca.name') : "Urva E Pinaca"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-e-pinaca.technical') : "Entomopathogenic Nematodes (EPN)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-e-pinaca.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-e-pinaca.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-e-pinaca.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-e-pinaca.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-e-pinaca.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-e-pinaca.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-e-pinaca.precautions') : []; }
-  },
-  {
-    id: "urva-bvm",
-    slug: "urva-bvm",
-    category: "crop-protection",
-    formulation: "Liquid",
-    packing: ["250ml", "500ml", "1000ml"],
-    prices: [{"size": "250ml", "dp": "115.00", "mrp": "245.00"}, {"size": "500ml", "dp": "215.00", "mrp": "375.00"}, {"size": "1000ml", "dp": "395.00", "mrp": "595.00"}],
-    image: "assets/products/urva-bvm.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=VOeUKFpcRas",
-    get name() { return window.i18n ? window.i18n.t('products.urva-bvm.name') : "Urva Bvm"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-bvm.technical') : "Beauveria + Verticillium + Metarhizium"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-bvm.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-bvm.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-bvm.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-bvm.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-bvm.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-bvm.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-bvm.precautions') : []; }
-  },
-  {
-    id: "urva-shone",
-    slug: "urva-shone",
-    category: "crop-protection",
-    formulation: "Liquid",
-    packing: ["1000ml"],
-    prices: [{"size": "1000ml", "dp": "290.00", "mrp": "555.00"}],
-    image: "assets/products/image-coming-soon.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-shone.name') : "Urva Shone"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-shone.technical') : "Beauveria bassiana"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-shone.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-shone.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-shone.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-shone.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-shone.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-shone.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-shone.precautions') : []; }
-  },
-  {
-    id: "urva-rudra",
-    slug: "urva-rudra",
-    category: "crop-protection",
-    formulation: "Liquid",
-    packing: ["250ml", "500ml", "1000ml"],
-    prices: [{"size": "250ml", "dp": "85.00", "mrp": "245.00"}, {"size": "500ml", "dp": "155.00", "mrp": "415.00"}, {"size": "1000ml", "dp": "290.00", "mrp": "785.00"}],
-    image: "assets/products/urva-rudra.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-rudra.name') : "Urva Rudra"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-rudra.technical') : "Verticillium lecanii"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-rudra.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-rudra.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-rudra.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-rudra.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-rudra.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-rudra.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-rudra.precautions') : []; }
-  },
-  {
-    id: "urva-rakshak",
-    slug: "urva-rakshak",
-    category: "crop-protection",
-    formulation: "Liquid",
-    packing: ["1000ml", "5000ml"],
-    prices: [{"size": "1000ml", "dp": "290.00", "mrp": "845.00"}, {"size": "5000ml", "dp": "1775.00", "mrp": "3755.00"}],
-    image: "assets/products/urva-rakshak.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-rakshak.name') : "Urva Rakshak"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-rakshak.technical') : "Paecilomyces lilacinus"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-rakshak.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-rakshak.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-rakshak.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-rakshak.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-rakshak.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-rakshak.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-rakshak.precautions') : []; }
-  },
-  {
-    id: "urva-dhanush",
-    slug: "urva-dhanush",
-    category: "crop-protection",
-    formulation: "Liquid",
-    packing: ["100ml", "200ml"],
-    prices: [{"size": "100ml", "dp": "95.00", "mrp": "215.00"}, {"size": "200ml", "dp": "185.00", "mrp": "395.00"}],
-    image: "assets/products/urva-dhanush.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-dhanush.name') : "Urva Dhanush"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-dhanush.technical') : "Bacillus thuringiensis (Bt)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-dhanush.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-dhanush.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-dhanush.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-dhanush.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-dhanush.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-dhanush.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-dhanush.precautions') : []; }
+    _fallbackName: "Urva Slurry Culture", _fallbackTech: "Algae, Micro-organisms & Useful Nematodes"
   },
   {
     id: "urva-d-compost",
     slug: "urva-d-compost",
     category: "soil-health",
+    formulation: "Liquid / Granular",
+    packing: ["1000ml Bottle Duo (B & F)", "25kg Bag"],
+    prices: [{"size": "1000ml Duo", "dp": "295.00", "mrp": "550.00"}],
+    image: "assets/products/urva-d-compost.png",
+    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
+    _fallbackName: "Urva D-Compost", _fallbackTech: "Trichoderma spp, Cellulomonas spp, Bacillus spp"
+  },
+  {
+    id: "urva-spurad",
+    slug: "urva-spurad",
+    category: "bio-fertilizers",
+    formulation: "Carrier Powder / Liquid",
+    packing: ["1kg Pouch", "2 Liter Bucket"],
+    prices: [{"size": "1kg Pouch", "dp": "210.00", "mrp": "420.00"}, {"size": "2 Liter", "dp": "480.00", "mrp": "890.00"}],
+    image: "assets/products/urva-spurad.png",
+    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
+    _fallbackName: "Urva Spurad", _fallbackTech: "Phosphate Solubilizing Bacteria / Trichoderma spp"
+  },
+
+  // 2. Bio-Fungicides
+  {
+    id: "urva-vajra",
+    slug: "urva-vajra",
+    category: "bio-fungicides",
     formulation: "Liquid",
-    packing: ["500ml", "1000ml"],
-    prices: [{"size": "500ml", "dp": "315.00", "mrp": "525.00"}, {"size": "1000ml", "dp": "555.00", "mrp": "955.00"}],
-    image: "assets/products/image-coming-soon.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=9uFUVN8-Q2w",
-    get name() { return window.i18n ? window.i18n.t('products.urva-d-compost.name') : "Urva D Compost"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-d-compost.technical') : "Compost Bacteria Consortium"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-d-compost.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-d-compost.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-d-compost.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-d-compost.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-d-compost.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-d-compost.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-d-compost.precautions') : []; }
+    packing: ["1000ml", "5000ml"],
+    prices: [{"size": "1000ml", "dp": "285.00", "mrp": "595.00"}, {"size": "5000ml", "dp": "1545.00", "mrp": "2595.00"}],
+    image: "assets/products/urva-vajra.png",
+    youtubeUrl: "https://www.youtube.com/watch?v=0k3Nn9P4Tps",
+    _fallbackName: "Urva Vajra", _fallbackTech: "Trichoderma viride / Trichoderma harzianum"
+  },
+  {
+    id: "urva-aayudh",
+    slug: "urva-aayudh",
+    category: "bio-fungicides",
+    formulation: "Liquid",
+    packing: ["1000ml", "5000ml"],
+    prices: [{"size": "1000ml", "dp": "285.00", "mrp": "595.00"}, {"size": "5000ml", "dp": "1545.00", "mrp": "2595.00"}],
+    image: "assets/products/urva-ayudh.png",
+    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
+    _fallbackName: "Urva Ayudh", _fallbackTech: "Pseudomonas fluorescens"
+  },
+  {
+    id: "urva-sudarshan",
+    slug: "urva-sudarshan",
+    category: "bio-fungicides",
+    formulation: "Liquid",
+    packing: ["1000ml", "5000ml"],
+    prices: [{"size": "1000ml", "dp": "285.00", "mrp": "595.00"}, {"size": "5000ml", "dp": "1545.00", "mrp": "2595.00"}],
+    image: "assets/products/urva-sudarshan.png",
+    youtubeUrl: "https://www.youtube.com/watch?v=Xh0Y9Z1A6sE",
+    _fallbackName: "Urva Sudarshan", _fallbackTech: "Bacillus subtilis"
   },
   {
     id: "urva-amphilo",
     slug: "urva-amphilo",
-    category: "crop-protection",
+    category: "bio-fungicides",
     formulation: "Liquid",
-    packing: ["1kg"],
-    prices: [{"size": "1kg", "dp": "290.00", "mrp": "695.00"}],
-    image: "assets/products/image-coming-soon.jpg",
+    packing: ["1000ml", "5000ml"],
+    prices: [{"size": "1000ml", "dp": "295.00", "mrp": "615.00"}, {"size": "5000ml", "dp": "1580.00", "mrp": "2695.00"}],
+    image: "assets/products/urva-ampelo.png",
     youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-amphilo.name') : "Urva Amphilo"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-amphilo.technical') : "Amphomycin"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-amphilo.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-amphilo.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-amphilo.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-amphilo.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-amphilo.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-amphilo.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-amphilo.precautions') : []; }
+    _fallbackName: "Urva Ampelo", _fallbackTech: "Ampelomyces quisqualis"
   },
+
+  // 3. Bio-Pesticides
+  {
+    id: "urva-shone",
+    slug: "urva-shone",
+    category: "bio-pesticides",
+    formulation: "Liquid",
+    packing: ["1000ml", "5000ml"],
+    prices: [{"size": "1000ml", "dp": "285.00", "mrp": "595.00"}, {"size": "5000ml", "dp": "1545.00", "mrp": "2595.00"}],
+    image: "assets/products/urva-shone.png",
+    youtubeUrl: "https://www.youtube.com/watch?v=o0XbYw_qM_4",
+    _fallbackName: "Urva Shone", _fallbackTech: "Beauveria bassiana"
+  },
+  {
+    id: "urva-rakshak",
+    slug: "urva-rakshak",
+    category: "bio-pesticides",
+    formulation: "Liquid",
+    packing: ["1000ml", "5000ml"],
+    prices: [{"size": "1000ml", "dp": "285.00", "mrp": "595.00"}, {"size": "5000ml", "dp": "1545.00", "mrp": "2595.00"}],
+    image: "assets/products/urva-rakshak.png",
+    youtubeUrl: "https://www.youtube.com/watch?v=9jP4x1Y7m_A",
+    _fallbackName: "Urva Rakshak", _fallbackTech: "Paecilomyces lilacinus / Paecilomyces spp"
+  },
+  {
+    id: "urva-rudra",
+    slug: "urva-rudra",
+    category: "bio-pesticides",
+    formulation: "Liquid",
+    packing: ["250ml", "500ml", "1000ml", "5000ml"],
+    prices: [{"size": "250ml", "dp": "115.00", "mrp": "195.00"}, {"size": "500ml", "dp": "195.00", "mrp": "325.00"}, {"size": "1000ml", "dp": "285.00", "mrp": "595.00"}, {"size": "5000ml", "dp": "1545.00", "mrp": "2595.00"}],
+    image: "assets/products/urva-rudra.png",
+    youtubeUrl: "https://www.youtube.com/watch?v=8q_rN_4k1uM",
+    _fallbackName: "Urva Rudra", _fallbackTech: "Verticillium lecanii"
+  },
+  {
+    id: "urva-dhanush",
+    slug: "urva-dhanush",
+    category: "bio-pesticides",
+    formulation: "Liquid",
+    packing: ["1000ml", "5000ml"],
+    prices: [{"size": "1000ml", "dp": "285.00", "mrp": "595.00"}, {"size": "5000ml", "dp": "1545.00", "mrp": "2595.00"}],
+    image: "assets/products/urva-dhanush.png",
+    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
+    _fallbackName: "Urva Dhanush-BT", _fallbackTech: "Bacillus thuringiensis (BT)"
+  },
+  {
+    id: "urva-e-pinaca",
+    slug: "urva-e-pinaca",
+    category: "bio-pesticides",
+    formulation: "Liquid",
+    packing: ["1000ml", "5000ml"],
+    prices: [{"size": "1000ml", "dp": "285.00", "mrp": "595.00"}, {"size": "5000ml", "dp": "1545.00", "mrp": "2595.00"}],
+    image: "assets/products/urva-pinaca-liq.png",
+    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
+    _fallbackName: "Urva Pinaca (Liquid)", _fallbackTech: "Metarhizium anisopliae"
+  },
+  {
+    id: "urva-bvm",
+    slug: "urva-bvm",
+    category: "bio-pesticides",
+    formulation: "Liquid",
+    packing: ["250ml", "500ml", "1000ml", "5000ml"],
+    prices: [{"size": "250ml", "dp": "125.00", "mrp": "215.00"}, {"size": "500ml", "dp": "210.00", "mrp": "345.00"}, {"size": "1000ml", "dp": "315.00", "mrp": "625.00"}, {"size": "5000ml", "dp": "1625.00", "mrp": "2795.00"}],
+    image: "assets/products/urva-bvm.png",
+    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
+    _fallbackName: "Urva BVM", _fallbackTech: "Beauveria + Verticillium + Metarhizium Consortia"
+  },
+
+  // 4. Seed Processing & Box Products
   {
     id: "urva-azo",
     slug: "urva-azo",
-    category: "bio-fertilizers",
-    formulation: "Powder (Dextrose Base)",
-    packing: ["200gm"],
-    prices: [{"size": "200gm", "dp": "38.00", "mrp": "75.00"}],
-    image: "assets/products/urva-azo.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=6nCgNwytOes",
-    get name() { return window.i18n ? window.i18n.t('products.urva-azo.name') : "Urva Azo"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-azo.technical') : "Azotobacter + Trichoderma (Dextrose)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-azo.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-azo.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-azo.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-azo.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-azo.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-azo.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-azo.precautions') : []; }
+    category: "soil-health",
+    formulation: "Pouch / Granular",
+    packing: ["400gm", "1000gm", "1200gm"],
+    prices: [{"size": "400gm", "dp": "140.00", "mrp": "260.00"}, {"size": "1000gm", "dp": "260.00", "mrp": "480.00"}],
+    image: "assets/products/urva-azo.png",
+    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
+    _fallbackName: "Urva AZO", _fallbackTech: "Azotobacter chroococcum + Penicillium pinophilum + Trichoderma viride"
   },
   {
     id: "urva-rhizo",
     slug: "urva-rhizo",
-    category: "bio-fertilizers",
-    formulation: "Powder (Dextrose Base)",
-    packing: ["200gm"],
-    prices: [{"size": "200gm", "dp": "38.00", "mrp": "75.00"}],
-    image: "assets/products/urva-rhizo.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=6nCgNwytOes",
-    get name() { return window.i18n ? window.i18n.t('products.urva-rhizo.name') : "Urva Rhizo"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-rhizo.technical') : "Rhizobium + Trichoderma (Dextrose)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-rhizo.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-rhizo.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-rhizo.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-rhizo.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-rhizo.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-rhizo.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-rhizo.precautions') : []; }
+    category: "soil-health",
+    formulation: "Pouch / Granular",
+    packing: ["2 nos", "4 nos"],
+    prices: [{"size": "2 nos", "dp": "140.00", "mrp": "260.00"}, {"size": "4 nos", "dp": "260.00", "mrp": "480.00"}],
+    image: "assets/products/urva-rhizo.png",
+    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
+    _fallbackName: "Urva Rhizo", _fallbackTech: "Rhizobium spp + Penicillium pinophilum + Trichoderma viride"
   },
   {
     id: "urva-p2k2",
     slug: "urva-p2k2",
-    category: "bio-fertilizers",
-    formulation: "Powder (Dextrose Base)",
-    packing: ["1kg"],
-    prices: [{"size": "1kg", "dp": "375.00", "mrp": "755.00"}],
-    image: "assets/products/urva-p2k2.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-p2k2.name') : "Urva P2K2"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-p2k2.technical') : "Penicillium pinophilum"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-p2k2.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-p2k2.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-p2k2.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-p2k2.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-p2k2.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-p2k2.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-p2k2.precautions') : []; }
+    category: "growth-boosters",
+    formulation: "Soluble Powder / Box",
+    packing: ["1kg Box"],
+    prices: [{"size": "1kg", "dp": "375.00", "mrp": "685.00"}],
+    image: "assets/products/urva-p2k2.png",
+    youtubeUrl: "https://www.youtube.com/watch?v=kU_v34x01Bw",
+    _fallbackName: "Urva P2K2", _fallbackTech: "Penicillium pinophilum (ICAR-NRCP Patented Strain)"
   },
-  {
-    id: "urva-fungo-dx",
-    slug: "urva-fungo-dx",
-    category: "crop-protection",
-    formulation: "Powder (Dextrose Base)",
-    packing: ["1200gm"],
-    prices: [{"size": "1200gm", "dp": "515.00", "mrp": "955.00"}],
-    image: "assets/products/image-coming-soon.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-fungo-dx.name') : "Urva Fungo Dx"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-fungo-dx.technical') : "Trichoderma + Pseudomonas (Dextrose)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-fungo-dx.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-fungo-dx.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-fungo-dx.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-fungo-dx.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-fungo-dx.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-fungo-dx.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-fungo-dx.precautions') : []; }
-  },
-  {
-    id: "urva-pesto-dx",
-    slug: "urva-pesto-dx",
-    category: "crop-protection",
-    formulation: "Powder (Dextrose Base)",
-    packing: ["1200gm"],
-    prices: [{"size": "1200gm", "dp": "515.00", "mrp": "955.00"}],
-    image: "assets/products/image-coming-soon.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-pesto-dx.name') : "Urva Pesto Dx"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-pesto-dx.technical') : "Amphilo + Bacillus subtilis (Dextrose)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-pesto-dx.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-pesto-dx.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-pesto-dx.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-pesto-dx.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-pesto-dx.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-pesto-dx.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-pesto-dx.precautions') : []; }
-  },
+
+  // 5. Specialty Buckets
   {
     id: "urva-fungo",
     slug: "urva-fungo",
-    category: "crop-protection",
-    formulation: "Powder (Dextrose Base)",
-    packing: ["2kg"],
-    prices: [{"size": "2kg", "dp": "395.00", "mrp": "795.00"}],
-    image: "assets/products/urva-fungo.jpg",
+    category: "bio-fungicides",
+    formulation: "Bucket Carrier Consortia",
+    packing: ["2kg Bucket", "4kg Bucket"],
+    prices: [{"size": "2kg Bucket", "dp": "485.00", "mrp": "895.00"}, {"size": "4kg Bucket", "dp": "890.00", "mrp": "1650.00"}],
+    image: "assets/products/urva-fungo.png",
     youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-fungo.name') : "Urva Fungo"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-fungo.technical') : "Trichoderma + Pseudomonas (Dextrose)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-fungo.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-fungo.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-fungo.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-fungo.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-fungo.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-fungo.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-fungo.precautions') : []; }
+    _fallbackName: "Urva Fungo / Aalvani Fungo", _fallbackTech: "Trichoderma spp + Pseudomonas spp + Penicillium pinophilum"
   },
   {
     id: "urva-wilto",
     slug: "urva-wilto",
-    category: "crop-protection",
-    formulation: "Powder (Dextrose Base)",
-    packing: ["2kg"],
-    prices: [{"size": "2kg", "dp": "395.00", "mrp": "795.00"}],
-    image: "assets/products/urva-wilto.jpg",
+    category: "bio-fungicides",
+    formulation: "Bucket Carrier Consortia",
+    packing: ["2kg Bucket", "4kg Bucket"],
+    prices: [{"size": "2kg Bucket", "dp": "485.00", "mrp": "895.00"}, {"size": "4kg Bucket", "dp": "890.00", "mrp": "1650.00"}],
+    image: "assets/products/urva-wilto.png",
     youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-wilto.name') : "Urva Wilto"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-wilto.technical') : "Amphilo + Bacillus subtilis (Dextrose)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-wilto.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-wilto.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-wilto.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-wilto.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-wilto.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-wilto.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-wilto.precautions') : []; }
+    _fallbackName: "Urva Wilto / Aalvani Wilto", _fallbackTech: "Aspergillus niger + Bacillus subtilis + Penicillium pinophilum"
   },
   {
     id: "urva-nutri",
     slug: "urva-nutri",
     category: "bio-fertilizers",
-    formulation: "Powder (Dextrose Base)",
-    packing: ["2kg"],
-    prices: [{"size": "2kg", "dp": "395.00", "mrp": "795.00"}],
-    image: "assets/products/urva-nutri.jpg",
+    formulation: "Bucket Carrier Consortia",
+    packing: ["2kg Bucket", "4kg Bucket"],
+    prices: [{"size": "2kg Bucket", "dp": "485.00", "mrp": "895.00"}, {"size": "4kg Bucket", "dp": "890.00", "mrp": "1650.00"}],
+    image: "assets/products/urva-nutri.png",
     youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-nutri.name') : "Urva Nutri"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-nutri.technical') : "Azo + PSB + KMB + ZMB (Dextrose)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-nutri.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-nutri.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-nutri.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-nutri.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-nutri.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-nutri.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-nutri.precautions') : []; }
+    _fallbackName: "Urva Nutri", _fallbackTech: "Penicillium pinophilum + Rhizobium + Azotobacter + PSB + KMB + ZSB"
   },
   {
     id: "urva-k-plus",
     slug: "urva-k-plus",
     category: "bio-fertilizers",
-    formulation: "Powder (Dextrose Base)",
-    packing: ["2kg"],
-    prices: [{"size": "2kg", "dp": "395.00", "mrp": "795.00"}],
-    image: "assets/products/urva-k-plus.jpg",
+    formulation: "Bucket Carrier Consortia",
+    packing: ["2kg Bucket", "4kg Bucket"],
+    prices: [{"size": "2kg Bucket", "dp": "485.00", "mrp": "895.00"}, {"size": "4kg Bucket", "dp": "890.00", "mrp": "1650.00"}],
+    image: "assets/products/urva-k-plus.png",
     youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('products.urva-k-plus.name') : "Urva K Plus"; },
-    get technical() { return window.i18n ? window.i18n.t('products.urva-k-plus.technical') : "P2K2 + KMB + ZMB + Silicon (Dextrose)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('products.urva-k-plus.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('products.urva-k-plus.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('products.urva-k-plus.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('products.urva-k-plus.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('products.urva-k-plus.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('products.urva-k-plus.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('products.urva-k-plus.precautions') : []; }
+    _fallbackName: "Urva K-Plus", _fallbackTech: "Penicillium pinophilum + KMB + ZSB + Silicon Solubilizers"
+  },
+  {
+    id: "urva-microbes",
+    slug: "urva-microbes",
+    category: "growth-boosters",
+    formulation: "Bucket Carrier Consortia",
+    packing: ["2kg Bucket", "4kg Bucket"],
+    prices: [{"size": "2kg Bucket", "dp": "495.00", "mrp": "925.00"}, {"size": "4kg Bucket", "dp": "920.00", "mrp": "1720.00"}],
+    image: "assets/products/urva-microbes.png",
+    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
+    _fallbackName: "Urva Microbes", _fallbackTech: "Penicillium pinophilum + Multi-Micro Nutrient Solubilizers"
+  },
+  {
+    id: "urva-nemato",
+    slug: "urva-nemato",
+    category: "bio-pesticides",
+    formulation: "Bucket Carrier Consortia",
+    packing: ["2kg Bucket", "4kg Bucket"],
+    prices: [{"size": "2kg Bucket", "dp": "495.00", "mrp": "925.00"}, {"size": "4kg Bucket", "dp": "920.00", "mrp": "1720.00"}],
+    image: "assets/products/urva-nemato.png",
+    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
+    _fallbackName: "Urva Nemato", _fallbackTech: "Paecilomyces lilacinus + Verticillium + Trichoderma viride"
   }
 ];
 
-const ADDITIONAL_PRODUCTS_DATA = [
+const RAW_ADDITIONAL_PRODUCTS_DATA = [
+  // 6. Granular 25kg Agricultural Ranges
   {
-    id: "urva-germination",
-    slug: "urva-germination",
-    category: "growth-boosters",
-    formulation: "Granules",
-    packing: ["500gm", "2kg", "25kg"],
-    prices: [{"size": "500gm", "dp": "75.00", "mrp": "175.00"}, {"size": "2kg", "dp": "255.00", "mrp": "525.00"}, {"size": "25kg", "dp": "855.00", "mrp": "1255.00"}],
-    image: "assets/products/urva-germination.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=6nCgNwytOes",
-    get name() { return window.i18n ? window.i18n.t('additionalProducts.urva-germination.name') : "Urva Germination"; },
-    get technical() { return window.i18n ? window.i18n.t('additionalProducts.urva-germination.technical') : "Consortia (Granules)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('additionalProducts.urva-germination.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('additionalProducts.urva-germination.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('additionalProducts.urva-germination.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('additionalProducts.urva-germination.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('additionalProducts.urva-germination.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('additionalProducts.urva-germination.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('additionalProducts.urva-germination.precautions') : []; }
-  },
-  {
-    id: "urva-potash",
-    slug: "urva-potash",
+    id: "urva-kombo",
+    slug: "urva-kombo",
     category: "bio-fertilizers",
-    formulation: "Granules",
-    packing: ["25kg"],
-    prices: [{"size": "25kg", "dp": "895.00", "mrp": "1455.00"}],
-    image: "assets/products/urva-potash.jpg",
+    formulation: "Granular",
+    packing: ["25kg Bag"],
+    prices: [{"size": "25kg Bag", "dp": "680.00", "mrp": "1250.00"}],
+    image: "assets/products/urva-kombo.png",
     youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('additionalProducts.urva-potash.name') : "Urva Potash"; },
-    get technical() { return window.i18n ? window.i18n.t('additionalProducts.urva-potash.technical') : "KMB Potash (Granules)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('additionalProducts.urva-potash.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('additionalProducts.urva-potash.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('additionalProducts.urva-potash.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('additionalProducts.urva-potash.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('additionalProducts.urva-potash.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('additionalProducts.urva-potash.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('additionalProducts.urva-potash.precautions') : []; }
+    _fallbackName: "Urva Combo Jaivik (25kg)", _fallbackTech: "Multi-Strain Bio-Granular N:P:K + Microbes Consortia"
   },
   {
     id: "urva-compost-culture",
     slug: "urva-compost-culture",
     category: "soil-health",
-    formulation: "Granules",
-    packing: ["25kg"],
-    prices: [{"size": "25kg", "dp": "895.00", "mrp": "1455.00"}],
-    image: "assets/products/urva-compost-culture.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=9uFUVN8-Q2w",
-    get name() { return window.i18n ? window.i18n.t('additionalProducts.urva-compost-culture.name') : "Urva Compost Culture"; },
-    get technical() { return window.i18n ? window.i18n.t('additionalProducts.urva-compost-culture.technical') : "Compost Culture (Granules)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('additionalProducts.urva-compost-culture.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('additionalProducts.urva-compost-culture.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('additionalProducts.urva-compost-culture.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('additionalProducts.urva-compost-culture.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('additionalProducts.urva-compost-culture.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('additionalProducts.urva-compost-culture.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('additionalProducts.urva-compost-culture.precautions') : []; }
-  },
-  {
-    id: "urva-microbes",
-    slug: "urva-microbes",
-    category: "bio-fertilizers",
-    formulation: "Powder (Dextrose Base)",
-    packing: ["4kg"],
-    prices: [{"size": "4kg", "dp": "855.00", "mrp": "1555.00"}],
-    image: "assets/products/urva-microbes.jpg",
+    formulation: "Granular",
+    packing: ["25kg Bag"],
+    prices: [{"size": "25kg Bag", "dp": "650.00", "mrp": "1190.00"}],
+    image: "assets/products/urva-compost-culture.png",
     youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('additionalProducts.urva-microbes.name') : "Urva Microbes"; },
-    get technical() { return window.i18n ? window.i18n.t('additionalProducts.urva-microbes.technical') : "Consortia (Dextrose)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('additionalProducts.urva-microbes.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('additionalProducts.urva-microbes.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('additionalProducts.urva-microbes.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('additionalProducts.urva-microbes.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('additionalProducts.urva-microbes.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('additionalProducts.urva-microbes.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('additionalProducts.urva-microbes.precautions') : []; }
+    _fallbackName: "Urva Compost Culture (25kg)", _fallbackTech: "Cellulolytic & Lignin Decomposing Fungi-Bacteria"
   },
   {
-    id: "urva-nemato",
-    slug: "urva-nemato",
-    category: "crop-protection",
-    formulation: "Powder (Dextrose Base)",
-    packing: ["2kg"],
-    prices: [{"size": "2kg", "dp": "395.00", "mrp": "795.00"}],
-    image: "assets/products/urva-nemato.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=VOeUKFpcRas",
-    get name() { return window.i18n ? window.i18n.t('additionalProducts.urva-nemato.name') : "Urva Nemato"; },
-    get technical() { return window.i18n ? window.i18n.t('additionalProducts.urva-nemato.technical') : "Paecilomyces + Verticillium (Dextrose)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('additionalProducts.urva-nemato.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('additionalProducts.urva-nemato.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('additionalProducts.urva-nemato.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('additionalProducts.urva-nemato.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('additionalProducts.urva-nemato.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('additionalProducts.urva-nemato.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('additionalProducts.urva-nemato.precautions') : []; }
+    id: "urva-potash",
+    slug: "urva-potash",
+    category: "bio-fertilizers",
+    formulation: "Granular",
+    packing: ["25kg Bag"],
+    prices: [{"size": "25kg Bag", "dp": "695.00", "mrp": "1280.00"}],
+    image: "assets/products/urva-potash.png",
+    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
+    _fallbackName: "Urva Potash (25kg)", _fallbackTech: "Potash Mobilizing Bacteria (KMB) Granular"
   },
   {
     id: "urva-pinaca",
     slug: "urva-pinaca",
-    category: "crop-protection",
-    formulation: "Granules",
-    packing: ["5kg", "10kg", "25kg"],
-    prices: [{"size": "5kg", "dp": "285.00", "mrp": "555.00"}, {"size": "10kg", "dp": "555.00", "mrp": "1255.00"}, {"size": "25kg", "dp": "1155.00", "mrp": "1695.00"}],
-    image: "assets/products/urva-pinaca.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=xoQpS-DTibs",
-    get name() { return window.i18n ? window.i18n.t('additionalProducts.urva-pinaca.name') : "Urva Pinaca"; },
-    get technical() { return window.i18n ? window.i18n.t('additionalProducts.urva-pinaca.technical') : "EPN Metarhizium (Granules)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('additionalProducts.urva-pinaca.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('additionalProducts.urva-pinaca.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('additionalProducts.urva-pinaca.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('additionalProducts.urva-pinaca.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('additionalProducts.urva-pinaca.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('additionalProducts.urva-pinaca.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('additionalProducts.urva-pinaca.precautions') : []; }
-  },
-  {
-    id: "urva-kombo",
-    slug: "urva-kombo",
-    category: "growth-boosters",
-    formulation: "Liquid",
-    packing: ["500ml", "1000ml"],
-    prices: [{"size": "500ml", "dp": "195.00", "mrp": "315.00"}, {"size": "1000ml", "dp": "290.00", "mrp": "565.00"}],
-    image: "assets/products/urva-kombo.jpg",
+    category: "bio-pesticides",
+    formulation: "Granular",
+    packing: ["25kg Bag"],
+    prices: [{"size": "25kg Bag", "dp": "720.00", "mrp": "1350.00"}],
+    image: "assets/products/urva-pinaca.png",
     youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('additionalProducts.urva-kombo.name') : "Urva Kombo"; },
-    get technical() { return window.i18n ? window.i18n.t('additionalProducts.urva-kombo.technical') : "Multi-Microbial Liquid Inoculant"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('additionalProducts.urva-kombo.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('additionalProducts.urva-kombo.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('additionalProducts.urva-kombo.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('additionalProducts.urva-kombo.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('additionalProducts.urva-kombo.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('additionalProducts.urva-kombo.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('additionalProducts.urva-kombo.precautions') : []; }
-  },
-  {
-    id: "urva-jaivik",
-    slug: "urva-jaivik",
-    category: "soil-health",
-    formulation: "Granules",
-    packing: ["25kg"],
-    prices: [{"size": "25kg", "dp": "1055.00", "mrp": "1755.00"}],
-    image: "assets/products/urva-jaivik.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('additionalProducts.urva-jaivik.name') : "Urva Jaivik"; },
-    get technical() { return window.i18n ? window.i18n.t('additionalProducts.urva-jaivik.technical') : "Consortia (Granules)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('additionalProducts.urva-jaivik.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('additionalProducts.urva-jaivik.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('additionalProducts.urva-jaivik.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('additionalProducts.urva-jaivik.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('additionalProducts.urva-jaivik.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('additionalProducts.urva-jaivik.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('additionalProducts.urva-jaivik.precautions') : []; }
-  },
-  {
-    id: "urva-urja-liq",
-    slug: "urva-urja-liq",
-    category: "growth-boosters",
-    formulation: "Liquid",
-    packing: ["500ml", "1000ml"],
-    prices: [{"size": "500ml", "dp": "195.00", "mrp": "315.00"}, {"size": "1000ml", "dp": "290.00", "mrp": "565.00"}, {"size": "5000ml", "dp": "1525.00", "mrp": "2535.00"}],
-    image: "assets/products/urva-urja-liq.jpg",
-    youtubeUrl: "https://www.youtube.com/watch?v=f6dNnKNqKFA",
-    get name() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-liq.name') : "Urva Urja Liq"; },
-    get technical() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-liq.technical') : "Bio-Consortia & Vital Amino Complexes (Liquid)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-liq.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-liq.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-liq.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-liq.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-liq.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-liq.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-liq.precautions') : []; }
-  },
-  {
-    id: "urva-p-liq",
-    slug: "urva-p-liq",
-    category: "bio-fertilizers",
-    formulation: "Liquid",
-    packing: ["1000ml"],
-    prices: [{"size": "1000ml", "dp": "240.00", "mrp": "555.00"}, {"size": "5000ml", "dp": "1475.00", "mrp": "2495.00"}],
-    image: "assets/products/urva-p-liq.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('additionalProducts.urva-p-liq.name') : "Urva P Liq"; },
-    get technical() { return window.i18n ? window.i18n.t('additionalProducts.urva-p-liq.technical') : "Phosphorus Solubilizing Bacteria (Liquid)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('additionalProducts.urva-p-liq.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('additionalProducts.urva-p-liq.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('additionalProducts.urva-p-liq.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('additionalProducts.urva-p-liq.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('additionalProducts.urva-p-liq.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('additionalProducts.urva-p-liq.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('additionalProducts.urva-p-liq.precautions') : []; }
-  },
-  {
-    id: "urva-fungo-gr",
-    slug: "urva-fungo-gr",
-    category: "crop-protection",
-    formulation: "Granules",
-    packing: ["25kg"],
-    prices: [{"size": "25kg", "dp": "855.00", "mrp": "1255.00"}],
-    image: "assets/products/image-coming-soon.jpg",
-    youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('additionalProducts.urva-fungo-gr.name') : "Urva Fungo Gr"; },
-    get technical() { return window.i18n ? window.i18n.t('additionalProducts.urva-fungo-gr.technical') : "Consortia (Granules)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('additionalProducts.urva-fungo-gr.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('additionalProducts.urva-fungo-gr.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('additionalProducts.urva-fungo-gr.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('additionalProducts.urva-fungo-gr.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('additionalProducts.urva-fungo-gr.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('additionalProducts.urva-fungo-gr.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('additionalProducts.urva-fungo-gr.precautions') : []; }
+    _fallbackName: "Urva Pinaca (25kg)", _fallbackTech: "Metarhizium anisopliae Granular Bio-Pesticide"
   },
   {
     id: "urva-urja-gr",
     slug: "urva-urja-gr",
     category: "growth-boosters",
-    formulation: "Granules",
-    packing: ["5kg", "10kg", "25kg"],
-    prices: [{"size": "5kg", "dp": "285.00", "mrp": "495.00"}, {"size": "10kg", "dp": "555.00", "mrp": "1155.00"}, {"size": "25kg", "dp": "875.00", "mrp": "1455.00"}],
-    image: "assets/products/urva-urja.jpg",
+    formulation: "Granular",
+    packing: ["25kg Bag"],
+    prices: [{"size": "25kg Bag", "dp": "690.00", "mrp": "1295.00"}],
+    image: "assets/products/urva-urja.png",
     youtubeUrl: "https://youtube.com/@bhartigreentechshetimitra6078",
-    get name() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-gr.name') : "Urva Urja Gr"; },
-    get technical() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-gr.technical') : "Consortia (Granules)"; },
-    get shortDescription() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-gr.shortDescription') : ""; },
-    get overview() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-gr.overview') : ""; },
-    get benefits() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-gr.benefits') : []; },
-    get crops() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-gr.crops') : []; },
-    get application() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-gr.application') : []; },
-    get dosage() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-gr.dosage') : ""; },
-    get precautions() { return window.i18n ? window.i18n.t('additionalProducts.urva-urja-gr.precautions') : []; }
+    _fallbackName: "Urva Urja (25kg)", _fallbackTech: "Carrier Based Consortia N.P.K Granular"
   }
 ];
+
+const PRODUCTS_DATA = RAW_PRODUCTS_DATA.map(p => attachProductGetters(p, p._fallbackName || p.id, p._fallbackTech || ""));
+const ADDITIONAL_PRODUCTS_DATA = RAW_ADDITIONAL_PRODUCTS_DATA.map(p => attachProductGetters(p, p._fallbackName || p.id, p._fallbackTech || ""));
+
+if (typeof window !== 'undefined') {
+  window.COMPANY_INFO = COMPANY_INFO;
+  window.PRODUCTS_DATA = PRODUCTS_DATA;
+  window.ADDITIONAL_PRODUCTS_DATA = ADDITIONAL_PRODUCTS_DATA;
+  window.getProductById = (id) => [...PRODUCTS_DATA, ...ADDITIONAL_PRODUCTS_DATA].find(p => p.id === id || p.slug === id);
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    COMPANY_INFO,
+    PRODUCTS_DATA,
+    ADDITIONAL_PRODUCTS_DATA,
+    getProductById: (id) => [...PRODUCTS_DATA, ...ADDITIONAL_PRODUCTS_DATA].find(p => p.id === id || p.slug === id)
+  };
+}

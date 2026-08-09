@@ -929,7 +929,8 @@
           let publicFeedback = [];
 
           const loadPublicFeedback = () => {
-            fetch('http://localhost:3000/api/feedback/public')
+            const apiBase = window.location.protocol.startsWith('http') ? '' : 'http://localhost:3000';
+            fetch(`${apiBase}/api/feedback/public`)
               .then(res => {
                 if (!res.ok) throw new Error('API failure');
                 return res.json();

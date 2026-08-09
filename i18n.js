@@ -1,19 +1,18 @@
 // BHARTI GREEN TECH - i18n Core Translation Engine
 window.i18n = {
-  currentLanguage: 'en',
-  translations: {},
+  currentLanguage: (typeof localStorage !== 'undefined' && localStorage.getItem('language')) || 'en',
+  translations: (typeof window !== 'undefined' && window.TRANSLATIONS) ? window.TRANSLATIONS : {},
 
   /**
-   * Loads the specified language JSON from the translations directory.
-   * Caches in-memory to prevent multiple network hits.
+   * Loads the specified language JSON from the translations directory or memory.
    */
   async loadTranslations(lang) {
-    if (this.translations[lang]) {
+    if (this.translations && this.translations[lang]) {
       this.currentLanguage = lang;
       return this.translations[lang];
     }
 
-    if (window.TRANSLATIONS && window.TRANSLATIONS[lang]) {
+    if (typeof window !== 'undefined' && window.TRANSLATIONS && window.TRANSLATIONS[lang]) {
       this.translations[lang] = window.TRANSLATIONS[lang];
       this.currentLanguage = lang;
       return window.TRANSLATIONS[lang];
@@ -29,56 +28,60 @@ window.i18n = {
       this.currentLanguage = lang;
       return data;
     } catch (error) {
-      console.error(`i18n error loading translations for language: ${lang}`, error);
-      
-      // Fallback: If we have loaded 'en' successfully, use it as a silent fallback
-      if (this.translations['en']) {
-        console.warn(`Falling back to English cache for: ${lang}`);
+      if (typeof window !== 'undefined' && window.TRANSLATIONS && window.TRANSLATIONS[lang]) {
+        this.translations[lang] = window.TRANSLATIONS[lang];
+        this.currentLanguage = lang;
+        return window.TRANSLATIONS[lang];
+      }
+      if (this.translations && this.translations['en']) {
         this.currentLanguage = 'en';
         return this.translations['en'];
       }
-      
-      throw error;
+      return {};
     }
   },
 
   /**
-   * Resolves a key using dot-notation (e.g. "nav.home" or "products.urva-urja.benefits.0").
-   * Performs variable interpolation if parameters are provided.
+   * Resolves a key using dot-notation (e.g. "nav.home" or "products.urva-p2k2.name").
    */
   t(key, variables = {}) {
-    if (!this.translations[this.currentLanguage]) {
-      return key;
+    if (!this.translations || Object.keys(this.translations).length === 0) {
+      this.translations = (typeof window !== 'undefined' && window.TRANSLATIONS) ? window.TRANSLATIONS : {};
     }
 
+    const currentDict = (this.translations && this.translations[this.currentLanguage]) 
+                     || (typeof window !== 'undefined' && window.TRANSLATIONS && window.TRANSLATIONS[this.currentLanguage])
+                     || (typeof window !== 'undefined' && window.TRANSLATIONS && window.TRANSLATIONS['en'])
+                     || {};
+
     const keys = key.split('.');
-    let value = this.translations[this.currentLanguage];
+    let value = currentDict;
 
     for (const k of keys) {
       if (value && typeof value === 'object' && k in value) {
         value = value[k];
       } else {
-        // Fallback: check if the key exists in the English translation
-        let fallbackVal = this.translations['en'];
-        if (fallbackVal) {
-          for (const fallbackK of keys) {
-            if (fallbackVal && typeof fallbackVal === 'object' && fallbackK in fallbackVal) {
-              fallbackVal = fallbackVal[fallbackK];
-            } else {
-              fallbackVal = null;
-              break;
-            }
+        // Fallback to English dictionary
+        const enDict = (this.translations && this.translations['en']) 
+                    || (typeof window !== 'undefined' && window.TRANSLATIONS && window.TRANSLATIONS['en']) 
+                    || {};
+        let fbVal = enDict;
+        for (const fbk of keys) {
+          if (fbVal && typeof fbVal === 'object' && fbk in fbVal) {
+            fbVal = fbVal[fbk];
+          } else {
+            fbVal = null;
+            break;
           }
         }
-        if (fallbackVal !== null && fallbackVal !== undefined) {
-          value = fallbackVal;
+        if (fbVal !== null && fbVal !== undefined) {
+          value = fbVal;
           break;
         }
-        return key; // Return raw key if all fails
+        return key;
       }
     }
 
-    // Handle string variable interpolations (e.g. replacing "{count}")
     if (typeof value === 'string') {
       let text = value;
       for (const [varName, varVal] of Object.entries(variables)) {
@@ -90,3 +93,4 @@ window.i18n = {
     return value;
   }
 };
+
