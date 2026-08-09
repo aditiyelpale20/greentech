@@ -971,15 +971,12 @@
             ${priceTableHtml}
 
             <div class="product-modal-actions">
-              <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 700;">
+              <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; padding: 12px 18px;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.073-2.072-.497-1.745-.722-2.868-2.502-2.956-2.617-.086-.117-.704-.937-.704-1.789 0-.852.446-1.27.605-1.444.159-.174.346-.217.461-.217.115 0 .23 0 .331.005.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z"/></svg>
                 ${window.i18n ? window.i18n.t('whatsappInquiry') : 'WhatsApp Inquiry'}
               </a>
-              <a href="contact.html?product=${encodeURIComponent(name)}" class="btn btn-primary">
+              <a href="contact.html?product=${encodeURIComponent(name)}" class="btn btn-primary" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; padding: 12px 18px;">
                 ${window.i18n ? window.i18n.t('submitInquiry') : 'Submit Inquiry'}
-              </a>
-              <a href="product-details.html?id=${p.id}" class="btn btn-secondary">
-                ${window.i18n ? window.i18n.t('viewFullPage') : 'Full Page View'}
               </a>
             </div>
           </div>
