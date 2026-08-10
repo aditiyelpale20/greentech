@@ -155,12 +155,15 @@ header.scrolled {
 .logo-block {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  text-decoration: none;
 }
 
 .company-logo {
-  height: 48px;
+  height: 44px;
   width: auto;
+  object-fit: contain;
+  background: transparent;
 }
 
 .brand-info {
@@ -171,15 +174,15 @@ header.scrolled {
 .brand-name {
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   letter-spacing: -0.5px;
   line-height: 1.1;
-  color: var(--forest-green);
+  color: #1B5E20; /* Vibrant Leaf Green - never looks black */
 }
 
 .brand-tagline {
   font-size: 0.75rem;
-  color: var(--muted-text);
+  color: #4E6E5D;
   font-weight: 600;
   letter-spacing: 0.5px;
 }
