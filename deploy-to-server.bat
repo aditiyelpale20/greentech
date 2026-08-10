@@ -11,3 +11,6 @@ ssh -t root@64.118.137.163 "bash -c 'echo \"=== Setting up Server Dependencies =
 
 echo.
 pause
+
+
+certbot --nginx -d avya.gen.in -d www.avya.gen.in

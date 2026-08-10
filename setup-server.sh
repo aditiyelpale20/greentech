@@ -71,12 +71,12 @@ pm2 save
 env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u root --hp /root || true
 
 # 7. Configure Nginx Reverse Proxy
-echo -e "${YELLOW}[7/7] Configuring Nginx reverse proxy on Port 80...${NC}"
+echo -e "${YELLOW}[7/7] Configuring Nginx reverse proxy for avya.gen.in on Port 80...${NC}"
 cat << 'EOF' > /etc/nginx/sites-available/greentech
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    server_name _;
+    server_name avya.gen.in www.avya.gen.in 64.118.137.163 _;
 
     # Maximum upload file size
     client_max_body_size 50M;
@@ -104,6 +104,10 @@ rm -f /etc/nginx/sites-enabled/default
 nginx -t
 systemctl restart nginx
 systemctl enable nginx
+
+# Configure Automated GitHub Sync (Every 2 minutes)
+echo "   Setting up automated GitHub auto-update cron job..."
+(crontab -l 2>/dev/null | grep -v 'greentech'; echo "*/2 * * * * cd /var/www/greentech && git pull origin main && npm install --production && pm2 restart greentech > /dev/null 2>&1") | crontab -
 
 # Configure Firewall (Allow SSH, HTTP, HTTPS)
 echo "   Configuring firewall (UFW)..."

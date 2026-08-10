@@ -661,6 +661,45 @@ app.get('/api/admin/activity-log', authenticateAdmin, async (req, res) => {
   }
 });
 
+// --- GITHUB AUTO-UPDATE WEBHOOK & SYNC ENGINE ---
+const { exec } = require('child_process');
+const path = require('path');
+
+app.post('/api/webhook/github', (req, res) => {
+  console.log('[Auto-Sync] GitHub Webhook triggered! Pulling latest changes...');
+  exec('git pull origin main && npm install', { cwd: __dirname }, (error, stdout, stderr) => {
+    if (error) {
+      console.error('[Auto-Sync] Git pull error:', error);
+      return res.status(500).json({ error: 'Git pull failed', details: stderr });
+    }
+    console.log('[Auto-Sync] Successfully updated code from GitHub:\n', stdout);
+    return res.json({ message: 'Server updated successfully!', output: stdout });
+  });
+});
+
+// Helper route to trigger manual sync from browser or curl
+app.get('/api/git-sync', (req, res) => {
+  exec('git pull origin main', { cwd: __dirname }, (error, stdout, stderr) => {
+    if (error) {
+      return res.status(500).json({ error: 'Git sync error', details: stderr });
+    }
+    return res.json({ message: 'Git sync successful', output: stdout });
+  });
+});
+
+// --- CLEAN ROUTE ALIASES ---
+app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
+app.get('/products', (req, res) => res.sendFile(path.join(__dirname, 'products.html')));
+app.get('/farmer-stories', (req, res) => res.sendFile(path.join(__dirname, 'farmer-stories.html')));
+app.get('/contact', (req, res) => res.sendFile(path.join(__dirname, 'contact.html')));
+app.get('/about', (req, res) => res.sendFile(path.join(__dirname, 'about.html')));
+
+// Sub-path alias support (e.g., /bhartigreentech and /bhartigreentech/admin)
+app.get(['/bhartigreentech', '/bhartigreentech/index.html'], (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get(['/bhartigreentech/admin', '/bhartigreentech/admin.html'], (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
+app.get(['/bhartigreentech/products', '/bhartigreentech/products.html'], (req, res) => res.sendFile(path.join(__dirname, 'products.html')));
+app.get(['/bhartigreentech/farmer-stories', '/bhartigreentech/farmer-stories.html'], (req, res) => res.sendFile(path.join(__dirname, 'farmer-stories.html')));
+app.get(['/bhartigreentech/contact', '/bhartigreentech/contact.html'], (req, res) => res.sendFile(path.join(__dirname, 'contact.html')));
 
 // Start server listening
 app.listen(PORT, async () => {
@@ -676,4 +715,13 @@ app.listen(PORT, async () => {
   } catch (err) {
     console.error('Startup auto-cleanup error:', err);
   }
+
+  // Periodic Git Auto-Pull Worker (Checks GitHub for updates every 60 seconds)
+  setInterval(() => {
+    exec('git pull origin main', { cwd: __dirname }, (error, stdout, stderr) => {
+      if (!error && stdout && !stdout.includes('Already up to date')) {
+        console.log('[Auto-Sync] Detected new commits on GitHub! Auto-pulled updates:\n', stdout);
+      }
+    });
+  }, 60000);
 });
