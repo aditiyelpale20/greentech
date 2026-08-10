@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
   <title>Our Products - Bharti Green Tech | avya.gen.in</title>
   <meta name="description" content="Browse BHARTI GREEN TECH's 26 primary agricultural bio-solutions including Urva Sudarshan, Urva Urja, Urva Wilto, and additional granular ranges.">
   
@@ -10,6 +12,14 @@
   <link rel="stylesheet" href="assets/css/style.css">
   
   <style>
+    :root {
+      color-scheme: light only;
+    }
+    body {
+      background-color: #F7F6ED !important;
+      color: #17231A !important;
+    }
+    
     /* Catalog Specific Custom Styles */
     .catalog-hero {
       background: linear-gradient(135deg, rgba(18, 61, 42, 0.93) 30%, rgba(18, 61, 42, 0.7) 100%), 
@@ -173,7 +183,7 @@
     }
     
     .product-card {
-      background-color: var(--white);
+      background-color: #FFFFFF !important;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-light);
@@ -192,13 +202,14 @@
     
     .product-img-box {
       height: 220px;
-      background-color: var(--bg-cream);
+      background-color: #FFFFFF !important;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 16px;
       overflow: hidden;
       position: relative;
+      border-bottom: 1px solid var(--border-light);
     }
     
     .product-img-box img {
@@ -451,7 +462,7 @@
     </div>
 
     <!-- Primary 26-Product Catalog -->
-    <div class="reveal">
+    <div style="opacity: 1 !important; visibility: visible !important;">
       <h2 class="range-heading" data-i18n="featured.title">Primary Products Range</h2>
       <div class="products-grid" id="primaryGrid">
         <!-- Loaded dynamically via JS -->
@@ -459,7 +470,7 @@
     </div>
 
     <!-- Additional Product Range -->
-    <div class="reveal" style="margin-top: 50px;" id="additionalRangeSection">
+    <div style="margin-top: 50px; opacity: 1 !important; visibility: visible !important;" id="additionalRangeSection">
       <h2 class="range-heading" data-i18n="additionalRange">Additional Product Range</h2>
       <div class="products-grid" id="additionalGrid">
         <!-- Loaded dynamically via JS -->
