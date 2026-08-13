@@ -5,6 +5,7 @@ const INQUIRIES_PATH = path.join(__dirname, 'inquiries.json');
 const FEEDBACK_PATH = path.join(__dirname, 'feedback.json');
 const CONFIG_PATH = path.join(__dirname, 'admin_config.json');
 const ACTIVITY_LOG_PATH = path.join(__dirname, 'activity_log.json');
+const WORKS_PATH = path.join(__dirname, 'works.json');
 const BACKUPS_DIR = path.join(__dirname, 'backups');
 
 // --- DATABASE UTILITIES ---
@@ -467,6 +468,75 @@ async function cleanupExpiredTrash(days) {
   return deletedCount;
 }
 
+// --- STAFF WORK & SALARY LOGGER ---
+
+async function getWorks() {
+  await ensureFileExists(WORKS_PATH, []);
+  try {
+    const data = await fs.readFile(WORKS_PATH, 'utf-8');
+    return JSON.parse(data);
+  } catch (err) {
+    console.error('Error reading works database:', err);
+    return [];
+  }
+}
+
+async function saveWorks(works) {
+  try {
+    await fs.writeFile(WORKS_PATH, JSON.stringify(works, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error writing works database:', err);
+    throw new Error('Works database write failure');
+  }
+}
+
+async function addWork(workData) {
+  const works = await getWorks();
+  const id = Date.now().toString() + '-' + Math.random().toString(36).substr(2, 9);
+  const now = new Date().toISOString();
+  
+  const newWork = {
+    id: id,
+    workerName: workData.workerName || '',
+    workDetails: workData.workDetails || '',
+    date: workData.date || now.split('T')[0],
+    salary: parseFloat(workData.salary) || 0,
+    status: workData.status || 'Pending',
+    created_at: now,
+    updated_at: now
+  };
+  
+  works.unshift(newWork);
+  await saveWorks(works);
+  return newWork;
+}
+
+async function updateWork(id, updates) {
+  const works = await getWorks();
+  const index = works.findIndex(w => w.id === id);
+  if (index === -1) return null;
+  
+  const original = works[index];
+  const updated = {
+    ...original,
+    ...updates,
+    salary: updates.salary !== undefined ? parseFloat(updates.salary) : original.salary,
+    updated_at: new Date().toISOString()
+  };
+  
+  works[index] = updated;
+  await saveWorks(works);
+  return updated;
+}
+
+async function deleteWork(id) {
+  const works = await getWorks();
+  const filtered = works.filter(w => w.id !== id);
+  if (works.length === filtered.length) return false;
+  await saveWorks(filtered);
+  return true;
+}
+
 module.exports = {
   getInquiries,
   addInquiry,
@@ -483,5 +553,11 @@ module.exports = {
   getActivityLog,
   addActivityLogEntry,
   backupDatabaseBeforeDeletion,
-  cleanupExpiredTrash
+  cleanupExpiredTrash,
+
+  // Staff Work & Salary Logger additions
+  getWorks,
+  addWork,
+  updateWork,
+  deleteWork
 };

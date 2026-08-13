@@ -661,6 +661,72 @@ app.get('/api/admin/activity-log', authenticateAdmin, async (req, res) => {
   }
 });
 
+// --- STAFF WORKS & SALARY LOGGER ENDPOINTS ---
+app.get('/api/admin/works', authenticateAdmin, async (req, res) => {
+  try {
+    const works = await db.getWorks();
+    return res.json({
+      success: true,
+      records: works,
+      total: works.length
+    });
+  } catch (err) {
+    console.error('Error fetching admin works:', err);
+    return res.status(500).json({ error: 'Failed to fetch work log.' });
+  }
+});
+
+app.post('/api/admin/works', authenticateAdmin, async (req, res) => {
+  try {
+    const { workerName, workDetails, date, salary, status } = req.body;
+    if (!workerName) {
+      return res.status(400).json({ error: 'Worker name is required.' });
+    }
+    const newWork = await db.addWork({ workerName, workDetails, date, salary, status });
+    await db.addActivityLogEntry(req.adminUser, 'Work Record Created', 'work', newWork.id, '', `Added work record for ${workerName}`);
+    return res.json({ success: true, message: 'Work record created successfully.', record: newWork });
+  } catch (err) {
+    console.error('Error creating work record:', err);
+    return res.status(500).json({ error: 'Failed to create work record.' });
+  }
+});
+
+app.patch('/api/admin/works/:id', authenticateAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+    const updated = await db.updateWork(id, updates);
+    if (!updated) {
+      return res.status(404).json({ error: 'Work record not found.' });
+    }
+    await db.addActivityLogEntry(req.adminUser, 'Work Record Updated', 'work', id, '', `Updated work record for ${updated.workerName}`);
+    return res.json({ success: true, message: 'Work record updated successfully.', record: updated });
+  } catch (err) {
+    console.error('Error updating work record:', err);
+    return res.status(500).json({ error: 'Failed to update work record.' });
+  }
+});
+
+app.delete('/api/admin/works/:id', authenticateAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const works = await db.getWorks();
+    const workItem = works.find(w => w.id === id);
+    if (!workItem) {
+      return res.status(404).json({ error: 'Work record not found.' });
+    }
+    const success = await db.deleteWork(id);
+    if (success) {
+      await db.addActivityLogEntry(req.adminUser, 'Work Record Deleted', 'work', id, '', `Deleted work record for ${workItem.workerName}`);
+      return res.json({ success: true, message: 'Work record deleted successfully.' });
+    }
+    return res.status(500).json({ error: 'Failed to delete work record.' });
+  } catch (err) {
+    console.error('Error deleting work record:', err);
+    return res.status(500).json({ error: 'Failed to delete work record.' });
+  }
+});
+
 // --- GITHUB AUTO-UPDATE WEBHOOK & SYNC ENGINE ---
 const { exec } = require('child_process');
 const path = require('path');

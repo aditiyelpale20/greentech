@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="/">
   <title>Bharti Green Tech - Admin | avya.gen.in</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -812,6 +813,48 @@
     </div>
   </div>
 
+  <!-- Work Add/Edit Modal -->
+  <div class="loading-overlay" id="workModal" style="display: none; background-color: rgba(0,0,0,0.5); z-index: 1000;">
+    <div style="background: var(--white); padding: 30px; border-radius: var(--radius); max-width: 500px; width: 95%; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 15px;">
+      <h3 style="font-family:'Outfit'; color: var(--forest-green);" id="workModalTitle" data-admin-i18n="worksPanel.modalAddTitle">Add New Work Record</h3>
+      
+      <input type="hidden" id="workModalId">
+      
+      <div class="form-group">
+        <label for="workWorkerName" data-admin-i18n="worksPanel.workerNameLabel">Worker Name</label>
+        <input type="text" id="workWorkerName" required style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); outline: none;">
+      </div>
+      
+      <div class="form-group">
+        <label for="workDate" data-admin-i18n="worksPanel.dateLabel">Date of Work</label>
+        <input type="date" id="workDate" required style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); outline: none;">
+      </div>
+      
+      <div class="form-group">
+        <label for="workDetails" data-admin-i18n="worksPanel.taskLabel">Task / Work Details</label>
+        <textarea id="workDetails" rows="3" required style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); outline: none; font-family: inherit; resize: vertical;"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="workSalary" data-admin-i18n="worksPanel.salaryLabel">Salary / Wages (₹)</label>
+        <input type="number" id="workSalary" min="0" step="any" required style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); outline: none;">
+      </div>
+      
+      <div class="form-group">
+        <label for="workStatus" data-admin-i18n="worksPanel.statusLabel">Payment Status</label>
+        <select id="workStatus" style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); outline: none; cursor: pointer;">
+          <option value="Paid">Paid</option>
+          <option value="Pending">Pending</option>
+        </select>
+      </div>
+      
+      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px;">
+        <button class="btn-cancel" style="padding: 8px 16px; border-radius: var(--radius-sm); background: #ECEFF1; border: none; font-weight: 600; cursor: pointer;" onclick="closeWorkModal()" data-admin-i18n="actions.cancel">Cancel</button>
+        <button class="btn-save" style="background-color: var(--primary-green); color: var(--white); padding: 8px 16px; border-radius: var(--radius-sm); border: none; font-weight: 600; cursor: pointer;" onclick="saveWorkRecord()" data-admin-i18n="worksPanel.saveBtn">Save Record</button>
+      </div>
+    </div>
+  </div>
+
   <!-- 1. LOGIN CONTAINER -->
   <div class="login-container" id="loginContainer">
     <div class="login-logo">
@@ -864,10 +907,10 @@
         <!-- Dynamically rendered -->
       </div>
 
-      <!-- Mode Selector Tabs -->
       <div class="section-tabs">
         <button class="section-tab-btn active" id="tabFeedbackBtn" onclick="switchTab('feedback')" data-admin-i18n="tabs.feedback">Feedback Management</button>
         <button class="section-tab-btn" id="tabInquiriesBtn" onclick="switchTab('inquiries')" data-admin-i18n="tabs.inquiries">Inquiry Management</button>
+        <button class="section-tab-btn" id="tabWorksBtn" onclick="switchTab('works')" data-admin-i18n="tabs.works">Work & Salary Tracker</button>
         <button class="section-tab-btn" id="tabTrashBtn" onclick="switchTab('trash')" data-admin-i18n="tabs.trash">Trash Bin</button>
         <button class="section-tab-btn" id="tabActivityLogBtn" onclick="switchTab('activityLog')" data-admin-i18n="tabs.activityLog">Activity Log</button>
         <button class="section-tab-btn" id="tabSettingsBtn" onclick="switchTab('settings')" data-admin-i18n="tabs.settings">Settings</button>
@@ -997,6 +1040,41 @@
         </div>
       </div>
 
+      <!-- WORKS MANAGEMENT TAB PANEL -->
+      <div id="panelWorks" style="display: none;">
+        <div class="controls-panel">
+          <div class="search-box-container">
+            <div class="search-box">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="worksSearch" data-admin-i18n-placeholder="worksPanel.searchPlaceholder" placeholder="Search by worker name, task details, status...">
+            </div>
+            <button class="btn-logout" style="background-color: var(--soil-brown); min-width: 200px;" onclick="exportWorksToCsv()" data-admin-i18n="worksPanel.exportBtn">Download Excel (CSV)</button>
+            <button class="btn-logout" style="background-color: var(--primary-green); min-width: 200px;" onclick="openWorkModal()" data-admin-i18n="worksPanel.addBtn">Add Work Record</button>
+          </div>
+        </div>
+
+        <div style="background: var(--white); border-radius: var(--radius); padding: 25px; box-shadow: var(--shadow); border: 1px solid var(--border-light); overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left;" id="worksTable">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-light); font-family: 'Outfit'; color: var(--forest-green); font-weight: 700;">
+                <th style="padding: 12px 10px;" data-admin-i18n="worksPanel.tableWorker">Worker Name</th>
+                <th style="padding: 12px 10px;" data-admin-i18n="worksPanel.tableDate">Date</th>
+                <th style="padding: 12px 10px;" data-admin-i18n="worksPanel.tableTask">Task Details</th>
+                <th style="padding: 12px 10px;" data-admin-i18n="worksPanel.tableSalary">Salary (₹)</th>
+                <th style="padding: 12px 10px;" data-admin-i18n="worksPanel.tableStatus">Payment Status</th>
+                <th style="padding: 12px 10px; text-align: right;" data-admin-i18n="worksPanel.tableActions">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="worksTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- Shared Empty state placeholder -->
       <div class="empty-state" id="emptyState" style="display: none;">
         <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -1029,20 +1107,23 @@
   <script>
     // State variables
     let token = localStorage.getItem('adminToken') || '';
-    let currentTab = 'feedback'; // 'feedback', 'inquiries', 'trash', 'activityLog', 'settings'
+    let currentTab = 'feedback'; // 'feedback', 'inquiries', 'works', 'trash', 'activityLog', 'settings'
     let feedbackList = [];
     let inquiriesList = [];
+    let worksList = [];
     let activityLogs = [];
     
     let fbFilter = 'all'; // Starts as lowercase default
     let fbSearch = '';
     let inqFilter = 'all'; // Starts as lowercase default
     let inqSearch = '';
+    let worksSearch = '';
     let trashFilter = 'all'; // Starts as lowercase default
 
     // API success check variables for specific empty states
     let apiFeedbackSuccess = true;
     let apiInquiriesSuccess = true;
+    let apiWorksSuccess = true;
     let apiActivitySuccess = true;
 
     // Bulk selection tracking
@@ -1186,12 +1267,14 @@
       currentTab = tab;
       document.getElementById('tabFeedbackBtn').classList.toggle('active', tab === 'feedback');
       document.getElementById('tabInquiriesBtn').classList.toggle('active', tab === 'inquiries');
+      document.getElementById('tabWorksBtn').classList.toggle('active', tab === 'works');
       document.getElementById('tabTrashBtn').classList.toggle('active', tab === 'trash');
       document.getElementById('tabActivityLogBtn').classList.toggle('active', tab === 'activityLog');
       document.getElementById('tabSettingsBtn').classList.toggle('active', tab === 'settings');
 
       document.getElementById('panelFeedback').style.display = tab === 'feedback' ? 'block' : 'none';
       document.getElementById('panelInquiries').style.display = tab === 'inquiries' ? 'block' : 'none';
+      document.getElementById('panelWorks').style.display = tab === 'works' ? 'block' : 'none';
       document.getElementById('panelTrash').style.display = tab === 'trash' ? 'block' : 'none';
       document.getElementById('panelActivityLog').style.display = tab === 'activityLog' ? 'block' : 'none';
       document.getElementById('panelSettings').style.display = tab === 'settings' ? 'block' : 'none';
@@ -1218,6 +1301,7 @@
       // Clear search fields if only spaces
       const fbSearchField = document.getElementById('feedbackSearch');
       const inqSearchField = document.getElementById('inquiriesSearch');
+      const worksSearchField = document.getElementById('worksSearch');
       if (fbSearchField && (!fbSearchField.value || !fbSearchField.value.trim())) {
         fbSearchField.value = '';
         fbSearch = '';
@@ -1225,6 +1309,10 @@
       if (inqSearchField && (!inqSearchField.value || !inqSearchField.value.trim())) {
         inqSearchField.value = '';
         inqSearch = '';
+      }
+      if (worksSearchField && (!worksSearchField.value || !worksSearchField.value.trim())) {
+        worksSearchField.value = '';
+        worksSearch = '';
       }
       
       // Load specific tab datasets
@@ -1308,6 +1396,21 @@
           } catch (err) {
             console.error("Failed to load inquiries:", err);
             apiInquiriesSuccess = false;
+          }
+        // Fetch active Works
+        if (currentTab === 'works') {
+          try {
+            const worksRes = await fetch(`${API_BASE}/admin/works`, {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!handleApiError(worksRes)) {
+              const data = await worksRes.json();
+              worksList = data.records || [];
+              apiWorksSuccess = true;
+            }
+          } catch (err) {
+            console.error("Failed to load works:", err);
+            apiWorksSuccess = false;
           }
         }
 
@@ -1681,6 +1784,58 @@
             </div>
           `;
           grid.appendChild(card);
+        });
+      }
+      // STAFF WORKS TAB
+      else if (currentTab === 'works') {
+        const tableBody = document.getElementById('worksTableBody');
+        tableBody.innerHTML = '';
+
+        const filtered = worksList.filter(w => {
+          const sQuery = worksSearch.toLowerCase();
+          return w.workerName.toLowerCase().includes(sQuery) ||
+                 w.workDetails.toLowerCase().includes(sQuery) ||
+                 w.status.toLowerCase().includes(sQuery) ||
+                 w.date.includes(sQuery);
+        });
+
+        if (!apiWorksSuccess) {
+          document.getElementById('emptyStateText').textContent = "Unable to load work log. Please try again.";
+          emptyState.style.display = 'block';
+          return;
+        } else if (worksList.length === 0) {
+          document.getElementById('emptyStateText').textContent = "No work records have been logged yet.";
+          emptyState.style.display = 'block';
+          return;
+        } else if (filtered.length === 0) {
+          document.getElementById('emptyStateText').textContent = "No work records match your search.";
+          emptyState.style.display = 'block';
+          return;
+        }
+
+        filtered.forEach(w => {
+          const row = document.createElement('tr');
+          row.style.borderBottom = '1px solid var(--border-light)';
+          
+          const statusClass = w.status === 'Paid' ? 'status-approved' : 'status-pending';
+          const quickStatusAction = w.status === 'Paid' ? 'Pending' : 'Paid';
+
+          row.innerHTML = `
+            <td style="padding: 12px 10px; font-weight: 600; color: var(--forest-green);">${w.workerName}</td>
+            <td style="padding: 12px 10px; color: var(--text-dark);">${w.date}</td>
+            <td style="padding: 12px 10px; color: var(--text-muted); max-width: 400px; white-space: normal; word-wrap: break-word;">${w.workDetails}</td>
+            <td style="padding: 12px 10px; font-weight: 700; color: var(--primary-green);">₹${parseFloat(w.salary).toFixed(2)}</td>
+            <td style="padding: 12px 10px;">
+              <button onclick="quickToggleWorkStatus('${w.id}', '${quickStatusAction}')" class="badge ${statusClass}" style="border: none; cursor: pointer; padding: 4px 10px; font-weight: 700; border-radius: var(--radius-sm);">
+                ${w.status} 🔄
+              </button>
+            </td>
+            <td style="padding: 12px 10px; text-align: right;">
+              <button class="btn-action btn-edit" style="margin-right: 5px;" onclick="openWorkModal('${w.id}')">${t('actions.edit')}</button>
+              <button class="btn-action btn-delete" onclick="deleteWorkRecord('${w.id}')">${t('actions.delete')}</button>
+            </td>
+          `;
+          tableBody.appendChild(row);
         });
       }
       // TRASH BIN TAB
@@ -2343,6 +2498,192 @@
         renderData();
       });
     });
+
+    // --- STAFF WORKS FUNCTIONS ---
+    function openWorkModal(id = null) {
+      const modal = document.getElementById('workModal');
+      const title = document.getElementById('workModalTitle');
+      const modalId = document.getElementById('workModalId');
+      const workerName = document.getElementById('workWorkerName');
+      const date = document.getElementById('workDate');
+      const details = document.getElementById('workDetails');
+      const salary = document.getElementById('workSalary');
+      const status = document.getElementById('workStatus');
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+
+      if (id) {
+        // Edit mode
+        const item = worksList.find(w => w.id === id);
+        if (!item) return;
+        
+        title.textContent = t('worksPanel.modalEditTitle');
+        modalId.value = item.id;
+        workerName.value = item.workerName;
+        date.value = item.date;
+        details.value = item.workDetails;
+        salary.value = item.salary;
+        status.value = item.status;
+      } else {
+        // Add mode
+        title.textContent = t('worksPanel.modalAddTitle');
+        modalId.value = '';
+        workerName.value = '';
+        date.value = new Date().toISOString().split('T')[0];
+        details.value = '';
+        salary.value = '';
+        status.value = 'Pending';
+      }
+      modal.style.display = 'flex';
+    }
+
+    function closeWorkModal() {
+      document.getElementById('workModal').style.display = 'none';
+    }
+
+    async function saveWorkRecord() {
+      const id = document.getElementById('workModalId').value;
+      const workerName = document.getElementById('workWorkerName').value.trim();
+      const date = document.getElementById('workDate').value;
+      const workDetails = document.getElementById('workDetails').value.trim();
+      const salary = parseFloat(document.getElementById('workSalary').value);
+      const status = document.getElementById('workStatus').value;
+
+      if (!workerName || !date || !workDetails || isNaN(salary)) {
+        alert('All fields are required.');
+        return;
+      }
+
+      showLoading();
+      try {
+        const url = id ? `${API_BASE}/admin/works/${id}` : `${API_BASE}/admin/works`;
+        const method = id ? 'PATCH' : 'POST';
+        const response = await fetch(url, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ workerName, date, workDetails, salary, status })
+        });
+
+        if (handleApiError(response)) return;
+
+        if (response.ok) {
+          closeWorkModal();
+          await loadDashboardData();
+        } else {
+          const errData = await response.json();
+          alert(errData.error || 'Failed to save record.');
+        }
+      } catch (err) {
+        console.error('Error saving work record:', err);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    async function deleteWorkRecord(id) {
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+      const confirmText = t('worksPanel.deleteConfirm');
+      if (!confirm(confirmText)) return;
+
+      showLoading();
+      try {
+        const response = await fetch(`${API_BASE}/admin/works/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (handleApiError(response)) return;
+
+        if (response.ok) {
+          await loadDashboardData();
+        } else {
+          alert('Failed to delete work record.');
+        }
+      } catch (err) {
+        console.error('Error deleting work record:', err);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    async function quickToggleWorkStatus(id, newStatus) {
+      showLoading();
+      try {
+        const response = await fetch(`${API_BASE}/admin/works/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ status: newStatus })
+        });
+
+        if (handleApiError(response)) return;
+
+        if (response.ok) {
+          await loadDashboardData();
+        } else {
+          alert('Failed to update status.');
+        }
+      } catch (err) {
+        console.error('Error toggling status:', err);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function exportWorksToCsv() {
+      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
+      const filtered = worksList.filter(w => {
+        const sQuery = worksSearch.toLowerCase();
+        return w.workerName.toLowerCase().includes(sQuery) ||
+               w.workDetails.toLowerCase().includes(sQuery) ||
+               w.status.toLowerCase().includes(sQuery) ||
+               w.date.includes(sQuery);
+      });
+
+      if (filtered.length === 0) {
+        alert('No work records available to export.');
+        return;
+      }
+
+      const headers = ['ID', 'Worker Name', 'Date of Work', 'Work / Task Details', 'Salary / Wages (INR)', 'Payment Status', 'Created At'];
+      const rows = [headers];
+
+      filtered.forEach(w => {
+        rows.push([
+          w.id,
+          w.workerName,
+          w.date,
+          w.workDetails.replace(/\n/g, ' ').replace(/"/g, '""'),
+          w.salary,
+          w.status,
+          w.created_at
+        ]);
+      });
+
+      const csvString = rows.map(e => e.map(val => `"${String(val).replace(/"/g, '""')}"`).join(",")).join("\n");
+      
+      const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `staff_works_salary_export_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Works search
+    const worksSearchInput = document.getElementById('worksSearch');
+    if (worksSearchInput) {
+      worksSearchInput.addEventListener('input', (e) => {
+        worksSearch = e.target.value.toLowerCase().trim();
+        renderData();
+      });
+    }
   </script>
 </body>
 </html>

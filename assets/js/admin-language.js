@@ -1,6 +1,10 @@
 // BHARTI GREEN TECH - Admin Language Manager
 (function() {
-  let activeLang = localStorage.getItem('adminLanguage') || 'en';
+  let rawLang = localStorage.getItem('adminLanguage') || navigator.language || 'en';
+  let activeLang = rawLang.split('-')[0].toLowerCase();
+  if (!['en', 'hi', 'mr'].includes(activeLang)) {
+    activeLang = 'en';
+  }
 
   const adminI18n = {
     get currentLanguage() {
@@ -60,9 +64,10 @@
 
     // Update active language and notify
     changeLanguage(lang) {
+      lang = lang.split('-')[0].toLowerCase();
       const validLangs = ['en', 'hi', 'mr'];
       if (!validLangs.includes(lang)) {
-        return;
+        lang = 'en';
       }
       activeLang = lang;
       localStorage.setItem('adminLanguage', lang);
