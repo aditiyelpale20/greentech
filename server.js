@@ -727,6 +727,32 @@ app.delete('/api/admin/works/:id', authenticateAdmin, async (req, res) => {
   }
 });
 
+// POST: Force Sync & Restart Server (Admin Only)
+app.post('/api/admin/server-sync', authenticateAdmin, async (req, res) => {
+  console.log(`[Auto-Sync] Force sync triggered by admin: ${req.adminUser}`);
+  try {
+    // Add entry to activity logs
+    await db.addActivityLogEntry(req.adminUser, 'SERVER SYNC TRIGGERED', 'config', 'server', 'N/A', 'Triggered force git sync & process reload');
+
+    // Send response first so connection doesn't hang
+    res.json({ success: true, message: 'Server sync triggered successfully.' });
+
+    // Execute the force reset and PM2 restart
+    setTimeout(() => {
+      exec('git fetch origin && git reset --hard origin/main && npm install && pm2 restart greentech', { cwd: __dirname }, (error, stdout, stderr) => {
+        if (error) {
+          console.error('[Auto-Sync] Force sync error:', error);
+        } else {
+          console.log('[Auto-Sync] Force sync and restart complete:\n', stdout);
+        }
+      });
+    }, 1000);
+  } catch (err) {
+    console.error('Server sync trigger error:', err);
+    res.status(500).json({ error: 'Failed to trigger server sync.' });
+  }
+});
+
 // --- GITHUB AUTO-UPDATE WEBHOOK & SYNC ENGINE ---
 const { exec } = require('child_process');
 const path = require('path');
