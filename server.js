@@ -739,7 +739,14 @@ app.post('/api/webhook/github', (req, res) => {
       return res.status(500).json({ error: 'Git pull failed', details: stderr });
     }
     console.log('[Auto-Sync] Successfully updated code from GitHub:\n', stdout);
-    return res.json({ message: 'Server updated successfully!', output: stdout });
+    
+    // Auto-restart PM2 process
+    exec('pm2 restart greentech', { cwd: __dirname }, (errRestart) => {
+      if (errRestart) console.error('[Auto-Sync] PM2 restart error:', errRestart);
+      else console.log('[Auto-Sync] PM2 process restarted successfully.');
+    });
+
+    return res.json({ message: 'Server updated and restarted successfully!', output: stdout });
   });
 });
 
@@ -749,7 +756,13 @@ app.get('/api/git-sync', (req, res) => {
     if (error) {
       return res.status(500).json({ error: 'Git sync error', details: stderr });
     }
-    return res.json({ message: 'Git sync successful', output: stdout });
+    
+    exec('pm2 restart greentech', { cwd: __dirname }, (errRestart) => {
+      if (errRestart) console.error('[Auto-Sync] PM2 restart error:', errRestart);
+      else console.log('[Auto-Sync] PM2 process restarted successfully.');
+    });
+
+    return res.json({ message: 'Git sync and server restart successful', output: stdout });
   });
 });
 
@@ -787,6 +800,11 @@ app.listen(PORT, async () => {
     exec('git pull origin main', { cwd: __dirname }, (error, stdout, stderr) => {
       if (!error && stdout && !stdout.includes('Already up to date')) {
         console.log('[Auto-Sync] Detected new commits on GitHub! Auto-pulled updates:\n', stdout);
+        
+        exec('pm2 restart greentech', { cwd: __dirname }, (errRestart) => {
+          if (errRestart) console.error('[Auto-Sync] PM2 restart error:', errRestart);
+          else console.log('[Auto-Sync] PM2 process restarted successfully.');
+        });
       }
     });
   }, 60000);
