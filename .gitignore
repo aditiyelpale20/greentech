@@ -10,3 +10,12 @@ Thumbs.db
 backups/*_backup_*.json
 CVS/
 .svn/
+
+# Local Database Files
+activity_log.json
+works.json
+feedback.json
+inquiries.json
+admin_config.json
+backups/*.json
+
