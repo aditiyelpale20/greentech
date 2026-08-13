@@ -732,37 +732,42 @@ const { exec } = require('child_process');
 const path = require('path');
 
 app.post('/api/webhook/github', (req, res) => {
-  console.log('[Auto-Sync] GitHub Webhook triggered! Pulling latest changes...');
-  exec('git pull origin main && npm install', { cwd: __dirname }, (error, stdout, stderr) => {
+  console.log('[Auto-Sync] GitHub Webhook triggered! Force syncing with origin/main...');
+  // Use fetch + reset --hard + clean so it ALWAYS succeeds even if server has local conflicts
+  const syncCmd = 'git fetch origin && git reset --hard origin/main && git clean -fd && npm install';
+  exec(syncCmd, { cwd: __dirname }, (error, stdout, stderr) => {
     if (error) {
-      console.error('[Auto-Sync] Git pull error:', error);
-      return res.status(500).json({ error: 'Git pull failed', details: stderr });
+      console.error('[Auto-Sync] Sync error:', error);
+      return res.status(500).json({ error: 'Sync failed', details: stderr });
     }
-    console.log('[Auto-Sync] Successfully updated code from GitHub:\n', stdout);
-    
-    // Auto-restart PM2 process
-    exec('pm2 restart greentech', { cwd: __dirname }, (errRestart) => {
-      if (errRestart) console.error('[Auto-Sync] PM2 restart error:', errRestart);
-      else console.log('[Auto-Sync] PM2 process restarted successfully.');
-    });
+    console.log('[Auto-Sync] Code synced successfully:\n', stdout);
 
-    return res.json({ message: 'Server updated and restarted successfully!', output: stdout });
+    // Respond first, then restart PM2 so response is not lost
+    res.json({ message: 'Server synced and restarting!', output: stdout });
+
+    setTimeout(() => {
+      exec('pm2 restart greentech', { cwd: __dirname }, (errRestart) => {
+        if (errRestart) console.error('[Auto-Sync] PM2 restart error:', errRestart);
+        else console.log('[Auto-Sync] PM2 process restarted successfully.');
+      });
+    }, 500);
   });
 });
 
-// Helper route to trigger manual sync from browser or curl
+// Helper route to trigger manual sync from browser (open in browser to force sync)
 app.get('/api/git-sync', (req, res) => {
-  exec('git pull origin main', { cwd: __dirname }, (error, stdout, stderr) => {
+  const syncCmd = 'git fetch origin && git reset --hard origin/main && git clean -fd && npm install';
+  exec(syncCmd, { cwd: __dirname }, (error, stdout, stderr) => {
     if (error) {
       return res.status(500).json({ error: 'Git sync error', details: stderr });
     }
-    
-    exec('pm2 restart greentech', { cwd: __dirname }, (errRestart) => {
-      if (errRestart) console.error('[Auto-Sync] PM2 restart error:', errRestart);
-      else console.log('[Auto-Sync] PM2 process restarted successfully.');
-    });
-
-    return res.json({ message: 'Git sync and server restart successful', output: stdout });
+    res.json({ message: 'Git sync successful! Server restarting...', output: stdout });
+    setTimeout(() => {
+      exec('pm2 restart greentech', { cwd: __dirname }, (errRestart) => {
+        if (errRestart) console.error('[Auto-Sync] PM2 restart error:', errRestart);
+        else console.log('[Auto-Sync] PM2 process restarted successfully.');
+      });
+    }, 500);
   });
 });
 
