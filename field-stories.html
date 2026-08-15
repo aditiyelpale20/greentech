@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="/">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <title>Field Stories | Bharti Green Tech</title>
+  <meta name="description" content="Explore farmer stories, field experiences, crop journeys, agricultural insights and real moments from Bharti Green Tech.">
+  <meta name="keywords" content="Bharti Green Tech field stories, farmer experiences, crop journey, agricultural stories, field results, farming tips">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- i18n -->
+  <script src="translations.js"></script>
+  <script src="i18n.js"></script>
+  <script src="languageManager.js"></script>
+
+  <style>
+    /* =============================================
+       FIELD STORIES — PAGE-SPECIFIC STYLES
+       Follows Bharti Green Tech design system exactly
+    ============================================= */
+
+    /* --- HERO --- */
+    .fs-hero {
+      position: relative;
+      background: linear-gradient(160deg, rgba(18,61,42,0.97) 0%, rgba(46,125,50,0.85) 60%, rgba(18,61,42,0.92) 100%),
+                  url('assets/images/hero-bg.png') center/cover no-repeat;
+      padding: 160px 0 110px;
+      color: var(--white);
+      min-height: 88vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .fs-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 80% 50%, rgba(167,217,72,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .fs-hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+    }
+    .fs-hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(167,217,72,0.12);
+      border: 1px solid rgba(167,217,72,0.25);
+      padding: 7px 18px;
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--lime-accent);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .fs-hero h1 {
+      color: var(--white);
+      font-size: 3.6rem;
+      font-weight: 800;
+      line-height: 1.08;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+    .fs-hero h1 span { color: var(--lime-accent); }
+    .fs-hero-sub {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 18px;
+      letter-spacing: 0.3px;
+    }
+    .fs-hero-desc {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.75;
+      margin-bottom: 38px;
+      max-width: 530px;
+    }
+    .fs-hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .fs-hero-stats {
+      display: flex;
+      gap: 35px;
+      margin-top: 45px;
+      flex-wrap: wrap;
+    }
+    .fs-hero-stat-item { text-align: left; }
+    .fs-hero-stat-num {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--lime-accent);
+      line-height: 1;
+    }
+    .fs-hero-stat-label {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+    /* Hero Visual Panel */
+    .fs-hero-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: float 6s ease-in-out infinite;
+    }
+    .fs-hero-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .fs-hero-card-icon {
+      width: 46px; height: 46px;
+      background: rgba(167,217,72,0.15);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .fs-hero-card h4 {
+      color: var(--white);
+      font-size: 0.95rem;
+      margin-bottom: 2px;
+    }
+    .fs-hero-card p {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.8rem;
+    }
+
+    /* --- STORY HIGHLIGHTS (Circular Stories) --- */
+    .fs-highlights {
+      padding: 60px 0 50px;
+      background: var(--white);
+      overflow: hidden;
+    }
+    .fs-highlights-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 35px;
+    }
+    .fs-highlights-header h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--forest-green);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .fs-stories-scroll {
+      display: flex;
+      gap: 22px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+    .fs-stories-scroll::-webkit-scrollbar { display: none; }
+    .fs-story-item {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      scroll-snap-align: start;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .fs-story-item:hover { transform: translateY(-4px); }
+    .fs-story-ring {
+      width: 78px; height: 78px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--lime-accent), var(--leaf-green), var(--primary-green));
+      transition: var(--transition);
+    }
+    .fs-story-item:hover .fs-story-ring {
+      box-shadow: 0 0 0 4px rgba(101,168,68,0.2);
+    }
+    .fs-story-img {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--white);
+      background: var(--bg-cream);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      overflow: hidden;
+    }
+    .fs-story-img-placeholder {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      border: 3px solid var(--white);
+      background: linear-gradient(135deg, var(--bg-cream), #e8f5e9);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+    }
+    .fs-story-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--forest-green);
+      text-align: center;
+      max-width: 80px;
+      line-height: 1.3;
+    }
+
+    /* Story Viewer Lightbox */
+    .fs-story-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.35s ease;
+    }
+    .fs-story-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .fs-story-viewer {
+      width: 380px;
+      max-width: 95vw;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+    }
+    .fs-story-progress {
+      display: flex;
+      gap: 4px;
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 50px;
+      z-index: 10;
+    }
+    .fs-story-progress-bar {
+      height: 3px;
+      flex: 1;
+      background: rgba(255,255,255,0.3);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .fs-story-progress-bar.active { background: var(--lime-accent); }
+    .fs-story-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px; height: 36px;
+      background: rgba(0,0,0,0.4);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      z-index: 10;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .fs-story-media {
+      width: 100%;
+      aspect-ratio: 9/14;
+      object-fit: cover;
+      background: linear-gradient(135deg, var(--forest-green), var(--primary-green));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+    }
+    .fs-story-caption {
+      padding: 18px;
+      background: var(--white);
+    }
+    .fs-story-caption h4 { font-size: 1rem; margin-bottom: 6px; color: var(--forest-green); }
+    .fs-story-caption p { font-size: 0.88rem; color: var(--muted-text); line-height: 1.6; }
+    .fs-story-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px; height: 60px;
+      background: rgba(0,0,0,0.3);
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .fs-story-nav.prev { left: 0; border-radius: 0 8px 8px 0; }
+    .fs-story-nav.next { right: 0; border-radius: 8px 0 0 8px; }
+
+    /* --- CATEGORY FILTERS --- */
+    .fs-filters {
+      padding: 32px 0;
+      background: var(--bg-cream);
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 85px;
+      z-index: 100;
+    }
+    .fs-filter-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+    .fs-filter-scroll::-webkit-scrollbar { display: none; }
+    .fs-filter-btn {
+      padding: 9px 20px;
+      border-radius: var(--radius-full);
+      border: 2px solid var(--border-light);
+      background: var(--white);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--muted-text);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .fs-filter-btn:hover, .fs-filter-btn.active {
+      background: var(--primary-green);
+      color: var(--white);
+      border-color: var(--primary-green);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(46,125,50,0.2);
+    }
+
+    /* --- FEATURED STORY --- */
+    .fs-featured {
+      padding: 80px 0;
+      background: var(--white);
+    }
+    .fs-featured-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+    .fs-featured-img-wrap {
+      position: relative;
+      border-radius: var(--radius-leaf-1);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      box-shadow: var(--shadow-lg);
+    }
+    .fs-featured-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .fs-featured-img-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--forest-green), var(--primary-green));
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      gap: 14px;
+      color: white;
+      font-size: 4rem;
+    }
+    .fs-featured-badge {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: var(--lime-accent);
+      color: var(--forest-green);
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .fs-featured-content { padding: 10px 0; }
+    .fs-featured-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 18px 0 25px;
+    }
+    .fs-featured-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--muted-text);
+      font-weight: 600;
+    }
+    .fs-featured-meta-item span { font-size: 1rem; }
+    .fs-featured-story-text {
+      font-size: 1.05rem;
+      color: var(--muted-text);
+      line-height: 1.8;
+      border-left: 4px solid var(--lime-accent);
+      padding-left: 20px;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+
+    /* --- MAIN FEED --- */
+    .fs-feed {
+      padding: 70px 0;
+      background: var(--bg-cream);
+    }
+    .fs-feed-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+    }
+    .fs-post-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .fs-post-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+    }
+    .fs-post-card.hidden { display: none; }
+    .fs-post-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 18px 12px;
+    }
+    .fs-post-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .fs-post-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--leaf-green), var(--lime-accent));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .fs-post-name {
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--forest-green);
+    }
+    .fs-post-loc {
+      font-size: 0.75rem;
+      color: var(--muted-text);
+      display: flex; align-items: center; gap: 3px;
+    }
+    .fs-post-more {
+      width: 30px; height: 30px;
+      border: none; background: transparent;
+      cursor: pointer;
+      color: var(--muted-text);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+    .fs-post-more:hover { background: var(--bg-cream); }
+    .fs-post-media {
+      width: 100%;
+      aspect-ratio: 4/3;
+      position: relative;
+      overflow: hidden;
+    }
+    .fs-post-media img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .fs-post-card:hover .fs-post-media img { transform: scale(1.04); }
+    .fs-post-media-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    .fs-post-cat-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--forest-green);
+      color: var(--white);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    /* Video overlay */
+    .fs-post-video-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.25);
+    }
+    .fs-play-btn {
+      width: 54px; height: 54px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--forest-green);
+      font-size: 1.3rem;
+      transition: var(--transition);
+    }
+    .fs-post-card:hover .fs-play-btn {
+      background: var(--white);
+      transform: scale(1.1);
+    }
+    .fs-post-actions {
+      display: flex;
+      align-items: center;
+      padding: 12px 18px 8px;
+      gap: 4px;
+    }
+    .fs-action-btn {
+      border: none; background: transparent;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; gap: 5px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted-text);
+      transition: var(--transition);
+    }
+    .fs-action-btn:hover { background: var(--bg-cream); color: var(--forest-green); }
+    .fs-action-btn.liked { color: #e53935; }
+    .fs-action-btn svg { width: 20px; height: 20px; }
+    .fs-action-save { margin-left: auto; }
+    .fs-post-body { padding: 4px 18px 18px; }
+    .fs-post-likes {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--forest-green);
+      margin-bottom: 6px;
+    }
+    .fs-post-caption {
+      font-size: 0.88rem;
+      color: var(--dark-text);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    .fs-post-caption strong { color: var(--forest-green); }
+    .fs-post-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .fs-tag {
+      font-size: 0.75rem;
+      color: var(--primary-green);
+      font-weight: 700;
+    }
+    .fs-post-time {
+      font-size: 0.74rem;
+      color: var(--muted-text);
+      font-weight: 500;
+    }
+
+    /* Field Data Card inside posts */
+    .fs-field-data {
+      background: linear-gradient(135deg, #f1f8e9, var(--bg-cream));
+      border: 1px solid #c8e6c9;
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin: 10px 0;
+    }
+    .fs-field-data-title {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--leaf-green);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .fs-field-data-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      padding: 3px 0;
+      border-bottom: 1px solid rgba(200,230,201,0.4);
+    }
+    .fs-field-data-row:last-child { border-bottom: none; }
+    .fs-field-data-key { color: var(--muted-text); font-weight: 600; }
+    .fs-field-data-val { color: var(--forest-green); font-weight: 700; }
+
+    /* Field Result post type */
+    .fs-result-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid var(--border-light);
+      transition: var(--transition);
+    }
+    .fs-result-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--leaf-green);
+    }
+    .fs-result-header {
+      padding: 16px 18px 12px;
+      background: linear-gradient(135deg, var(--forest-green), var(--primary-green));
+      color: white;
+    }
+    .fs-result-badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--lime-accent);
+      margin-bottom: 4px;
+    }
+    .fs-result-header h4 { color: white; font-size: 1rem; }
+    .fs-result-header p { color: rgba(255,255,255,0.7); font-size: 0.8rem; margin-top: 2px; }
+    .fs-result-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .fs-result-img-box {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: var(--bg-cream);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem;
+    }
+    .fs-result-img-box img { width: 100%; height: 100%; object-fit: cover; }
+    .fs-result-label {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+    }
+    .fs-result-label.before { background: #e53935; color: white; }
+    .fs-result-label.after { background: var(--leaf-green); color: white; }
+    .fs-result-body { padding: 16px 18px; }
+    .fs-result-body p { font-size: 0.85rem; color: var(--muted-text); line-height: 1.6; margin-bottom: 14px; }
+
+    /* --- BGT SHORTS --- */
+    .fs-shorts {
+      padding: 75px 0;
+      background: var(--forest-green);
+    }
+    .fs-shorts .section-tag, .fs-shorts h2 { color: var(--white); }
+    .fs-shorts .section-tag { color: var(--lime-accent); }
+    .fs-shorts-scroll {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      padding: 10px 0 20px;
+      scrollbar-width: none;
+    }
+    .fs-shorts-scroll::-webkit-scrollbar { display: none; }
+    .fs-short-card {
+      flex-shrink: 0;
+      width: 180px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .fs-short-card:hover { transform: translateY(-6px) scale(1.02); }
+    .fs-short-thumb {
+      width: 100%;
+      aspect-ratio: 9/16;
+      background: linear-gradient(175deg, rgba(18,61,42,0.9), rgba(46,125,50,0.7));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      position: relative;
+    }
+    .fs-short-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .fs-short-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.75) 40%, transparent 70%);
+    }
+    .fs-short-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 46px; height: 46px;
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.6);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: white;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    .fs-short-card:hover .fs-short-play {
+      background: rgba(255,255,255,0.35);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    .fs-short-info {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      padding: 14px 12px;
+      color: white;
+    }
+    .fs-short-title {
+      font-weight: 700;
+      font-size: 0.82rem;
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+    .fs-short-meta {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.65);
+    }
+    .fs-short-dur {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    /* --- FARMER SPOTLIGHT --- */
+    .fs-spotlight {
+      padding: 80px 0;
+      background: var(--white);
+    }
+    .fs-spotlight-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .fs-spotlight-img-wrap {
+      position: relative;
+      border-radius: var(--radius-leaf-2);
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      box-shadow: var(--shadow-lg);
+    }
+    .fs-spotlight-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .fs-spotlight-img-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(175deg, #e8f5e9, #c8e6c9);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+    }
+    .fs-spotlight-accent {
+      position: absolute;
+      bottom: -15px;
+      right: -15px;
+      width: 80px; height: 80px;
+      background: var(--lime-accent);
+      border-radius: 50%;
+      opacity: 0.15;
+    }
+    .fs-spotlight-content { padding: 10px 0; }
+    .fs-farmer-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 14px 0 22px;
+    }
+    .fs-farmer-meta-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.88rem;
+      color: var(--muted-text);
+      font-weight: 600;
+    }
+    .fs-quote-block {
+      background: var(--bg-cream);
+      border-left: 5px solid var(--leaf-green);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 22px 24px;
+      margin: 20px 0 30px;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--dark-text);
+      line-height: 1.8;
+      position: relative;
+    }
+    .fs-quote-block::before {
+      content: '"';
+      position: absolute;
+      top: -10px;
+      left: 14px;
+      font-size: 4rem;
+      color: var(--leaf-green);
+      font-family: Georgia, serif;
+      line-height: 1;
+      opacity: 0.4;
+    }
+
+    /* --- SHARE YOUR STORY CTA --- */
+    .fs-cta {
+      padding: 90px 0;
+      background: linear-gradient(135deg, var(--forest-green), var(--primary-green));
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .fs-cta::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(167,217,72,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .fs-cta h2 { color: var(--white); font-size: 2.5rem; margin-bottom: 18px; }
+    .fs-cta p { color: rgba(255,255,255,0.78); font-size: 1.1rem; max-width: 560px; margin: 0 auto 38px; line-height: 1.7; }
+
+    /* Share Modal */
+    .fs-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 9000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      padding: 20px;
+    }
+    .fs-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .fs-modal {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      max-width: 560px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: translateY(30px);
+      transition: transform 0.35s ease;
+    }
+    .fs-modal-overlay.active .fs-modal { transform: translateY(0); }
+    .fs-modal-header {
+      padding: 26px 28px 18px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .fs-modal-header h3 { color: var(--forest-green); font-size: 1.25rem; }
+    .fs-modal-close {
+      width: 36px; height: 36px;
+      background: var(--bg-cream);
+      border: none;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition);
+    }
+    .fs-modal-close:hover { background: var(--border-light); }
+    .fs-modal-body { padding: 24px 28px 28px; }
+    .fs-form-group {
+      margin-bottom: 18px;
+    }
+    .fs-form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--forest-green);
+      margin-bottom: 7px;
+    }
+    .fs-form-group input,
+    .fs-form-group select,
+    .fs-form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      color: var(--dark-text);
+      background: var(--white);
+      transition: var(--transition);
+    }
+    .fs-form-group input:focus,
+    .fs-form-group select:focus,
+    .fs-form-group textarea:focus {
+      border-color: var(--leaf-green);
+      box-shadow: 0 0 0 3px rgba(101,168,68,0.12);
+    }
+    .fs-form-group textarea { resize: vertical; min-height: 100px; }
+    .fs-upload-area {
+      border: 2px dashed var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .fs-upload-area:hover { border-color: var(--leaf-green); background: #f1f8e9; }
+    .fs-upload-icon { font-size: 2rem; margin-bottom: 8px; }
+    .fs-upload-text { font-size: 0.85rem; color: var(--muted-text); }
+    .fs-upload-text strong { color: var(--primary-green); }
+    .fs-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .fs-submit-success {
+      background: #f1f8e9;
+      border: 1.5px solid var(--leaf-green);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      text-align: center;
+      display: none;
+    }
+    .fs-submit-success.show { display: block; }
+    .fs-submit-success-icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .fs-submit-success h4 { color: var(--forest-green); margin-bottom: 6px; }
+    .fs-submit-success p { color: var(--muted-text); font-size: 0.88rem; }
+
+    /* --- SCROLL REVEAL --- */
+    .fs-reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fs-reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .fs-reveal.delay-1 { transition-delay: 0.1s; }
+    .fs-reveal.delay-2 { transition-delay: 0.2s; }
+    .fs-reveal.delay-3 { transition-delay: 0.3s; }
+
+    /* ANIMATIONS */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 1024px) {
+      .fs-feed-grid { grid-template-columns: repeat(2, 1fr); }
+      .fs-hero-grid { grid-template-columns: 1fr; gap: 35px; }
+      .fs-hero-visual { display: none; }
+      .fs-featured-grid { grid-template-columns: 1fr; gap: 30px; }
+      .fs-spotlight-grid { grid-template-columns: 1fr; gap: 30px; }
+      .fs-spotlight-img-wrap { max-width: 380px; margin: 0 auto; aspect-ratio: 4/3; }
+      .fs-hero h1 { font-size: 2.8rem; }
+    }
+    @media (max-width: 768px) {
+      .fs-hero { padding: 130px 0 70px; min-height: auto; }
+      .fs-hero h1 { font-size: 2.2rem; }
+      .fs-hero-sub { font-size: 1.05rem; }
+      .fs-hero-desc { font-size: 0.95rem; }
+      .fs-feed-grid { grid-template-columns: 1fr; }
+      .fs-highlights-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .fs-cta h2 { font-size: 1.8rem; }
+      .fs-cta p { font-size: 0.95rem; }
+      .fs-form-row { grid-template-columns: 1fr; }
+      .fs-featured-img-wrap { aspect-ratio: 16/9; }
+    }
+    @media (max-width: 480px) {
+      .fs-hero h1 { font-size: 1.9rem; }
+      .fs-hero-btns { flex-direction: column; }
+      .fs-hero-stat-num { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div id="pageLoader">
+    <div class="loader-spinner"></div>
+    <div class="loader-logo">BHARTI GREEN TECH</div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo-block" id="headerLogo">
+        <img src="assets/images/logo.png" alt="BHARTI GREEN TECH Logo" class="company-logo">
+        <div class="brand-info">
+          <span class="brand-name">BHARTI GREEN TECH</span>
+          <span class="brand-tagline" id="brandTagline">Solution for Better Life</span>
+        </div>
+      </a>
+
+      <!-- Nav -->
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link" data-i18n="nav.home">Home</a>
+        <a href="about.html" class="nav-link" data-i18n="nav.about">About Us</a>
+        <a href="products.html" class="nav-link" data-i18n="nav.products">Our Products</a>
+        <a href="farmer-stories.html" class="nav-link" data-i18n="nav.farmerStories">Farmer Stories</a>
+        <a href="field-stories.html" class="nav-link active" data-i18n="nav.fieldStories">Field Stories</a>
+        <a href="videos.html" class="nav-link" data-i18n="nav.videos">Videos Library</a>
+        <a href="contact.html" class="nav-link" data-i18n="nav.contact">Contact Us</a>
+      </nav>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <div class="lang-selector">
+          <select id="languageSelect" aria-label="Select Language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="mr">मराठी (Marathi)</option>
+          </select>
+        </div>
+        <button class="burger-menu" id="burgerToggle" aria-label="Toggle Navigation">
+          <span class="line1"></span>
+          <span class="line2"></span>
+          <span class="line3"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="fs-hero">
+    <div class="container">
+      <div class="fs-hero-grid">
+        <div class="fs-hero-content">
+          <div class="fs-hero-tag">
+            <span>🌱</span> Field Journal
+          </div>
+          <h1>FIELD<br><span>STORIES</span></h1>
+          <p class="fs-hero-sub">Real farms. Real farmers. Real stories.</p>
+          <p class="fs-hero-desc">Explore stories, field experiences, farming insights and real moments from the agricultural communities we work with.</p>
+          <div class="fs-hero-btns">
+            <a href="#fs-feed" class="btn btn-primary" style="color:white;">Explore Stories</a>
+            <button class="btn btn-secondary" style="color:rgba(255,255,255,0.85); border-color:rgba(255,255,255,0.3);" onclick="openShareModal()">Share Your Story</button>
+          </div>
+          <div class="fs-hero-stats">
+            <div class="fs-hero-stat-item">
+              <div class="fs-hero-stat-num">500+</div>
+              <div class="fs-hero-stat-label">Farmer Stories</div>
+            </div>
+            <div class="fs-hero-stat-item">
+              <div class="fs-hero-stat-num">18</div>
+              <div class="fs-hero-stat-label">Districts Covered</div>
+            </div>
+            <div class="fs-hero-stat-item">
+              <div class="fs-hero-stat-num">12</div>
+              <div class="fs-hero-stat-label">Crop Types</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Panel -->
+        <div class="fs-hero-visual">
+          <div class="fs-hero-card">
+            <div class="fs-hero-card-icon">🌾</div>
+            <div>
+              <h4>Cotton Crop Journey</h4>
+              <p>Satara, Maharashtra • 42 Days</p>
+            </div>
+          </div>
+          <div class="fs-hero-card">
+            <div class="fs-hero-card-icon">🧪</div>
+            <div>
+              <h4>Urva Sudarshan Demo</h4>
+              <p>Field Result • Soil Health</p>
+            </div>
+          </div>
+          <div class="fs-hero-card">
+            <div class="fs-hero-card-icon">👨‍🌾</div>
+            <div>
+              <h4>Farmer Spotlight</h4>
+              <p>Rajesh Patil • Nashik, Maharashtra</p>
+            </div>
+          </div>
+          <div class="fs-hero-card">
+            <div class="fs-hero-card-icon">📈</div>
+            <div>
+              <h4>Field Result Documented</h4>
+              <p>Before &amp; After • Sugarcane</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STORY HIGHLIGHTS ===== -->
+  <section class="fs-highlights">
+    <div class="container">
+      <div class="fs-highlights-header">
+        <h3>From the Field</h3>
+        <a href="#fs-feed" class="btn btn-secondary" style="padding:8px 18px; font-size:0.82rem;">See All Posts</a>
+      </div>
+      <div class="fs-stories-scroll" id="storiesScroll" role="list">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Story Viewer Overlay -->
+  <div class="fs-story-overlay" id="storyOverlay" role="dialog" aria-modal="true" aria-label="Story Viewer">
+    <div class="fs-story-viewer">
+      <div class="fs-story-progress" id="storyProgress"></div>
+      <button class="fs-story-close" onclick="closeStoryViewer()" aria-label="Close story">✕</button>
+      <div class="fs-story-media" id="storyMedia">🌾</div>
+      <div class="fs-story-caption">
+        <h4 id="storyCaptionTitle">Farmer Stories</h4>
+        <p id="storyCaptionText">Real stories from the fields of Maharashtra.</p>
+      </div>
+      <button class="fs-story-nav prev" onclick="prevStory()" aria-label="Previous story">‹</button>
+      <button class="fs-story-nav next" onclick="nextStory()" aria-label="Next story">›</button>
+    </div>
+  </div>
+
+  <!-- ===== FILTERS ===== -->
+  <div class="fs-filters" id="fs-filters">
+    <div class="container">
+      <div class="fs-filter-scroll" role="tablist">
+        <button class="fs-filter-btn active" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button class="fs-filter-btn" data-filter="farmer-stories" role="tab">Farmer Stories</button>
+        <button class="fs-filter-btn" data-filter="field-results" role="tab">Field Results</button>
+        <button class="fs-filter-btn" data-filter="products" role="tab">Products</button>
+        <button class="fs-filter-btn" data-filter="crop-journey" role="tab">Crop Journey</button>
+        <button class="fs-filter-btn" data-filter="farming-tips" role="tab">Farming Tips</button>
+        <button class="fs-filter-btn" data-filter="events" role="tab">Events</button>
+        <button class="fs-filter-btn" data-filter="videos" role="tab">Videos</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FEATURED FIELD STORY ===== -->
+  <section class="fs-featured section-white fs-reveal">
+    <div class="container">
+      <div class="section-header" style="margin-bottom:45px;">
+        <span class="section-tag">Featured Field Story</span>
+        <h2 class="section-title">A Journey from Soil to Harvest</h2>
+      </div>
+      <div class="fs-featured-grid">
+        <div class="fs-featured-img-wrap">
+          <div class="fs-featured-img-placeholder">
+            <span>🌿</span>
+            <span style="font-size:1rem; font-weight:700; margin-top:10px; opacity:0.7;">Cotton Field · Maharashtra</span>
+          </div>
+          <span class="fs-featured-badge">⭐ Featured</span>
+        </div>
+        <div class="fs-featured-content">
+          <span class="section-tag" style="text-align:left; display:block; margin-bottom:8px;">Crop Journey</span>
+          <h3 style="font-size:1.9rem; margin-bottom:6px;">Cotton Crop Journey</h3>
+          <div class="fs-featured-meta">
+            <div class="fs-featured-meta-item"><span>📍</span> Maharashtra, India</div>
+            <div class="fs-featured-meta-item"><span>🌱</span> Crop: Cotton</div>
+            <div class="fs-featured-meta-item"><span>📅</span> Field Journey: 42 Days</div>
+            <div class="fs-featured-meta-item"><span>👨‍🌾</span> Farmer: Suresh Chavan</div>
+          </div>
+          <p class="fs-featured-story-text">
+            Discover the journey of a farmer from field preparation to crop development and learn how sustainable agricultural practices can contribute to healthier fields and better outcomes.
+          </p>
+          <div class="fs-field-data" style="margin-bottom:25px;">
+            <div class="fs-field-data-title">🌱 Field Data</div>
+            <div class="fs-field-data-row"><span class="fs-field-data-key">Field Size</span><span class="fs-field-data-val">3.5 Acres</span></div>
+            <div class="fs-field-data-row"><span class="fs-field-data-key">Growth Stage</span><span class="fs-field-data-val">42 Days</span></div>
+            <div class="fs-field-data-row"><span class="fs-field-data-key">Product Used</span><span class="fs-field-data-val">Urva Sudarshan</span></div>
+            <div class="fs-field-data-row"><span class="fs-field-data-key">District</span><span class="fs-field-data-val">Satara, MH</span></div>
+          </div>
+          <a href="#fs-feed" class="btn btn-primary">Read Full Story →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN FEED ===== -->
+  <section class="fs-feed" id="fs-feed">
+    <div class="container">
+      <div class="section-header fs-reveal" style="margin-bottom:45px;">
+        <span class="section-tag">Field Feed</span>
+        <h2 class="section-title">Stories from the Ground</h2>
+        <p class="section-subtitle">Real field experiences, crop journeys and agricultural insights shared by farmers and our field team.</p>
+      </div>
+      <div class="fs-feed-grid" id="fsFeedGrid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BGT SHORTS ===== -->
+  <section class="fs-shorts section">
+    <div class="container">
+      <div class="section-header fs-reveal" style="margin-bottom: 40px; color:white;">
+        <span class="section-tag">BGT Shorts</span>
+        <h2 class="section-title" style="color:white;">Quick Field Stories</h2>
+        <p class="section-subtitle" style="color:rgba(255,255,255,0.65);">Short field videos, product demonstrations, and real farmer moments.</p>
+      </div>
+      <div class="fs-shorts-scroll" id="fsShorts">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FARMER SPOTLIGHT ===== -->
+  <section class="fs-spotlight section-white fs-reveal">
+    <div class="container">
+      <div class="section-header" style="margin-bottom: 50px;">
+        <span class="section-tag">Farmer Spotlight</span>
+        <h2 class="section-title">Meet the People Behind the Fields</h2>
+      </div>
+      <div class="fs-spotlight-grid">
+        <div class="fs-spotlight-img-wrap">
+          <div class="fs-spotlight-img-placeholder">👨‍🌾</div>
+          <div class="fs-spotlight-accent"></div>
+        </div>
+        <div class="fs-spotlight-content">
+          <span class="section-tag" style="text-align:left; display:block; margin-bottom:8px;">Featured Farmer</span>
+          <h3 style="font-size:1.9rem;">Meet the Farmer</h3>
+          <p style="font-size:1.4rem; font-weight:800; color:var(--forest-green); margin:6px 0 0;">Rajesh Patil</p>
+          <div class="fs-farmer-meta">
+            <div class="fs-farmer-meta-item"><span>📍</span> Nashik, Maharashtra</div>
+            <div class="fs-farmer-meta-item"><span>🌱</span> Primary Crop: Grapes, Cotton</div>
+            <div class="fs-farmer-meta-item"><span>🏡</span> Farming Experience: 22 Years</div>
+          </div>
+          <div class="fs-quote-block">
+            Healthy fields begin with understanding the soil. I have learned that when you give nature what it needs, the results speak for themselves. This is not just farming — it is science working with nature.
+          </div>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a href="#" class="btn btn-primary">Read Farmer Story →</a>
+            <a href="farmer-stories.html" class="btn btn-secondary">More Stories</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SHARE YOUR STORY CTA ===== -->
+  <section class="fs-cta">
+    <div class="container" style="position:relative; z-index:1;">
+      <div class="leaf-divider" style="margin-bottom:30px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(167,217,72,0.6)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h2 class="fs-reveal">Have a Story from Your Field?</h2>
+      <p class="fs-reveal delay-1">We'd love to hear about your farming journey, field experience or success story. Share it with the Bharti Green Tech community.</p>
+      <button class="btn btn-white fs-reveal delay-2" onclick="openShareModal()">Share Your Story →</button>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER (identical to existing pages) ===== -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo-block">
+          <img src="assets/images/logo.png" alt="BHARTI GREEN TECH Logo" class="company-logo" style="padding: 4px; border-radius: var(--radius-sm);">
+          <div class="brand-info">
+            <span class="brand-name">BHARTI GREEN TECH</span>
+            <span class="brand-tagline" style="color: var(--lime-accent);">Solution for Better Life</span>
+          </div>
+        </a>
+        <p>Advanced biotechnology manufacturing biological soil feeds, seed inoculants, and eco-friendly crop protection solutions to support farming growth.</p>
+        <div class="footer-socials">
+          <a href="https://share.google/ll2JtTK9mPVKhZ2xx" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook">FB</a>
+          <a href="https://www.instagram.com/bharti_green_t?igsh=cm1rZDd1aWhxMW84" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Instagram">IG</a>
+          <a href="https://youtube.com/@bhartigreentechshetimitra6078" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="YouTube">YT</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="quickLinksTitle">Quick Links</h4>
+        <div class="footer-links">
+          <a href="index.html" data-i18n="nav.home">Home</a>
+          <a href="about.html" data-i18n="nav.about">About Us</a>
+          <a href="products.html" data-i18n="nav.products">Our Products</a>
+          <a href="farmer-stories.html" data-i18n="nav.farmerStories">Farmer Stories</a>
+          <a href="field-stories.html" data-i18n="nav.fieldStories">Field Stories</a>
+          <a href="videos.html" data-i18n="nav.videos">Videos Library</a>
+          <a href="contact.html" data-i18n="nav.contact">Contact Us</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="categoriesTitle">Categories</h4>
+        <div class="footer-links">
+          <a href="products.html?formulation=Liquid" data-i18n="liquidCategory">Liquid Biologicals</a>
+          <a href="products.html?formulation=Powder" data-i18n="powderCategory">Powder Dextrose Base</a>
+          <a href="products.html?formulation=Granules" data-i18n="granulesCategory">Granule Base Range</a>
+          <a href="products.html?category=soil-health">Soil Health Solutions</a>
+          <a href="products.html?category=crop-protection">Crop Protection</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="contact.section">Contact Details</h4>
+        <div class="footer-contact-info">
+          <div class="footer-contact-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p>Prakash Resi., 702, Sector 10E, Road Pali, Navi Mumbai</p>
+          </div>
+          <div class="footer-contact-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <p>9049 747 555</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p data-i18n="footerLegal">BHARTI GREEN TECH Private Limited © 2026. All Rights Reserved. Solution for Better Life.</p>
+      <div class="footer-legal-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Disclaimer</a>
+        <a href="#">Terms of Use</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <div class="scroll-top" id="scrollTop" aria-label="Scroll to Top">↑</div>
+
+  <!-- Share Your Story Modal -->
+  <div class="fs-modal-overlay" id="shareModal" role="dialog" aria-modal="true" aria-label="Share Your Story">
+    <div class="fs-modal">
+      <div class="fs-modal-header">
+        <div>
+          <h3>🌾 Share Your Story</h3>
+          <p style="font-size:0.82rem; color:var(--muted-text); margin-top:3px;">We'd love to feature your farming journey</p>
+        </div>
+        <button class="fs-modal-close" onclick="closeShareModal()" aria-label="Close">✕</button>
+      </div>
+      <div class="fs-modal-body">
+        <div id="shareForm">
+          <div class="fs-form-row">
+            <div class="fs-form-group">
+              <label for="sf-name">Full Name *</label>
+              <input type="text" id="sf-name" placeholder="Rajesh Patil" required>
+            </div>
+            <div class="fs-form-group">
+              <label for="sf-phone">Phone / Email *</label>
+              <input type="text" id="sf-phone" placeholder="9049747555" required>
+            </div>
+          </div>
+          <div class="fs-form-row">
+            <div class="fs-form-group">
+              <label for="sf-location">Village / Location *</label>
+              <input type="text" id="sf-location" placeholder="Satara, Maharashtra" required>
+            </div>
+            <div class="fs-form-group">
+              <label for="sf-crop">Primary Crop *</label>
+              <input type="text" id="sf-crop" placeholder="Cotton, Sugarcane..." required>
+            </div>
+          </div>
+          <div class="fs-form-group">
+            <label for="sf-story">Your Story *</label>
+            <textarea id="sf-story" placeholder="Tell us about your farming experience, field results or crop journey..." required></textarea>
+          </div>
+          <div class="fs-form-group">
+            <label>Upload Photo / Video (Optional)</label>
+            <div class="fs-upload-area" onclick="document.getElementById('sf-file').click()">
+              <div class="fs-upload-icon">📸</div>
+              <p class="fs-upload-text"><strong>Click to upload</strong> or drag and drop<br>JPG, PNG, MP4 (Max 50MB)</p>
+              <input type="file" id="sf-file" accept="image/*,video/*" style="display:none;" multiple>
+            </div>
+          </div>
+          <button class="btn btn-primary" style="width:100%; margin-top:5px;" onclick="submitStory()">Submit Your Story →</button>
+        </div>
+        <div class="fs-submit-success" id="shareSuccess">
+          <div class="fs-submit-success-icon">🌱</div>
+          <h4>Thank You for Sharing!</h4>
+          <p>We've received your story. Our team will review it and get in touch with you soon.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
+  <script>
+  /* =============================================
+     FIELD STORIES — DATA & INTERACTIVE LOGIC
+  ============================================= */
+
+  // ---- STORY HIGHLIGHTS DATA ----
+  const STORY_HIGHLIGHTS = [
+    { id: 1, emoji: '👨‍🌾', title: 'Farmer Stories', caption: 'Real stories from our farming community across Maharashtra and beyond.', catText: 'farmer-stories' },
+    { id: 2, emoji: '🌾', title: 'Cotton Fields', caption: 'Follow the journey of cotton from planting to harvest in Satara district.', catText: 'crop-journey' },
+    { id: 3, emoji: '🧪', title: 'Product Demo', caption: 'Watch our field experts demonstrate biological solutions in action.', catText: 'products' },
+    { id: 4, emoji: '🌱', title: 'Crop Journey', caption: 'Day-by-day documentation of crop growth using BGT biological inputs.', catText: 'crop-journey' },
+    { id: 5, emoji: '🤝', title: 'Farmer Meet', caption: 'Community gatherings where farmers share knowledge and experiences.', catText: 'events' },
+    { id: 6, emoji: '🚜', title: 'Field Visit', caption: 'Our team visits farms to understand ground realities and farmer needs.', catText: 'events' },
+    { id: 7, emoji: '🏆', title: 'Success Stories', caption: 'Celebrating farmers who achieved remarkable field outcomes.', catText: 'farmer-stories' },
+    { id: 8, emoji: '📚', title: 'Farming Tips', caption: 'Practical agricultural knowledge shared by our expert agronomists.', catText: 'farming-tips' },
+  ];
+
+  // ---- MAIN FEED DATA ----
+  const FEED_POSTS = [
+    {
+      id: 'post-1', type: 'image', category: 'crop-journey',
+      author: 'Suresh Chavan', avatar: '👨‍🌾', location: 'Satara, Maharashtra',
+      crop: 'Cotton', emoji: '🌾',
+      caption: 'Day 42 of our cotton field documentation. The crop shows healthy leaf structure and strong branching. Soil biological activity has improved significantly this season.',
+      tags: ['#BhartiGreenTech', '#CottonFarming', '#SoilHealth', '#Maharashtra'],
+      likes: 248, comments: 31, createdAt: '2 days ago',
+      fieldData: { 'Field Size': '3.5 Acres', 'Growth Stage': 'Day 42', 'Product Used': 'Urva Sudarshan', 'District': 'Satara' }
+    },
+    {
+      id: 'post-2', type: 'video', category: 'products',
+      author: 'BGT Field Team', avatar: '🧪', location: 'Nashik, Maharashtra',
+      crop: 'Grapes', emoji: '🍇',
+      caption: 'Field demonstration of Urva Wilto application on grape vines. Our team shows correct dosage and application method for optimal results.',
+      tags: ['#UrvaCare', '#GrapeFarming', '#FieldDemo', '#BGT'],
+      likes: 192, comments: 18, createdAt: '4 days ago',
+    },
+    {
+      id: 'post-3', type: 'image', category: 'farmer-stories',
+      author: 'Rajesh Patil', avatar: '🌱', location: 'Nashik, Maharashtra',
+      crop: 'Grapes', emoji: '🏡',
+      caption: 'Visited my vineyard after the Urva K-Plus application cycle. The vine structure looks excellent and the soil feels alive this season. Twenty two years of farming and I still learn something new every year.',
+      tags: ['#VineyardLife', '#NashikFarmer', '#OrganicFarming', '#BhartiGreenTech'],
+      likes: 315, comments: 47, createdAt: '1 week ago',
+      fieldData: { 'Farm Size': '5 Acres', 'Crop': 'Thompson Grapes', 'Season': '2026 Kharif', 'District': 'Nashik' }
+    },
+    {
+      id: 'post-4', type: 'field-result', category: 'field-results',
+      author: 'BGT Agronomy Team', avatar: '📊', location: 'Kolhapur, Maharashtra',
+      crop: 'Sugarcane', beforeEmoji: '🏜️', afterEmoji: '🌿',
+      caption: 'Soil health comparison from the same plot — 60 days into the BGT biological programme. Visible improvement in organic matter and root zone activity.',
+      tags: ['#FieldResult', '#SugarcaneField', '#SoilBiology', '#Kolhapur'],
+      likes: 421, comments: 62, createdAt: '10 days ago',
+      fieldData: { 'Plot Size': '2 Acres', 'Crop': 'Sugarcane', 'Duration': '60 Days', 'Product': 'Urva Urja + Urva Microbes' }
+    },
+    {
+      id: 'post-5', type: 'image', category: 'farming-tips',
+      author: 'Dr. Anil Sharma', avatar: '🔬', location: 'BGT Research Centre',
+      crop: 'General', emoji: '📝',
+      caption: 'Tip of the week: Soil pH management is the foundation of healthy crops. A balanced pH between 6.2 and 7.0 ensures maximum nutrient availability. Test your soil before every season.',
+      tags: ['#FarmingTip', '#SoilpH', '#AgriScience', '#BhartiGreenTech'],
+      likes: 178, comments: 24, createdAt: '1 week ago',
+    },
+    {
+      id: 'post-6', type: 'image', category: 'events',
+      author: 'BGT Community Team', avatar: '🤝', location: 'Pune, Maharashtra',
+      crop: 'Mixed', emoji: '🌍',
+      caption: 'Thank you to 200+ farmers who joined our seasonal farmer meet in Pune! Your insights and feedback directly shape how we develop our next generation of biological inputs.',
+      tags: ['#FarmerMeet', '#Community', '#Agriculture', '#BGTFamily'],
+      likes: 534, comments: 89, createdAt: '2 weeks ago',
+    },
+    {
+      id: 'post-7', type: 'video', category: 'videos',
+      author: 'BGT Field Expert', avatar: '📹', location: 'Aurangabad, Maharashtra',
+      crop: 'Soybean', emoji: '🎥',
+      caption: 'Time-lapse of soybean germination using Urva Germination seed treatment. From seed to seedling in 7 days — watch how biological priming accelerates emergence.',
+      tags: ['#TimeLapse', '#SoybeanFarming', '#SeedTreatment', '#UrvaCare'],
+      likes: 267, comments: 38, createdAt: '3 weeks ago',
+    },
+    {
+      id: 'post-8', type: 'field-result', category: 'field-results',
+      author: 'Prakash Mane', avatar: '🌾', location: 'Latur, Maharashtra',
+      crop: 'Soybean', beforeEmoji: '🟡', afterEmoji: '🟢',
+      caption: 'Soybean crop comparison at 45 days. Used Urva Microbes for soil inoculation at planting. The results in root nodulation have been exceptional this season.',
+      tags: ['#SoybeanFarming', '#RootHealth', '#BioSolution', '#LaturFarmer'],
+      likes: 198, comments: 29, createdAt: '2 weeks ago',
+      fieldData: { 'Field Size': '4 Acres', 'Crop': 'Soybean', 'Growth Stage': 'Day 45', 'Product': 'Urva Microbes' }
+    }
+  ];
+
+  // ---- BGT SHORTS DATA ----
+  const BGT_SHORTS = [
+    { emoji: '🎥', title: 'How We Work With Farmers', category: 'Field Visit', duration: '0:42' },
+    { emoji: '👨‍🌾', title: 'Farmer Testimonial — Satara', category: 'Farmer Stories', duration: '1:05' },
+    { emoji: '🧪', title: 'Urva Sudarshan Application', category: 'Product Demo', duration: '0:38' },
+    { emoji: '🌱', title: 'Seed Treatment Process', category: 'Farming Tip', duration: '0:55' },
+    { emoji: '🚜', title: 'Nashik Field Visit', category: 'Field Visit', duration: '1:12' },
+    { emoji: '🌾', title: 'Cotton Crop — Day 30', category: 'Crop Journey', duration: '0:47' },
+  ];
+
+  // ---- RENDER STORY HIGHLIGHTS ----
+  function renderStories() {
+    const container = document.getElementById('storiesScroll');
+    STORY_HIGHLIGHTS.forEach((s, idx) => {
+      const item = document.createElement('div');
+      item.className = 'fs-story-item';
+      item.setAttribute('role', 'listitem');
+      item.setAttribute('aria-label', s.title);
+      item.innerHTML = `
+        <div class="fs-story-ring">
+          <div class="fs-story-img-placeholder">${s.emoji}</div>
+        </div>
+        <span class="fs-story-title">${s.title}</span>
+      `;
+      item.addEventListener('click', () => openStoryViewer(idx));
+      container.appendChild(item);
+    });
+  }
+
+  // ---- STORY VIEWER ----
+  let currentStoryIdx = 0;
+  function openStoryViewer(idx) {
+    currentStoryIdx = idx;
+    updateStoryViewer();
+    document.getElementById('storyOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeStoryViewer() {
+    document.getElementById('storyOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function updateStoryViewer() {
+    const s = STORY_HIGHLIGHTS[currentStoryIdx];
+    document.getElementById('storyMedia').textContent = s.emoji;
+    document.getElementById('storyCaptionTitle').textContent = s.title;
+    document.getElementById('storyCaptionText').textContent = s.caption;
+    // Progress bars
+    const prog = document.getElementById('storyProgress');
+    prog.innerHTML = STORY_HIGHLIGHTS.map((_, i) =>
+      `<div class="fs-story-progress-bar ${i === currentStoryIdx ? 'active' : ''}"></div>`
+    ).join('');
+  }
+  function prevStory() {
+    currentStoryIdx = (currentStoryIdx - 1 + STORY_HIGHLIGHTS.length) % STORY_HIGHLIGHTS.length;
+    updateStoryViewer();
+  }
+  function nextStory() {
+    currentStoryIdx = (currentStoryIdx + 1) % STORY_HIGHLIGHTS.length;
+    updateStoryViewer();
+  }
+  // Close story on backdrop click
+  document.getElementById('storyOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeStoryViewer();
+  });
+  // Keyboard navigation
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('storyOverlay').classList.contains('active')) return;
+    if (e.key === 'Escape') closeStoryViewer();
+    if (e.key === 'ArrowLeft') prevStory();
+    if (e.key === 'ArrowRight') nextStory();
+  });
+
+  // ---- RENDER FEED ----
+  function renderFeed(filter = 'all') {
+    const grid = document.getElementById('fsFeedGrid');
+    grid.innerHTML = '';
+    const visible = FEED_POSTS.filter(p => filter === 'all' || p.category === filter);
+
+    visible.forEach((post, idx) => {
+      if (post.type === 'field-result') {
+        grid.appendChild(createResultCard(post, idx));
+      } else {
+        grid.appendChild(createPostCard(post, idx));
+      }
+    });
+    // Animate in
+    setTimeout(() => {
+      grid.querySelectorAll('.fs-post-card, .fs-result-card').forEach((el, i) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        setTimeout(() => {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        }, i * 80);
+      });
+    }, 10);
+  }
+
+  function createPostCard(post, idx) {
+    const div = document.createElement('div');
+    div.className = 'fs-post-card';
+    div.setAttribute('data-category', post.category);
+
+    const fieldDataHTML = post.fieldData ? `
+      <div class="fs-field-data">
+        <div class="fs-field-data-title">🌱 Field Data</div>
+        ${Object.entries(post.fieldData).map(([k,v]) => `
+          <div class="fs-field-data-row">
+            <span class="fs-field-data-key">${k}</span>
+            <span class="fs-field-data-val">${v}</span>
+          </div>
+        `).join('')}
+      </div>
+    ` : '';
+
+    const mediaHTML = post.type === 'video' ? `
+      <div class="fs-post-media">
+        <div class="fs-post-media-placeholder" style="background:linear-gradient(135deg,var(--forest-green),var(--primary-green));">
+          <span>${post.emoji}</span>
+        </div>
+        <div class="fs-post-video-overlay">
+          <div class="fs-play-btn" aria-label="Play video">▶</div>
+        </div>
+        <span class="fs-post-cat-badge" style="background:var(--primary-green);">▶ Video</span>
+      </div>
+    ` : `
+      <div class="fs-post-media">
+        <div class="fs-post-media-placeholder" style="background:linear-gradient(135deg,#f1f8e9,#c8e6c9);">
+          <span>${post.emoji}</span>
+        </div>
+        <span class="fs-post-cat-badge">${formatCat(post.category)}</span>
+      </div>
+    `;
+
+    div.innerHTML = `
+      <div class="fs-post-header">
+        <div class="fs-post-author">
+          <div class="fs-post-avatar">${post.avatar}</div>
+          <div>
+            <div class="fs-post-name">${post.author}</div>
+            <div class="fs-post-loc">📍 ${post.location}</div>
+          </div>
+        </div>
+        <button class="fs-post-more" aria-label="More options">•••</button>
+      </div>
+      ${mediaHTML}
+      <div class="fs-post-actions">
+        <button class="fs-action-btn" onclick="toggleLike(this, '${post.id}')" aria-label="Like">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <button class="fs-action-btn" aria-label="Comment">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </button>
+        <button class="fs-action-btn" aria-label="Share">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </button>
+        <button class="fs-action-btn fs-action-save" aria-label="Save">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </button>
+      </div>
+      <div class="fs-post-body">
+        <div class="fs-post-likes" id="likes-${post.id}">${post.likes} likes</div>
+        ${fieldDataHTML}
+        <div class="fs-post-caption">
+          <strong>${post.author}</strong> ${post.caption}
+        </div>
+        <div class="fs-post-tags">${post.tags.map(t => `<span class="fs-tag">${t}</span>`).join('')}</div>
+        <div class="fs-post-time">${post.createdAt}</div>
+      </div>
+    `;
+    return div;
+  }
+
+  function createResultCard(post, idx) {
+    const div = document.createElement('div');
+    div.className = 'fs-result-card';
+    div.setAttribute('data-category', post.category);
+
+    const fieldDataHTML = post.fieldData ? `
+      <div class="fs-field-data">
+        <div class="fs-field-data-title">🌱 Field Data</div>
+        ${Object.entries(post.fieldData).map(([k,v]) => `
+          <div class="fs-field-data-row">
+            <span class="fs-field-data-key">${k}</span>
+            <span class="fs-field-data-val">${v}</span>
+          </div>
+        `).join('')}
+      </div>
+    ` : '';
+
+    div.innerHTML = `
+      <div class="fs-result-header">
+        <div class="fs-result-badge">⬛ FIELD RESULT</div>
+        <h4>${post.author}</h4>
+        <p>📍 ${post.location} · ${post.crop}</p>
+      </div>
+      <div class="fs-result-images">
+        <div class="fs-result-img-box" style="background:linear-gradient(135deg,#fff3e0,#ffe0b2);">
+          <span>${post.beforeEmoji}</span>
+          <span class="fs-result-label before">BEFORE</span>
+        </div>
+        <div class="fs-result-img-box" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9);">
+          <span>${post.afterEmoji}</span>
+          <span class="fs-result-label after">FIELD UPDATE</span>
+        </div>
+      </div>
+      <div class="fs-result-body">
+        ${fieldDataHTML}
+        <p>${post.caption}</p>
+        <div class="fs-post-tags" style="margin-bottom:12px;">${post.tags.map(t => `<span class="fs-tag">${t}</span>`).join('')}</div>
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <div class="fs-post-likes">${post.likes} likes · ${post.createdAt}</div>
+          <button class="btn btn-primary" style="padding:8px 16px; font-size:0.8rem;">View Story →</button>
+        </div>
+      </div>
+    `;
+    return div;
+  }
+
+  function formatCat(cat) {
+    const map = { 'farmer-stories': 'Farmer Story', 'field-results': 'Field Result', 'products': 'Product', 'crop-journey': 'Crop Journey', 'farming-tips': 'Farming Tip', 'events': 'Event', 'videos': 'Video' };
+    return map[cat] || cat;
+  }
+
+  // Like toggle
+  function toggleLike(btn, postId) {
+    const post = FEED_POSTS.find(p => p.id === postId);
+    if (!post) return;
+    btn.classList.toggle('liked');
+    if (btn.classList.contains('liked')) {
+      post.likes++;
+      btn.querySelector('svg').setAttribute('fill', '#e53935');
+      btn.querySelector('svg').setAttribute('stroke', '#e53935');
+    } else {
+      post.likes--;
+      btn.querySelector('svg').setAttribute('fill', 'none');
+      btn.querySelector('svg').setAttribute('stroke', 'currentColor');
+    }
+    document.getElementById(`likes-${postId}`).textContent = `${post.likes} likes`;
+  }
+
+  // ---- RENDER BGT SHORTS ----
+  function renderShorts() {
+    const container = document.getElementById('fsShorts');
+    BGT_SHORTS.forEach(s => {
+      const card = document.createElement('div');
+      card.className = 'fs-short-card';
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', `Play: ${s.title}`);
+      card.setAttribute('tabindex', '0');
+      card.innerHTML = `
+        <div class="fs-short-thumb">
+          <span>${s.emoji}</span>
+          <div class="fs-short-overlay"></div>
+          <div class="fs-short-play" aria-hidden="true">▶</div>
+          <div class="fs-short-dur">${s.duration}</div>
+        </div>
+        <div class="fs-short-info">
+          <div class="fs-short-title">${s.title}</div>
+          <div class="fs-short-meta">${s.category}</div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  // ---- CATEGORY FILTERS ----
+  document.querySelectorAll('.fs-filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.fs-filter-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+      const filter = this.getAttribute('data-filter');
+      renderFeed(filter);
+    });
+  });
+
+  // ---- SHARE MODAL ----
+  function openShareModal() {
+    document.getElementById('shareModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('shareForm').style.display = 'block';
+    document.getElementById('shareSuccess').classList.remove('show');
+  }
+  function closeShareModal() {
+    document.getElementById('shareModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('shareModal').addEventListener('click', function(e) {
+    if (e.target === this) closeShareModal();
+  });
+  function submitStory() {
+    const name = document.getElementById('sf-name').value.trim();
+    const phone = document.getElementById('sf-phone').value.trim();
+    const location = document.getElementById('sf-location').value.trim();
+    const crop = document.getElementById('sf-crop').value.trim();
+    const story = document.getElementById('sf-story').value.trim();
+    if (!name || !phone || !location || !crop || !story) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    document.getElementById('shareForm').style.display = 'none';
+    document.getElementById('shareSuccess').classList.add('show');
+  }
+
+  // ---- SCROLL REVEAL ----
+  const fsRevealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        fsRevealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fs-reveal').forEach(el => fsRevealObserver.observe(el));
+
+  // ---- INIT ----
+  document.addEventListener('DOMContentLoaded', () => {
+    renderStories();
+    renderFeed('all');
+    renderShorts();
+  });
+  </script>
+</body>
+</html>
