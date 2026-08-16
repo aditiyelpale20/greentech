@@ -6070,9 +6070,7 @@ window.TRANSLATIONS = {
     "whatsappInquiry": "व्हॉट्सॲपवर चौकशी करा",
     "submitInquiry": "चौकशी फॉर्म भरा",
     "watchDemoVideo": "व्हिडिओ माहिती पहा",
-    "details": "तपशील"
-  }
-,
+    "details": "तपशील",
     "fieldStories": {
       "pageTitle": "फील्ड स्टोरीज",
       "pageSubtitle": "शेतातून जीवन, एक वेळी एक कथा.",
