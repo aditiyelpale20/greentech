@@ -232,6 +232,32 @@ header.scrolled {
   gap: 16px;
 }
 
+/* Admin quick-access button */
+.admin-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid var(--border-light);
+  color: var(--muted-text);
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+  flex-shrink: 0;
+  position: relative;
+}
+.admin-nav-btn:hover {
+  background: var(--primary-green);
+  border-color: var(--primary-green);
+  color: #fff;
+  transform: scale(1.08);
+}
+.admin-nav-btn svg {
+  display: block;
+}
+
 /* Language selector */
 .lang-selector {
   position: relative;
