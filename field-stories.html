@@ -1693,60 +1693,60 @@
     <!-- Brand -->
     <div class="fs-sb-brand">
       <div class="fs-sb-brand-icon">🌱</div>
-      <div class="fs-sb-title">Field Stories</div>
-      <div class="fs-sb-sub">Explore life from the field</div>
+      <div class="fs-sb-title" data-i18n="fieldStories.pageTitle">Field Stories</div>
+      <div class="fs-sb-sub" data-i18n="fieldStories.pageSubtitle">Explore life from the field</div>
     </div>
 
     <!-- Main Categories -->
-    <div class="fs-sb-section-lbl">Browse</div>
+    <div class="fs-sb-section-lbl" data-i18n="fieldStories.browseLabel">Browse</div>
     <button class="fs-sb-item active" data-cat="all">
-      <span class="fs-sb-icon">🏠</span> All Stories
+      <span class="fs-sb-icon">🏠</span> <span data-i18n="fieldStories.allStories">All Stories</span>
     </button>
     <button class="fs-sb-item" data-cat="farmer">
-      <span class="fs-sb-icon">👨‍🌾</span> Farmers
+      <span class="fs-sb-icon">👨‍🌾</span> <span data-i18n="fieldStories.farmers">Farmers</span>
     </button>
     <button class="fs-sb-item" data-cat="crop">
-      <span class="fs-sb-icon">🌾</span> Crops
+      <span class="fs-sb-icon">🌾</span> <span data-i18n="fieldStories.crops">Crops</span>
     </button>
     <button class="fs-sb-item" data-cat="result">
-      <span class="fs-sb-icon">📊</span> Field Results
+      <span class="fs-sb-icon">📊</span> <span data-i18n="fieldStories.fieldResults">Field Results</span>
     </button>
     <button class="fs-sb-item" data-cat="product">
-      <span class="fs-sb-icon">🧪</span> Products
+      <span class="fs-sb-icon">🧪</span> <span data-i18n="fieldStories.products">Products</span>
     </button>
     <button class="fs-sb-item" data-cat="tip">
-      <span class="fs-sb-icon">💡</span> Farming Tips
+      <span class="fs-sb-icon">💡</span> <span data-i18n="fieldStories.farmingTips">Farming Tips</span>
     </button>
     <button class="fs-sb-item" data-cat="reel">
-      <span class="fs-sb-icon">🎬</span> Reels
+      <span class="fs-sb-icon">🎬</span> <span data-i18n="fieldStories.reels">Reels</span>
     </button>
     <button class="fs-sb-item" data-cat="event">
-      <span class="fs-sb-icon">🤝</span> Events
+      <span class="fs-sb-icon">🤝</span> <span data-i18n="fieldStories.events">Events</span>
     </button>
 
     <div class="fs-sb-divider"></div>
 
     <!-- Discover section -->
-    <div class="fs-sb-section-lbl">Discover</div>
+    <div class="fs-sb-section-lbl" data-i18n="fieldStories.discoverLabel">Discover</div>
     <button class="fs-sb-item" onclick="document.getElementById('trendingSection').scrollIntoView({behavior:'smooth'})">
-      <span class="fs-sb-icon">🔥</span> Trending
+      <span class="fs-sb-icon">🔥</span> <span data-i18n="fieldStories.trending">Trending</span>
       <span class="fs-sb-badge">12</span>
     </button>
-    <button class="fs-sb-item" onclick="showToast('Saved stories coming soon!')">
-      <span class="fs-sb-icon">🔖</span> Saved Stories
+    <button class="fs-sb-item" onclick="showToast(window.i18n ? window.i18n.t('fieldStories.savedStories') : 'Saved stories coming soon!')">
+      <span class="fs-sb-icon">🔖</span> <span data-i18n="fieldStories.savedStories">Saved Stories</span>
     </button>
-    <button class="fs-sb-item" onclick="showToast('Filtering by nearby fields...')">
-      <span class="fs-sb-icon">📍</span> Nearby Fields
+    <button class="fs-sb-item" onclick="showToast(window.i18n ? window.i18n.t('fieldStories.nearbyFields') : 'Filtering by nearby fields...')">
+      <span class="fs-sb-icon">📍</span> <span data-i18n="fieldStories.nearbyFields">Nearby Fields</span>
     </button>
 
     <div class="fs-sb-divider"></div>
 
     <!-- Search inside sidebar -->  
-    <div class="fs-sb-section-lbl">Search</div>
+    <div class="fs-sb-section-lbl" data-i18n="fieldStories.searchLabel">Search</div>
     <div style="padding:0 10px 8px;">
-      <div style="display:flex;align-items:center;gap:8px;background:#f5f7f5;border:1.5px solid #e0e8e0;border-radius:10px;padding:8px 12px;transition:border-color 0.2s;" onfocus-within="style.borderColor='var(--leaf-green)'">
+      <div style="display:flex;align-items:center;gap:8px;background:#f5f7f5;border:1.5px solid #e0e8e0;border-radius:10px;padding:8px 12px;transition:border-color 0.2s;">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9db09d" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" id="sbSearchInput" placeholder="Search stories..." autocomplete="off" style="border:none;background:transparent;font-size:0.8rem;font-family:var(--font-body);color:var(--dark-text);width:100%;" oninput="sidebarSearch(this.value)">
+        <input type="text" id="sbSearchInput" data-i18n-placeholder="fieldStories.searchPlaceholder" placeholder="Search stories..." autocomplete="off" style="border:none;background:transparent;font-size:0.8rem;font-family:var(--font-body);color:var(--dark-text);width:100%;" oninput="sidebarSearch(this.value)">
       </div>
     </div>
 
@@ -1755,7 +1755,7 @@
 
     <div class="fs-sb-divider"></div>
     <button class="fs-sb-share-btn" onclick="openForm()">
-      <span style="font-size:1rem;">＋</span> Share Your Story
+      <span style="font-size:1rem;">＋</span> <span data-i18n="fieldStories.shareBtn">Share Your Story</span>
     </button>
   </aside>
 
@@ -1764,14 +1764,14 @@
 
     <!-- Mobile category strip (shown only on mobile) -->
     <div class="fs-mobile-cats" id="mobileCats">
-      <button class="fs-mob-cat-btn active" data-mcat="all">🏠 All</button>
-      <button class="fs-mob-cat-btn" data-mcat="farmer">👨‍🌾 Farmers</button>
-      <button class="fs-mob-cat-btn" data-mcat="crop">🌾 Crops</button>
-      <button class="fs-mob-cat-btn" data-mcat="result">📊 Results</button>
-      <button class="fs-mob-cat-btn" data-mcat="product">🧪 Products</button>
-      <button class="fs-mob-cat-btn" data-mcat="tip">💡 Tips</button>
-      <button class="fs-mob-cat-btn" data-mcat="reel">🎬 Reels</button>
-      <button class="fs-mob-cat-btn" data-mcat="event">🤝 Events</button>
+      <button class="fs-mob-cat-btn active" data-mcat="all">🏠 <span data-i18n="fieldStories.allStories">All</span></button>
+      <button class="fs-mob-cat-btn" data-mcat="farmer">👨‍🌾 <span data-i18n="fieldStories.farmers">Farmers</span></button>
+      <button class="fs-mob-cat-btn" data-mcat="crop">🌾 <span data-i18n="fieldStories.crops">Crops</span></button>
+      <button class="fs-mob-cat-btn" data-mcat="result">📊 <span data-i18n="fieldStories.fieldResults">Results</span></button>
+      <button class="fs-mob-cat-btn" data-mcat="product">🧪 <span data-i18n="fieldStories.products">Products</span></button>
+      <button class="fs-mob-cat-btn" data-mcat="tip">💡 <span data-i18n="fieldStories.farmingTips">Tips</span></button>
+      <button class="fs-mob-cat-btn" data-mcat="reel">🎬 <span data-i18n="fieldStories.reels">Reels</span></button>
+      <button class="fs-mob-cat-btn" data-mcat="event">🤝 <span data-i18n="fieldStories.events">Events</span></button>
     </div>
 
     <!-- Top bar (stories + search) -->
@@ -1779,8 +1779,8 @@
       <div class="fs-topbar-inner">
         <div class="fs-page-title-row">
           <div>
-            <div class="fs-page-title">Field Stories 🌱</div>
-            <div class="fs-page-subtitle">Life from the field, one story at a time.</div>
+            <div class="fs-page-title" data-i18n="fieldStories.pageTitle">Field Stories 🌱</div>
+            <div class="fs-page-subtitle" data-i18n="fieldStories.pageSubtitle">Life from the field, one story at a time.</div>
           </div>
           <div class="fs-topbar-actions">
             <button class="fs-icon-btn" id="searchToggle" aria-label="Search">
@@ -1793,7 +1793,7 @@
         </div>
         <div class="fs-search-bar" id="searchBar">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9db09d" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="text" id="searchInput" placeholder="Search farmers, crops, locations..." autocomplete="off">
+          <input type="text" id="searchInput" data-i18n-placeholder="fieldStories.searchMainPlaceholder" placeholder="Search farmers, crops, locations..." autocomplete="off">
           <button onclick="closeSearch()" style="background:none;border:none;cursor:pointer;color:#9db09d;font-size:1rem;">✕</button>
         </div>
         <!-- Stories Row -->
@@ -1803,9 +1803,9 @@
 
     <!-- Live indicators -->
     <div class="fs-live-strip">
-      <span class="fs-live-pill"><span class="fs-live-dot"></span>12 new stories today</span>
-      <span class="fs-live-pill">📍 Stories from Maharashtra</span>
-      <span class="fs-live-pill">🔥 Trending in Farming</span>
+      <span class="fs-live-pill"><span class="fs-live-dot"></span><span id="livePillToday">12 new stories today</span></span>
+      <span class="fs-live-pill" id="livePillMH">📍 Stories from Maharashtra</span>
+      <span class="fs-live-pill" id="livePillTrend">🔥 Trending in Farming</span>
     </div>
 
     <!-- ===== MAIN FEED ===== -->
@@ -1813,8 +1813,8 @@
       <!-- Trending Section -->
       <div class="fs-trending" id="trendingSection">
         <div class="fs-trending-head">
-          <h3>🔥 Trending from the Field</h3>
-          <span class="fs-see-all">See all</span>
+          <h3>🔥 <span data-i18n="fieldStories.trendingTitle">Trending from the Field</span></h3>
+          <span class="fs-see-all" data-i18n="fieldStories.seeAll">See all</span>
         </div>
         <div class="fs-trending-scroll" id="trendingScroll"></div>
       </div>
@@ -1825,8 +1825,8 @@
       <!-- BGT Reels Section -->
       <div class="fs-reels-section" id="reelsSection">
         <div class="fs-reels-head">
-          <h3><span class="fs-reel-icon">▶</span> BGT Reels</h3>
-          <span class="fs-see-all">View all</span>
+          <h3><span class="fs-reel-icon">▶</span> <span data-i18n="fieldStories.bgtReels">BGT Reels</span></h3>
+          <span class="fs-see-all" data-i18n="fieldStories.viewAll">View all</span>
         </div>
         <div class="fs-reels-scroll" id="reelsScroll"></div>
       </div>
@@ -1837,21 +1837,21 @@
       <!-- Discover Section -->
       <div class="fs-discover" id="discoverSection">
         <div class="fs-discover-head">
-          <h3>🌍 Discover from the Field</h3>
-          <span class="fs-see-all">Explore</span>
+          <h3>🌍 <span data-i18n="fieldStories.discoverTitle">Discover from the Field</span></h3>
+          <span class="fs-see-all" data-i18n="fieldStories.explore">Explore</span>
         </div>
         <div class="fs-masonry" id="masonryGrid"></div>
       </div>
 
       <!-- Share CTA -->
       <div class="fs-cta-strip">
-        <h3>Have a story from your field?</h3>
-        <p>Share your farming journey with the BGT community 🌱</p>
-        <button class="btn btn-white" style="padding:10px 24px; font-size:0.88rem;" onclick="openForm()">Share Your Story →</button>
+        <h3 data-i18n="fieldStories.ctaTitle">Have a story from your field?</h3>
+        <p data-i18n="fieldStories.ctaDesc">Share your farming journey with the BGT community 🌱</p>
+        <button class="btn btn-white" style="padding:10px 24px; font-size:0.88rem;" onclick="openForm()" data-i18n="fieldStories.shareBtn">Share Your Story →</button>
       </div>
 
       <!-- Load More -->
-      <button class="fs-load-more" onclick="loadMorePosts()">Load more stories</button>
+      <button class="fs-load-more" onclick="loadMorePosts()" data-i18n="fieldStories.loadMore">Load more stories</button>
     </div>
   </div>
 
@@ -2960,6 +2960,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   adjustMobileCats();
   window.addEventListener('resize', adjustMobileCats);
+});
+
+/* ================================================================
+   LANGUAGE CHANGE — re-render dynamic content when user
+   switches language via the header dropdown.
+   languageManager.js fires: window.dispatchEvent(new CustomEvent('languageChanged', {detail:{lang}}))
+================================================================ */
+window.addEventListener('languageChanged', function(e) {
+  const t = (key) => (window.i18n && window.i18n.t(key) !== key) ? window.i18n.t(key) : null;
+
+  // Update live pills
+  const pillToday = document.getElementById('livePillToday');
+  if (pillToday) pillToday.textContent = '12 ' + (t('fieldStories.liveToday') || 'new stories today');
+  const pillMH = document.getElementById('livePillMH');
+  if (pillMH) pillMH.textContent = '\ud83d\udccd ' + (t('fieldStories.storiesFrom') || 'Stories from Maharashtra');
+  const pillTrend = document.getElementById('livePillTrend');
+  if (pillTrend) pillTrend.textContent = '\ud83d\udd25 ' + (t('fieldStories.trendingPill') || 'Trending in Farming');
+
+  // Re-render all JS-generated feed sections
+  renderStories();
+  renderTrending();
+  renderFeed(FEED_POSTS, 'feedContainer');
+  renderReels();
+  renderFeed(EXTRA_POSTS, 'feedContainer2');
+  renderMasonry();
 });
 </script>
 </body>
