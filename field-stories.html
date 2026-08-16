@@ -20,18 +20,13 @@
 /* ---- Page Reset ---- */
 .fs-page { background: #f5f7f5; min-height: 100vh; }
 
-/* ---- TOP HEADER BAR ---- */
+/* ---- TOP HEADER BAR (inside content column) ---- */
 .fs-topbar {
   background: #fff;
   border-bottom: 1px solid #e6ede8;
-  padding: 22px 0 0;
-  position: sticky;
-  top: var(--header-height);
-  z-index: 200;
+  padding: 18px 0 0;
 }
 .fs-topbar-inner {
-  max-width: 680px;
-  margin: 0 auto;
   padding: 0 16px;
 }
 .fs-page-title-row {
@@ -191,57 +186,9 @@
   50% { opacity:0.5; transform:scale(0.7); }
 }
 
-/* ---- CATEGORY TABS ---- */
-.fs-cats {
-  background: #fff;
-  border-bottom: 1px solid #e6ede8;
-  position: sticky;
-  top: calc(var(--header-height) + 165px);
-  z-index: 190;
-}
-.fs-cats-inner {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 0 16px;
-  display: flex;
-  gap: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.fs-cats-inner::-webkit-scrollbar { display: none; }
-.fs-cat-tab {
-  padding: 12px 18px;
-  font-size: 0.83rem;
-  font-weight: 700;
-  color: var(--muted-text);
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  white-space: nowrap;
-  position: relative;
-  transition: color 0.2s;
-  flex-shrink: 0;
-}
-.fs-cat-tab::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 2.5px;
-  background: var(--primary-green);
-  border-radius: 2px 2px 0 0;
-  transform: scaleX(0);
-  transition: transform 0.2s;
-}
-.fs-cat-tab.active { color: var(--forest-green); }
-.fs-cat-tab.active::after { transform: scaleX(1); }
-.fs-cat-tab:hover { color: var(--primary-green); }
 
-/* ---- MAIN LAYOUT ---- */
-.fs-layout {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 14px 0 60px;
-}
+
+
 
 /* ---- POST CARD ---- */
 .fs-post {
@@ -1350,12 +1297,295 @@
 }
 .fs-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+/* ================================================================
+   TWO-COLUMN LAYOUT: STICKY SIDEBAR + SCROLLABLE FEED
+================================================================ */
+
+/* Outer shell that sits below the main BGT navbar */
+.fs-body-wrap {
+  display: flex;
+  align-items: flex-start;
+  min-height: calc(100vh - var(--header-height));
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+/* ---- LEFT SIDEBAR ---- */
+.fs-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  padding: 20px 0 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-right: 1px solid #e6ede8;
+  background: #fdfffd;
+}
+.fs-sidebar::-webkit-scrollbar { display: none; }
+
+/* Sidebar Brand */
+.fs-sb-brand {
+  padding: 4px 16px 18px;
+  border-bottom: 1px solid #f0f4f0;
+  margin-bottom: 8px;
+}
+.fs-sb-brand-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, #a7d948, #2e7d32);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+.fs-sb-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--forest-green);
+  letter-spacing: -0.2px;
+  line-height: 1.2;
+}
+.fs-sb-sub {
+  font-size: 0.7rem;
+  color: var(--muted-text);
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+/* Sidebar section label */
+.fs-sb-section-lbl {
+  padding: 12px 16px 5px;
+  font-size: 0.64rem;
+  font-weight: 800;
+  color: #9db09d;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+/* Sidebar nav item */
+.fs-sb-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 14px;
+  margin: 1px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  color: var(--muted-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  position: relative;
+  border: none;
+  background: transparent;
+  text-align: left;
+  width: calc(100% - 16px);
+}
+.fs-sb-item:hover {
+  background: #eef5ee;
+  color: var(--forest-green);
+}
+.fs-sb-item.active {
+  background: #e8f5e9;
+  color: var(--forest-green);
+  font-weight: 700;
+}
+.fs-sb-item.active::before {
+  content: '';
+  position: absolute;
+  left: -8px; top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: var(--primary-green);
+  border-radius: 0 2px 2px 0;
+}
+.fs-sb-icon {
+  font-size: 1.05rem;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.fs-sb-item:hover .fs-sb-icon,
+.fs-sb-item.active .fs-sb-icon { transform: scale(1.15); }
+.fs-sb-badge {
+  margin-left: auto;
+  background: #e8f5e9;
+  color: var(--primary-green);
+  border-radius: 50px;
+  padding: 1px 7px;
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+.fs-sb-item.active .fs-sb-badge { background: var(--primary-green); color: #fff; }
+
+/* Sidebar divider */
+.fs-sb-divider {
+  height: 1px;
+  background: #f0f4f0;
+  margin: 10px 16px;
+}
+
+/* Share story button at sidebar bottom */
+.fs-sb-share-btn {
+  margin: 10px 10px 4px;
+  padding: 11px 14px;
+  background: var(--primary-green);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  width: calc(100% - 20px);
+  box-shadow: 0 3px 10px rgba(46,125,50,0.2);
+}
+.fs-sb-share-btn:hover {
+  background: var(--forest-green);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(46,125,50,0.3);
+}
+.fs-sb-share-btn:active { transform: scale(0.97); }
+
+/* ---- RIGHT CONTENT COLUMN ---- */
+.fs-content-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Center the feed within content column on large screens */
+.fs-layout {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 14px 0 80px;
+  width: 100%;
+}
+
+/* ---- OPTIONAL RIGHT DISCOVERY PANEL (xl screens) ---- */
+.fs-right-panel {
+  display: none;
+  width: 240px;
+  flex-shrink: 0;
+  padding: 20px 0 20px 20px;
+}
+@media (min-width: 1160px) {
+  .fs-right-panel { display: block; }
+  .fs-layout { max-width: 640px; }
+}
+.fs-rp-card {
+  background: #fff;
+  border: 1px solid #eaf1ea;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  position: sticky;
+  top: calc(var(--header-height) + 20px);
+}
+.fs-rp-head {
+  padding: 12px 14px 8px;
+  border-bottom: 1px solid #f5f7f5;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--forest-green);
+  display: flex; align-items: center; gap: 5px;
+}
+.fs-rp-farmer {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-radius: 8px;
+  margin: 4px 6px;
+}
+.fs-rp-farmer:hover { background: #f5f7f5; }
+.fs-rp-avi {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a7d948, #2e7d32);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.fs-rp-name { font-size: 0.8rem; font-weight: 700; color: var(--forest-green); }
+.fs-rp-meta { font-size: 0.68rem; color: var(--muted-text); }
+.fs-rp-follow {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--primary-green);
+  background: #e8f5e9;
+  border-radius: 50px;
+  padding: 3px 10px;
+  flex-shrink: 0;
+}
+
+/* ---- MOBILE CATEGORY STRIP ---- */
+.fs-mobile-cats {
+  display: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+  gap: 6px;
+  padding: 10px 12px;
+  background: #fff;
+  border-bottom: 1px solid #e6ede8;
+}
+.fs-mobile-cats::-webkit-scrollbar { display: none; }
+.fs-mob-cat-btn {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: 50px;
+  border: 1.5px solid #dce8dc;
+  background: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted-text);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.18s;
+}
+.fs-mob-cat-btn.active {
+  background: var(--primary-green);
+  border-color: var(--primary-green);
+  color: #fff;
+}
+.fs-mob-cat-btn:hover:not(.active) { border-color: var(--leaf-green); color: var(--forest-green); }
+
 /* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+  /* Hide sidebar, show mobile strip */
+  .fs-sidebar { display: none; }
+  .fs-mobile-cats { display: flex; }
+  .fs-body-wrap { padding: 0; flex-direction: column; }
+  .fs-right-panel { display: none; }
+  .fs-layout { padding: 10px 0 60px; }
+  .fs-post { margin: 0 0 12px; border-radius: 0; }
+  .fs-trending, .fs-reels-section, .fs-discover, .fs-cta-strip { border-radius: 0; margin: 0 0 12px; }
+  .fs-topbar { position: sticky; top: var(--header-height); z-index: 200; }
+}
+
 @media (min-width: 769px) {
-  .fs-topbar-inner, .fs-cats-inner, .fs-live-strip, .fs-layout { padding: 0 20px; }
-  .fs-story-inner { width: 74px; height: 74px; }
-  .fs-post { margin: 0 0 20px; border-radius: 18px; }
-  .fs-layout { padding: 16px 0 80px; }
+  .fs-body-wrap { padding: 0 16px; }
+  .fs-story-inner { width: 72px; height: 72px; }
+  .fs-post { margin: 0 0 18px; border-radius: 18px; }
+  .fs-topbar-inner { padding: 0 20px; }
+  .fs-live-strip { padding: 0 16px 10px; }
   .fs-comments-drawer, .fs-share-drawer, .fs-profile-sheet, .fs-form-sheet {
     max-width: 480px;
     left: 50%;
@@ -1372,11 +1602,12 @@
 }
 
 @media (max-width: 480px) {
-  .fs-page-title { font-size: 1.35rem; }
+  .fs-page-title { font-size: 1.3rem; }
   .fs-masonry { grid-auto-rows: 80px; }
   .fs-reel-card { width: 130px; }
   .fs-trend-card { width: 115px; }
   .fs-fg-row { grid-template-columns: 1fr; }
+  .fs-layout { padding: 8px 0 60px; }
 }
 
 /* ---- UTILITY ---- */
@@ -1452,98 +1683,220 @@
 </header>
 
 <div class="fs-page">
-<!-- ===== TOP BAR ===== -->
-<div class="fs-topbar">
-  <div class="fs-topbar-inner">
-    <div class="fs-page-title-row">
-      <div>
-        <div class="fs-page-title">Field Stories 🌱</div>
-        <div class="fs-page-subtitle">Life from the field, one story at a time.</div>
+
+<!-- ===== TWO-COLUMN BODY ===== -->
+<div class="fs-body-wrap">
+
+  <!-- ===== LEFT SIDEBAR ===== -->
+  <aside class="fs-sidebar" role="navigation" aria-label="Field Stories Categories">
+
+    <!-- Brand -->
+    <div class="fs-sb-brand">
+      <div class="fs-sb-brand-icon">🌱</div>
+      <div class="fs-sb-title">Field Stories</div>
+      <div class="fs-sb-sub">Explore life from the field</div>
+    </div>
+
+    <!-- Main Categories -->
+    <div class="fs-sb-section-lbl">Browse</div>
+    <button class="fs-sb-item active" data-cat="all">
+      <span class="fs-sb-icon">🏠</span> All Stories
+    </button>
+    <button class="fs-sb-item" data-cat="farmer">
+      <span class="fs-sb-icon">👨‍🌾</span> Farmers
+    </button>
+    <button class="fs-sb-item" data-cat="crop">
+      <span class="fs-sb-icon">🌾</span> Crops
+    </button>
+    <button class="fs-sb-item" data-cat="result">
+      <span class="fs-sb-icon">📊</span> Field Results
+    </button>
+    <button class="fs-sb-item" data-cat="product">
+      <span class="fs-sb-icon">🧪</span> Products
+    </button>
+    <button class="fs-sb-item" data-cat="tip">
+      <span class="fs-sb-icon">💡</span> Farming Tips
+    </button>
+    <button class="fs-sb-item" data-cat="reel">
+      <span class="fs-sb-icon">🎬</span> Reels
+    </button>
+    <button class="fs-sb-item" data-cat="event">
+      <span class="fs-sb-icon">🤝</span> Events
+    </button>
+
+    <div class="fs-sb-divider"></div>
+
+    <!-- Discover section -->
+    <div class="fs-sb-section-lbl">Discover</div>
+    <button class="fs-sb-item" onclick="document.getElementById('trendingSection').scrollIntoView({behavior:'smooth'})">
+      <span class="fs-sb-icon">🔥</span> Trending
+      <span class="fs-sb-badge">12</span>
+    </button>
+    <button class="fs-sb-item" onclick="showToast('Saved stories coming soon!')">
+      <span class="fs-sb-icon">🔖</span> Saved Stories
+    </button>
+    <button class="fs-sb-item" onclick="showToast('Filtering by nearby fields...')">
+      <span class="fs-sb-icon">📍</span> Nearby Fields
+    </button>
+
+    <div class="fs-sb-divider"></div>
+
+    <!-- Search inside sidebar -->  
+    <div class="fs-sb-section-lbl">Search</div>
+    <div style="padding:0 10px 8px;">
+      <div style="display:flex;align-items:center;gap:8px;background:#f5f7f5;border:1.5px solid #e0e8e0;border-radius:10px;padding:8px 12px;transition:border-color 0.2s;" onfocus-within="style.borderColor='var(--leaf-green)'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9db09d" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="sbSearchInput" placeholder="Search stories..." autocomplete="off" style="border:none;background:transparent;font-size:0.8rem;font-family:var(--font-body);color:var(--dark-text);width:100%;" oninput="sidebarSearch(this.value)">
       </div>
-      <div class="fs-topbar-actions">
-        <button class="fs-icon-btn" id="searchToggle" aria-label="Search">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        </button>
-        <button class="fs-icon-btn" onclick="openForm()" aria-label="Share story">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
-        </button>
+    </div>
+
+    <!-- Push share button to bottom -->
+    <div style="flex:1;"></div>
+
+    <div class="fs-sb-divider"></div>
+    <button class="fs-sb-share-btn" onclick="openForm()">
+      <span style="font-size:1rem;">＋</span> Share Your Story
+    </button>
+  </aside>
+
+  <!-- ===== RIGHT CONTENT COLUMN ===== -->
+  <div class="fs-content-col">
+
+    <!-- Mobile category strip (shown only on mobile) -->
+    <div class="fs-mobile-cats" id="mobileCats">
+      <button class="fs-mob-cat-btn active" data-mcat="all">🏠 All</button>
+      <button class="fs-mob-cat-btn" data-mcat="farmer">👨‍🌾 Farmers</button>
+      <button class="fs-mob-cat-btn" data-mcat="crop">🌾 Crops</button>
+      <button class="fs-mob-cat-btn" data-mcat="result">📊 Results</button>
+      <button class="fs-mob-cat-btn" data-mcat="product">🧪 Products</button>
+      <button class="fs-mob-cat-btn" data-mcat="tip">💡 Tips</button>
+      <button class="fs-mob-cat-btn" data-mcat="reel">🎬 Reels</button>
+      <button class="fs-mob-cat-btn" data-mcat="event">🤝 Events</button>
+    </div>
+
+    <!-- Top bar (stories + search) -->
+    <div class="fs-topbar">
+      <div class="fs-topbar-inner">
+        <div class="fs-page-title-row">
+          <div>
+            <div class="fs-page-title">Field Stories 🌱</div>
+            <div class="fs-page-subtitle">Life from the field, one story at a time.</div>
+          </div>
+          <div class="fs-topbar-actions">
+            <button class="fs-icon-btn" id="searchToggle" aria-label="Search">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </button>
+            <button class="fs-icon-btn" onclick="openForm()" aria-label="Share story">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="fs-search-bar" id="searchBar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9db09d" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="searchInput" placeholder="Search farmers, crops, locations..." autocomplete="off">
+          <button onclick="closeSearch()" style="background:none;border:none;cursor:pointer;color:#9db09d;font-size:1rem;">✕</button>
+        </div>
+        <!-- Stories Row -->
+        <div class="fs-stories-bar" id="storiesBar"></div>
       </div>
     </div>
-    <div class="fs-search-bar" id="searchBar">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9db09d" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" id="searchInput" placeholder="Search farmers, crops, locations..." autocomplete="off">
-      <button onclick="closeSearch()" style="background:none;border:none;cursor:pointer;color:#9db09d;font-size:1rem;">✕</button>
+
+    <!-- Live indicators -->
+    <div class="fs-live-strip">
+      <span class="fs-live-pill"><span class="fs-live-dot"></span>12 new stories today</span>
+      <span class="fs-live-pill">📍 Stories from Maharashtra</span>
+      <span class="fs-live-pill">🔥 Trending in Farming</span>
     </div>
-    <!-- Stories Row -->
-    <div class="fs-stories-bar" id="storiesBar"></div>
-  </div>
-</div>
 
-<!-- Live indicators -->
-<div class="fs-live-strip">
-  <span class="fs-live-pill"><span class="fs-live-dot"></span>12 new stories today</span>
-  <span class="fs-live-pill">📍 Stories from Maharashtra</span>
-  <span class="fs-live-pill">🔥 Trending in Farming</span>
-</div>
+    <!-- ===== MAIN FEED ===== -->
+    <div class="fs-layout">
+      <!-- Trending Section -->
+      <div class="fs-trending" id="trendingSection">
+        <div class="fs-trending-head">
+          <h3>🔥 Trending from the Field</h3>
+          <span class="fs-see-all">See all</span>
+        </div>
+        <div class="fs-trending-scroll" id="trendingScroll"></div>
+      </div>
 
-<!-- ===== CATEGORY TABS ===== -->
-<div class="fs-cats">
-  <div class="fs-cats-inner" role="tablist">
-    <button class="fs-cat-tab active" data-cat="all" role="tab">All</button>
-    <button class="fs-cat-tab" data-cat="farmer" role="tab">👨‍🌾 Farmers</button>
-    <button class="fs-cat-tab" data-cat="crop" role="tab">🌾 Crops</button>
-    <button class="fs-cat-tab" data-cat="result" role="tab">📊 Field Results</button>
-    <button class="fs-cat-tab" data-cat="product" role="tab">🧪 Products</button>
-    <button class="fs-cat-tab" data-cat="tip" role="tab">💡 Tips</button>
-    <button class="fs-cat-tab" data-cat="reel" role="tab">🎬 Reels</button>
-    <button class="fs-cat-tab" data-cat="event" role="tab">🤝 Events</button>
-  </div>
-</div>
+      <!-- Main Feed Posts -->
+      <div id="feedContainer"></div>
 
-<!-- ===== MAIN FEED LAYOUT ===== -->
-<div class="fs-layout">
-  <!-- Trending Section -->
-  <div class="fs-trending" id="trendingSection">
-    <div class="fs-trending-head">
-      <h3>🔥 Trending from the Field</h3>
-      <span class="fs-see-all">See all</span>
+      <!-- BGT Reels Section -->
+      <div class="fs-reels-section" id="reelsSection">
+        <div class="fs-reels-head">
+          <h3><span class="fs-reel-icon">▶</span> BGT Reels</h3>
+          <span class="fs-see-all">View all</span>
+        </div>
+        <div class="fs-reels-scroll" id="reelsScroll"></div>
+      </div>
+
+      <!-- More feed posts after reels -->
+      <div id="feedContainer2"></div>
+
+      <!-- Discover Section -->
+      <div class="fs-discover" id="discoverSection">
+        <div class="fs-discover-head">
+          <h3>🌍 Discover from the Field</h3>
+          <span class="fs-see-all">Explore</span>
+        </div>
+        <div class="fs-masonry" id="masonryGrid"></div>
+      </div>
+
+      <!-- Share CTA -->
+      <div class="fs-cta-strip">
+        <h3>Have a story from your field?</h3>
+        <p>Share your farming journey with the BGT community 🌱</p>
+        <button class="btn btn-white" style="padding:10px 24px; font-size:0.88rem;" onclick="openForm()">Share Your Story →</button>
+      </div>
+
+      <!-- Load More -->
+      <button class="fs-load-more" onclick="loadMorePosts()">Load more stories</button>
     </div>
-    <div class="fs-trending-scroll" id="trendingScroll"></div>
   </div>
 
-  <!-- Main Feed Posts (injected by JS) -->
-  <div id="feedContainer"></div>
-
-  <!-- BGT Reels Section -->
-  <div class="fs-reels-section" id="reelsSection">
-    <div class="fs-reels-head">
-      <h3><span class="fs-reel-icon">▶</span> BGT Reels</h3>
-      <span class="fs-see-all">View all</span>
+  <!-- ===== RIGHT DISCOVERY PANEL (large screens only) ===== -->
+  <div class="fs-right-panel">
+    <div class="fs-rp-card">
+      <div class="fs-rp-head">👨‍🌾 Featured Farmers</div>
+      <div class="fs-rp-farmer" onclick="openProfile('Rahul Patil')">
+        <div class="fs-rp-avi">👨‍🌾</div>
+        <div><div class="fs-rp-name">Rahul Patil</div><div class="fs-rp-meta">Cotton · Pune</div></div>
+        <span class="fs-rp-follow">Follow</span>
+      </div>
+      <div class="fs-rp-farmer" onclick="openProfile('Priya Desai')">
+        <div class="fs-rp-avi">👩‍🌾</div>
+        <div><div class="fs-rp-name">Priya Desai</div><div class="fs-rp-meta">Tomato · Pune</div></div>
+        <span class="fs-rp-follow">Follow</span>
+      </div>
+      <div class="fs-rp-farmer" onclick="openProfile('Suresh Chavan')">
+        <div class="fs-rp-avi">🧑‍🌾</div>
+        <div><div class="fs-rp-name">Suresh Chavan</div><div class="fs-rp-meta">Cotton · Satara</div></div>
+        <span class="fs-rp-follow">Follow</span>
+      </div>
+      <div class="fs-rp-farmer" onclick="openProfile('Dr. Anil Sharma')">
+        <div class="fs-rp-avi">🔬</div>
+        <div><div class="fs-rp-name">Dr. Anil Sharma</div><div class="fs-rp-meta">Agronomy · BGT</div></div>
+        <span class="fs-rp-follow">Follow</span>
+      </div>
+      <div style="padding:4px 14px 12px;">
+        <button style="width:100%;padding:8px;background:none;border:1.5px solid #dce8dc;border-radius:8px;font-size:0.78rem;font-weight:700;color:var(--primary-green);cursor:pointer;" onclick="showToast('Showing all farmers...')">See all farmers</button>
+      </div>
     </div>
-    <div class="fs-reels-scroll" id="reelsScroll"></div>
-  </div>
 
-  <!-- More feed posts after reels -->
-  <div id="feedContainer2"></div>
-
-  <!-- Discover Section -->
-  <div class="fs-discover" id="discoverSection">
-    <div class="fs-discover-head">
-      <h3>🌍 Discover from the Field</h3>
-      <span class="fs-see-all">Explore</span>
+    <div class="fs-rp-card">
+      <div class="fs-rp-head">🌾 Popular Crops</div>
+      <div style="padding:8px 12px 12px;display:flex;flex-wrap:wrap;gap:6px;">
+        <span onclick="filterByTag('#Cotton')" style="background:#e8f5e9;color:var(--primary-green);border-radius:50px;padding:5px 12px;font-size:0.75rem;font-weight:700;cursor:pointer;">#Cotton</span>
+        <span onclick="filterByTag('#Soybean')" style="background:#e8f5e9;color:var(--primary-green);border-radius:50px;padding:5px 12px;font-size:0.75rem;font-weight:700;cursor:pointer;">#Soybean</span>
+        <span onclick="filterByTag('#Tomato')" style="background:#fff3e0;color:#e65100;border-radius:50px;padding:5px 12px;font-size:0.75rem;font-weight:700;cursor:pointer;">#Tomato</span>
+        <span onclick="filterByTag('#Wheat')" style="background:#f9fbe7;color:#827717;border-radius:50px;padding:5px 12px;font-size:0.75rem;font-weight:700;cursor:pointer;">#Wheat</span>
+        <span onclick="filterByTag('#Grapes')" style="background:#f3e5f5;color:#6a1b9a;border-radius:50px;padding:5px 12px;font-size:0.75rem;font-weight:700;cursor:pointer;">#Grapes</span>
+        <span onclick="filterByTag('#Sugarcane')" style="background:#e8f5e9;color:var(--forest-green);border-radius:50px;padding:5px 12px;font-size:0.75rem;font-weight:700;cursor:pointer;">#Sugarcane</span>
+      </div>
     </div>
-    <div class="fs-masonry" id="masonryGrid"></div>
   </div>
 
-  <!-- Share CTA -->
-  <div class="fs-cta-strip">
-    <h3>Have a story from your field?</h3>
-    <p>Share your farming journey with the BGT community 🌱</p>
-    <button class="btn btn-white" style="padding:10px 24px; font-size:0.88rem;" onclick="openForm()">Share Your Story →</button>
-  </div>
-
-  <!-- Load More -->
-  <button class="fs-load-more" onclick="loadMorePosts()">Load more stories</button>
 </div>
 
 <!-- ===== FOOTER ===== -->
@@ -2314,17 +2667,47 @@ function toggleSave(id) {
   showToast(btn.classList.contains('saved') ? 'Saved to your collection' : 'Removed from collection');
 }
 
-/* Categories */
-document.querySelectorAll('.fs-cat-tab').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.fs-cat-tab').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-    this.classList.add('active');
-    this.setAttribute('aria-selected','true');
-    currentCat = this.getAttribute('data-cat');
-    renderFeed(FEED_POSTS, 'feedContainer');
-    renderFeed(EXTRA_POSTS, 'feedContainer2');
+/* ---- Unified category filter ---- */
+function setCategory(cat) {
+  currentCat = cat;
+  // Update sidebar buttons
+  document.querySelectorAll('.fs-sb-item[data-cat]').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-cat') === cat);
   });
+  // Update mobile strip
+  document.querySelectorAll('.fs-mob-cat-btn[data-mcat]').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-mcat') === cat);
+  });
+  // Re-render feed with animation
+  renderFeed(FEED_POSTS, 'feedContainer');
+  renderFeed(EXTRA_POSTS, 'feedContainer2');
+}
+
+// Sidebar buttons
+document.querySelectorAll('.fs-sb-item[data-cat]').forEach(btn => {
+  btn.addEventListener('click', function() { setCategory(this.getAttribute('data-cat')); });
 });
+
+// Mobile strip buttons
+document.querySelectorAll('.fs-mob-cat-btn[data-mcat]').forEach(btn => {
+  btn.addEventListener('click', function() { setCategory(this.getAttribute('data-mcat')); });
+});
+
+/* Sidebar inline search */
+function sidebarSearch(q) {
+  const lq = q.toLowerCase();
+  if (!lq) { renderFeed(FEED_POSTS, 'feedContainer'); renderFeed(EXTRA_POSTS, 'feedContainer2'); return; }
+  const filtered = [...FEED_POSTS, ...EXTRA_POSTS].filter(p =>
+    (p.author||'').toLowerCase().includes(lq) ||
+    (p.loc||'').toLowerCase().includes(lq) ||
+    (p.caption||'').toLowerCase().includes(lq) ||
+    (p.tags||[]).some(t => t.toLowerCase().includes(lq))
+  );
+  const c = document.getElementById('feedContainer');
+  c.innerHTML = '';
+  filtered.forEach(p => { let el; if(p.type==='tip') el=createTipPost(p); else if(p.type==='result') el=createResultPost(p); else el=createPhotoPost(p); c.appendChild(el); });
+  document.getElementById('feedContainer2').innerHTML = '';
+}
 
 /* Comments */
 const SAMPLE_COMMENTS = [
@@ -2546,16 +2929,37 @@ document.addEventListener('DOMContentLoaded', () => {
   renderFeed(EXTRA_POSTS, 'feedContainer2');
   renderMasonry();
 
-  // Adjust sticky cat top dynamically
-  function adjustCatTop() {
+  // Sync mobile cats input with sidebar search
+  const si = document.getElementById('searchInput');
+  if (si) {
+    si.addEventListener('input', function() {
+      const q = this.value.toLowerCase();
+      if (!q) { renderFeed(FEED_POSTS, 'feedContainer'); renderFeed(EXTRA_POSTS, 'feedContainer2'); return; }
+      const filtered = [...FEED_POSTS, ...EXTRA_POSTS].filter(p =>
+        (p.author||'').toLowerCase().includes(q) ||
+        (p.loc||'').toLowerCase().includes(q) ||
+        (p.caption||'').toLowerCase().includes(q) ||
+        (p.tags||[]).some(t => t.toLowerCase().includes(q))
+      );
+      const c = document.getElementById('feedContainer');
+      c.innerHTML = '';
+      filtered.forEach(p => { let el; if(p.type==='tip') el=createTipPost(p); else if(p.type==='result') el=createResultPost(p); else el=createPhotoPost(p); c.appendChild(el); });
+      document.getElementById('feedContainer2').innerHTML = '';
+    });
+  }
+
+  // Keep mobile cats strip sticky below topbar on mobile
+  function adjustMobileCats() {
     const topbar = document.querySelector('.fs-topbar');
-    if (topbar) {
-      const h = topbar.offsetHeight;
-      document.querySelector('.fs-cats').style.top = `calc(var(--header-height) + ${h}px)`;
+    const strip = document.getElementById('mobileCats');
+    if (topbar && strip && window.innerWidth <= 768) {
+      strip.style.position = 'sticky';
+      strip.style.top = `calc(var(--header-height) + ${topbar.offsetHeight}px)`;
+      strip.style.zIndex = '190';
     }
   }
-  adjustCatTop();
-  window.addEventListener('resize', adjustCatTop);
+  adjustMobileCats();
+  window.addEventListener('resize', adjustMobileCats);
 });
 </script>
 </body>
