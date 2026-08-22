@@ -891,6 +891,7 @@
   z-index: 9000;
   display: flex;
   align-items: flex-end;
+  justify-content: center;
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.3s, visibility 0.3s;
@@ -903,8 +904,7 @@
 }
 .fs-comments-drawer {
   width: 100%;
-  max-width: 680px;
-  margin: 0 auto;
+  max-width: 600px;
   background: #fff;
   border-radius: 20px 20px 0 0;
   max-height: 72vh;
@@ -997,6 +997,7 @@
   z-index: 9100;
   display: flex;
   align-items: flex-end;
+  justify-content: center;
   visibility: hidden;
   opacity: 0;
   transition: all 0.28s;
@@ -1006,8 +1007,7 @@
 .fs-share-drawer {
   background: #fff;
   width: 100%;
-  max-width: 680px;
-  margin: 0 auto;
+  max-width: 600px;
   border-radius: 20px 20px 0 0;
   padding: 12px 0 24px;
   position: relative; z-index: 1;
@@ -1042,6 +1042,7 @@
   z-index: 9200;
   display: flex;
   align-items: flex-end;
+  justify-content: center;
   visibility: hidden;
   opacity: 0;
   transition: all 0.28s;
@@ -1050,8 +1051,7 @@
 .fs-profile-sheet {
   background: #fff;
   width: 100%;
-  max-width: 680px;
-  margin: 0 auto;
+  max-width: 600px;
   border-radius: 20px 20px 0 0;
   max-height: 80vh;
   overflow-y: auto;
@@ -1219,6 +1219,7 @@
   background: rgba(0,0,0,0.6);
   display: flex;
   align-items: flex-end;
+  justify-content: center;
   visibility: hidden;
   opacity: 0;
   transition: all 0.3s;
@@ -1227,8 +1228,7 @@
 .fs-form-sheet {
   background: #fff;
   width: 100%;
-  max-width: 680px;
-  margin: 0 auto;
+  max-width: 600px;
   border-radius: 20px 20px 0 0;
   max-height: 88vh;
   overflow-y: auto;
@@ -1586,18 +1586,19 @@
   .fs-post { margin: 0 0 18px; border-radius: 18px; }
   .fs-topbar-inner { padding: 0 20px; }
   .fs-live-strip { padding: 0 16px 10px; }
+  /* Sheets are centered by justify-content:center on their fixed overlay containers */
   .fs-comments-drawer, .fs-share-drawer, .fs-profile-sheet, .fs-form-sheet {
-    max-width: 480px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100%);
+    max-width: 560px;
+    width: 100%;
     border-radius: 20px 20px 0 0;
-    margin: unset;
+    margin: 0;
+    transform: translateY(100%);
   }
   .fs-comments-panel.open .fs-comments-drawer,
   .fs-share-popup.open .fs-share-drawer,
   .fs-profile-modal.open .fs-profile-sheet,
   .fs-form-overlay.open .fs-form-sheet {
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
 }
 
