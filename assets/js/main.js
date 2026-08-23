@@ -29,20 +29,49 @@ document.addEventListener('DOMContentLoaded', () => {
   // 3. RESPONSIVE BURGER DRAWER
   const burger = document.querySelector('.burger-menu');
   const navLinks = document.querySelector('.nav-links');
-  
+  const navOverlay = document.getElementById('navOverlay');
+
+  function openNav() {
+    burger.classList.add('active');
+    navLinks.classList.add('open');
+    if (navOverlay) navOverlay.classList.add('visible');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNav() {
+    burger.classList.remove('active');
+    navLinks.classList.remove('open');
+    if (navOverlay) navOverlay.classList.remove('visible');
+    document.body.style.overflow = '';
+  }
+
   if (burger && navLinks) {
     burger.addEventListener('click', () => {
-      burger.classList.toggle('active');
-      navLinks.classList.toggle('open');
+      if (navLinks.classList.contains('open')) {
+        closeNav();
+      } else {
+        openNav();
+      }
     });
 
     // Close mobile menu on clicking any navigation link
     const links = document.querySelectorAll('.nav-link');
     links.forEach(link => {
       link.addEventListener('click', () => {
-        burger.classList.remove('active');
-        navLinks.classList.remove('open');
+        closeNav();
       });
+    });
+
+    // Close on overlay tap
+    if (navOverlay) {
+      navOverlay.addEventListener('click', closeNav);
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+        closeNav();
+      }
     });
   }
 

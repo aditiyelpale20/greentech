@@ -190,14 +190,47 @@
     
     /* Responsive */
     @media (max-width: 1024px) {
-      .contact-split { grid-template-columns: 1fr; }
+      .contact-split { grid-template-columns: 1fr; gap: 35px; }
     }
     
     @media (max-width: 768px) {
-      .contact-hero h1 { font-size: 2.25rem; }
+      .contact-hero { padding: 110px 0 55px 0; }
+      .contact-hero h1 { font-size: 2.1rem; }
       .contact-form-card { padding: 30px 20px; }
-      .form-row { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; gap: 16px; }
       .form-group-full { grid-column: span 1; }
+      .contact-details-card { padding: 28px 22px; gap: 22px; }
+      .map-box { height: 280px; }
+    }
+
+    @media (max-width: 600px) {
+      .contact-hero h1 { font-size: 1.9rem; }
+      .contact-details-card { padding: 22px 16px; gap: 18px; }
+      .contact-block { padding-bottom: 18px; gap: 12px; }
+      .contact-icon-box { width: 42px; height: 42px; }
+      .dealer-card { padding: 22px 18px; }
+      .map-box { height: 240px; }
+    }
+
+    @media (max-width: 480px) {
+      .contact-hero { padding: 90px 0 40px 0; }
+      .contact-hero h1 { font-size: 1.65rem; }
+      .contact-wrapper { padding: 40px 0 60px 0; }
+      .contact-details-card { padding: 18px 14px; gap: 16px; }
+      .contact-form-card { padding: 20px 14px; }
+      .contact-text h3 { font-size: 1rem; }
+      .contact-text p { font-size: 0.85rem; }
+      .dealer-card { padding: 18px 14px; }
+      .map-box { height: 210px; }
+    }
+
+    @media (max-width: 375px) {
+      .contact-hero h1 { font-size: 1.45rem; }
+    }
+
+    @media (max-width: 320px) {
+      .contact-hero h1 { font-size: 1.3rem; }
+      .contact-form-card { padding: 16px 12px; }
     }
   </style>
   <!-- Global i18n Translation Engine -->
@@ -257,6 +290,9 @@
       </div>
     </div>
   </header>
+
+  <!-- Nav backdrop overlay -->
+  <div class="nav-overlay" id="navOverlay"></div>
 
   <!-- HERO BANNER -->
   <section class="contact-hero">

@@ -332,19 +332,55 @@
     
     /* Responsive grid columns */
     @media (max-width: 1200px) {
-      .products-grid { grid-template-columns: repeat(3, 1fr); }
+      .products-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
     }
     
     @media (max-width: 900px) {
-      .products-grid { grid-template-columns: repeat(2, 1fr); }
-      .search-row { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+      .search-row { grid-template-columns: 1fr; gap: 14px; }
+      .catalog-hero h1 { font-size: 2.4rem; }
+    }
+
+    @media (max-width: 768px) {
+      .catalog-hero { padding: 110px 0 55px 0; }
+      .catalog-hero h1 { font-size: 2.1rem; }
+      .catalog-controls { padding: 22px; margin-top: -20px; }
+      .filter-tab-row { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 6px; }
+      .filter-tab-row::-webkit-scrollbar { display: none; }
+      .filter-pill { flex: 0 0 auto; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
     }
     
     @media (max-width: 600px) {
-      .products-grid { grid-template-columns: 1fr; }
-      .catalog-controls { padding: 20px; }
-      .filter-tab-row { gap: 8px; }
-      .filter-pill { padding: 4px 12px; font-size: 0.75rem; }
+      .catalog-hero h1 { font-size: 1.85rem; }
+      .catalog-controls { padding: 16px; }
+      .filter-pill { padding: 5px 14px; font-size: 0.8rem; }
+      .product-img-box { height: 180px; }
+      .product-body { padding: 14px; }
+      .product-title { font-size: 1rem; }
+      .product-actions { grid-template-columns: 1fr; gap: 6px; }
+      .product-actions-full { grid-column: span 1; }
+    }
+
+    @media (max-width: 480px) {
+      .catalog-hero { padding: 90px 0 40px 0; }
+      .catalog-hero h1 { font-size: 1.6rem; }
+      .products-grid { grid-template-columns: 1fr; gap: 14px; }
+      .product-img-box { height: 200px; }
+      .product-body { padding: 16px; }
+      .product-title { font-size: 1.1rem; }
+      .filter-tab-row { gap: 6px; }
+      .filter-row-label { min-width: 70px; font-size: 0.75rem; }
+      .range-heading { font-size: 1.5rem; }
+    }
+
+    @media (max-width: 375px) {
+      .catalog-hero h1 { font-size: 1.4rem; }
+      .product-actions .btn { font-size: 0.72rem; padding: 8px 6px; }
+    }
+
+    @media (max-width: 320px) {
+      .catalog-hero h1 { font-size: 1.25rem; }
     }
   </style>
   <!-- Global i18n Translation Engine -->
@@ -404,6 +440,9 @@
       </div>
     </div>
   </header>
+
+  <!-- Nav backdrop overlay -->
+  <div class="nav-overlay" id="navOverlay"></div>
 
   <!-- HERO BANNER -->
   <section class="catalog-hero">

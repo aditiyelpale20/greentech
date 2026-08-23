@@ -701,14 +701,13 @@ footer {
 }
 
 @media (max-width: 1100px) {
-  /* Hide redundant "Explore Products" header button on medium screens to free space for links */
+  /* Hide redundant "Explore Products" header button on medium screens */
   header .header-actions .btn-primary {
     display: none;
   }
 }
 
 @media (max-width: 991px) {
-  /* Hide tagline on smaller tablets to keep brand name from pushing links */
   .brand-tagline {
     display: none;
   }
@@ -717,7 +716,7 @@ footer {
   }
 }
 
-/* --- GLOBAL RESPONSIVE ADJUSTMENTS --- */
+/* --- TABLET (max-width: 1024px) --- */
 @media (max-width: 1024px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
@@ -725,57 +724,285 @@ footer {
   }
 }
 
+/* --- LARGE MOBILE (max-width: 768px) --- */
 @media (max-width: 768px) {
   :root {
-    --header-height: 75px;
+    --header-height: 70px;
+  }
+
+  .header-container {
+    width: 94%;
   }
 
   .burger-menu {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
   }
 
   .nav-links {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 280px;
+    width: 82%;
+    max-width: 320px;
     height: 100vh;
     background-color: var(--white);
     flex-direction: column;
-    padding: 100px 30px;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 20px;
-    box-shadow: var(--shadow-lg);
+    padding: 85px 25px 40px 25px;
+    align-items: stretch;
+    gap: 8px;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.15);
     z-index: 1050;
-    transition: var(--transition);
+    transition: right 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow-y: auto;
   }
 
   .nav-links.open {
     right: 0;
   }
 
+  .nav-link {
+    font-size: 1rem;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-cream);
+  }
+
+  .nav-link.active {
+    background: rgba(46, 125, 50, 0.12);
+    color: var(--primary-green);
+  }
+
+  /* Backdrop overlay when nav open */
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 1040;
+  }
+  .nav-overlay.visible { display: block; }
+
   .header-actions {
-    margin-right: 15px;
+    margin-right: 6px;
+    gap: 8px;
+  }
+
+  .lang-selector select {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+    max-width: 85px;
   }
 
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 28px;
   }
 
   .footer-bottom {
     flex-direction: column;
     text-align: center;
-    gap: 15px;
+    gap: 12px;
+  }
+
+  .footer-legal-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
   }
 
   .section {
-    padding: 65px 0;
+    padding: 55px 0;
   }
 
   .section-title {
-    font-size: 1.95rem;
+    font-size: 1.85rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+
+  .section-header {
+    margin-bottom: 35px;
+  }
+
+  /* Prevent iOS zoom on focused inputs */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+
+  .btn {
+    min-height: 46px;
+  }
+
+  .scroll-top {
+    bottom: 18px;
+    width: 42px;
+    height: 42px;
+    font-size: 1rem;
+  }
+  .scroll-top.visible {
+    right: 16px;
+  }
+}
+
+/* --- MEDIUM MOBILE (max-width: 600px) --- */
+@media (max-width: 600px) {
+  .section {
+    padding: 48px 0;
+  }
+
+  .container {
+    width: 95%;
+  }
+
+  .section-title {
+    font-size: 1.7rem;
+  }
+
+  .footer-grid {
+    gap: 22px;
+  }
+
+  .footer-col h4 {
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+
+  .footer-brand p {
+    font-size: 0.88rem;
+  }
+}
+
+/* --- SMALL MOBILE (max-width: 480px) --- */
+@media (max-width: 480px) {
+  :root {
+    --header-height: 65px;
+  }
+
+  .brand-name {
+    font-size: 1rem;
+  }
+
+  .company-logo {
+    height: 36px;
+  }
+
+  .logo-block {
+    gap: 8px;
+  }
+
+  .section-title {
+    font-size: 1.55rem;
+    line-height: 1.3;
+  }
+
+  .section-subtitle {
+    font-size: 0.92rem;
+  }
+
+  .section-tag {
+    font-size: 0.78rem;
+  }
+
+  .btn {
+    padding: 11px 20px;
+    font-size: 0.88rem;
+  }
+
+  .section-header {
+    margin-bottom: 24px;
+  }
+
+  .footer-links {
+    gap: 10px;
+  }
+
+  .footer-socials {
+    gap: 10px;
+  }
+
+  .footer-contact-item {
+    gap: 10px;
+  }
+
+  .footer-bottom {
+    font-size: 0.8rem;
+    gap: 10px;
+  }
+
+  /* Filter bars horizontal scroll */
+  .filter-bar {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 6px;
+    gap: 8px;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-btn { flex: 0 0 auto; }
+}
+
+/* --- COMPACT PHONES (max-width: 375px) --- */
+@media (max-width: 375px) {
+  .brand-name {
+    font-size: 0.9rem;
+  }
+
+  .company-logo {
+    height: 30px;
+  }
+
+  .section-title {
+    font-size: 1.38rem;
+  }
+
+  .btn {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    min-height: 44px;
+  }
+
+  .container {
+    width: 96%;
+  }
+
+  .nav-links {
+    width: 88%;
+  }
+}
+
+/* --- VERY SMALL PHONES (max-width: 320px) --- */
+@media (max-width: 320px) {
+  :root {
+    --header-height: 60px;
+  }
+
+  .brand-name {
+    font-size: 0.82rem;
+  }
+
+  .company-logo {
+    height: 26px;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.88rem;
+  }
+
+  .btn {
+    padding: 9px 14px;
+    font-size: 0.82rem;
   }
 }
 
@@ -1035,240 +1262,3 @@ footer {
   padding-top: 18px;
   border-top: 1px solid var(--border-light);
 }
-
-/* ==========================================================================
-   COMPREHENSIVE MOBILE-FRIENDLY RESPONSIVE DESIGN SUITE
-   ========================================================================== */
-
-/* 1. Tablet & Medium Screens (max-width: 991px) */
-@media (max-width: 991px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    text-align: center;
-  }
-  
-  .hero-content {
-    max-width: 100%;
-    margin: 0 auto;
-  }
-  
-  .hero-buttons {
-    justify-content: center;
-  }
-  
-  .hero-stats {
-    justify-content: center;
-  }
-
-  .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
-  }
-}
-
-/* 2. Mobile Screens (max-width: 768px) */
-@media (max-width: 768px) {
-  :root {
-    --header-height: 70px;
-  }
-
-  /* Sticky Header & Navigation */
-  .header-container {
-    width: 94%;
-  }
-
-  .brand-name {
-    font-size: 1.15rem;
-  }
-
-  .burger-menu {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 44px;
-    height: 44px;
-  }
-
-  .nav-links {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 82%;
-    max-width: 320px;
-    height: 100vh;
-    background-color: var(--white);
-    flex-direction: column;
-    padding: 85px 25px 40px 25px;
-    align-items: stretch;
-    gap: 16px;
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
-    z-index: 1050;
-    transition: right 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-    overflow-y: auto;
-  }
-
-  .nav-links.open {
-    right: 0;
-  }
-
-  .nav-link {
-    font-size: 1.05rem;
-    padding: 12px 16px;
-    border-radius: var(--radius-sm);
-    background: var(--bg-cream);
-  }
-
-  .nav-link.active {
-    background: rgba(46, 125, 50, 0.12);
-    color: var(--primary-green);
-  }
-
-  /* Filter Tabs (Horizontal Scroll with Momentum) */
-  .filter-bar {
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 10px 4px 15px 4px;
-    gap: 10px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .filter-bar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .filter-btn {
-    flex: 0 0 auto;
-    padding: 10px 18px;
-    font-size: 0.88rem;
-    border-radius: var(--radius-full);
-  }
-
-  /* Product Quick-View Modal (Sleek Mobile Bottom Sheet) */
-  .product-modal-backdrop {
-    padding: 0;
-    align-items: flex-end;
-  }
-
-  .product-modal-container {
-    max-width: 100vw;
-    width: 100%;
-    max-height: 90vh;
-    border-radius: 24px 24px 0 0;
-    margin: 0;
-  }
-
-  .product-modal-scroll {
-    padding: 24px 18px 30px 18px;
-  }
-
-  .product-modal-grid {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .product-modal-gallery {
-    position: static;
-  }
-
-  .product-modal-img-box {
-    height: 190px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(240, 245, 241, 1) 100%);
-  }
-
-  .product-modal-close {
-    top: 14px;
-    right: 14px;
-    width: 40px;
-    height: 40px;
-    font-size: 1.3rem;
-  }
-
-  .product-modal-price-table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .product-modal-actions {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .product-modal-actions .btn {
-    width: 100%;
-    padding: 14px 18px;
-    font-size: 0.95rem;
-  }
-
-  /* Hero & Stats Grid */
-  .hero-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    width: 100%;
-  }
-
-  .stat-card {
-    padding: 16px;
-    text-align: center;
-  }
-
-  .stat-num {
-    font-size: 1.8rem;
-  }
-
-  /* Inputs & Forms (Prevent iOS Zoom) */
-  input, select, textarea {
-    font-size: 16px !important;
-  }
-
-  .btn {
-    min-height: 46px;
-  }
-}
-
-/* 3. Small Mobile Phones (max-width: 480px) */
-@media (max-width: 480px) {
-  .section-title {
-    font-size: 1.65rem;
-  }
-
-  .section-subtitle {
-    font-size: 0.95rem;
-  }
-
-  .hero-title {
-    font-size: 1.85rem;
-    line-height: 1.2;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .hero-buttons .btn {
-    width: 100%;
-  }
-
-  .products-grid {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .featured-grid {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .footer-bottom {
-    font-size: 0.82rem;
-  }
-}
-
-

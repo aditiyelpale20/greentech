@@ -194,13 +194,37 @@
     
     /* Responsive */
     @media (max-width: 1024px) {
-      .video-grid { grid-template-columns: 1fr 1fr; }
+      .video-grid { grid-template-columns: 1fr 1fr; gap: 22px; }
+      .video-controls { grid-template-columns: 1fr 1fr; }
     }
     
     @media (max-width: 768px) {
-      .videos-hero h1 { font-size: 2.25rem; }
-      .video-controls { grid-template-columns: 1fr; }
-      .video-grid { grid-template-columns: 1fr; }
+      .videos-hero { padding: 110px 0 55px 0; }
+      .videos-hero h1 { font-size: 2.1rem; }
+      .video-controls { grid-template-columns: 1fr; gap: 14px; padding: 18px; }
+      .video-grid { grid-template-columns: 1fr 1fr; gap: 18px; }
+    }
+
+    @media (max-width: 600px) {
+      .videos-hero h1 { font-size: 1.9rem; }
+      .video-grid { grid-template-columns: 1fr; gap: 16px; }
+      .video-controls { padding: 14px; }
+    }
+
+    @media (max-width: 480px) {
+      .videos-hero { padding: 90px 0 40px 0; }
+      .videos-hero h1 { font-size: 1.65rem; }
+      .video-body { padding: 14px; }
+      .video-body h3 { font-size: 0.95rem; }
+    }
+
+    @media (max-width: 375px) {
+      .videos-hero h1 { font-size: 1.45rem; }
+      .video-grid { gap: 14px; }
+    }
+
+    @media (max-width: 320px) {
+      .videos-hero h1 { font-size: 1.3rem; }
     }
   </style>
   <!-- Global i18n Translation Engine -->
@@ -260,6 +284,9 @@
       </div>
     </div>
   </header>
+
+  <!-- Nav backdrop overlay -->
+  <div class="nav-overlay" id="navOverlay"></div>
 
   <!-- HERO BANNER -->
   <section class="videos-hero">
