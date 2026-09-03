@@ -155,6 +155,9 @@ header.scrolled {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  /* Prevent children from overflowing outside the header */
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .logo-block {
@@ -162,6 +165,7 @@ header.scrolled {
   align-items: center;
   gap: 10px;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .company-logo {
@@ -230,6 +234,7 @@ header.scrolled {
   display: flex;
   align-items: center;
   gap: 16px;
+  flex-shrink: 0;
 }
 
 /* Admin quick-access button */
@@ -287,6 +292,8 @@ header.scrolled {
   background: none;
   border: none;
   z-index: 1100;
+  flex-shrink: 0; /* Never compress — always fully visible */
+  padding: 0 2px;
 }
 
 .burger-menu span {
@@ -788,14 +795,21 @@ footer {
   .nav-overlay.visible { display: block; }
 
   .header-actions {
-    margin-right: 6px;
-    gap: 8px;
+    margin-right: 0;
+    gap: 6px;
+  }
+
+  /* Hide admin button on mobile — accessible via desktop only */
+  .admin-nav-btn {
+    display: none;
   }
 
   .lang-selector select {
-    padding: 6px 8px;
-    font-size: 0.75rem;
-    max-width: 85px;
+    padding: 5px 6px;
+    font-size: 0.72rem;
+    max-width: 78px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .footer-grid {
@@ -895,6 +909,17 @@ footer {
 
   .logo-block {
     gap: 8px;
+  }
+
+  /* Keep burger fully on-screen */
+  .header-actions {
+    gap: 4px;
+  }
+
+  .lang-selector select {
+    padding: 4px 5px;
+    font-size: 0.68rem;
+    max-width: 68px;
   }
 
   .section-title {
