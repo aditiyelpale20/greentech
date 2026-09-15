@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const crypto = require('crypto');
+const fs = require('fs');
 const db = require('./db');
 
 const app = express();
@@ -726,6 +727,94 @@ app.delete('/api/admin/works/:id', authenticateAdmin, async (req, res) => {
     return res.status(500).json({ error: 'Failed to delete work record.' });
   }
 });
+
+// ─── FIELD STORIES API ────────────────────────────────────────────────
+const FIELD_STORIES_FILE = path.join(__dirname, 'field_stories.json');
+
+function readFieldStories() {
+  try { return JSON.parse(fs.readFileSync(FIELD_STORIES_FILE, 'utf8')); }
+  catch(e) { return { posts: [], stories: [] }; }
+}
+function writeFieldStories(data) {
+  fs.writeFileSync(FIELD_STORIES_FILE, JSON.stringify(data, null, 2), 'utf8');
+}
+
+// Public: approved posts only
+app.get('/api/field-stories', (req, res) => {
+  const data = readFieldStories();
+  res.json({
+    posts: (data.posts || []).filter(p => p.approved !== false),
+    stories: (data.stories || []).filter(s => s.approved !== false)
+  });
+});
+
+// Public: submit a story (needs admin approval)
+app.post('/api/field-stories/submit', async (req, res) => {
+  try {
+    const { author, loc, caption, cat, crop, phone } = req.body;
+    if (!author || !caption) return res.status(400).json({ error: 'Author and caption required' });
+    const data = readFieldStories();
+    const newPost = {
+      id: 'p' + Date.now(),
+      cat: cat || 'farmer',
+      type: 'photo',
+      aspect: 'portrait',
+      author,
+      avi: '👨\u200d🌾',
+      loc: loc || 'Maharashtra',
+      emoji: '🌾',
+      bg: 'bg-field',
+      caption,
+      tags: [],
+      likes: 0,
+      comments: 0,
+      time: new Date().toISOString(),
+      imageUrl: '',
+      data: crop ? { Crop: crop } : null,
+      approved: false,
+      phone: phone || '',
+      createdAt: new Date().toISOString()
+    };
+    data.posts.unshift(newPost);
+    writeFieldStories(data);
+    res.json({ success: true, message: 'Story submitted for review!' });
+  } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// Admin: all posts
+app.get('/api/admin/field-stories', authenticateAdmin, (req, res) => {
+  res.json(readFieldStories());
+});
+
+// Admin: approve
+app.patch('/api/admin/field-stories/:id/approve', authenticateAdmin, (req, res) => {
+  const data = readFieldStories();
+  const p = data.posts.find(p => p.id === req.params.id);
+  if (!p) return res.status(404).json({ error: 'Not found' });
+  p.approved = true;
+  writeFieldStories(data);
+  res.json({ success: true });
+});
+
+// Admin: delete
+app.delete('/api/admin/field-stories/:id', authenticateAdmin, (req, res) => {
+  const data = readFieldStories();
+  const idx = data.posts.findIndex(p => p.id === req.params.id);
+  if (idx === -1) return res.status(404).json({ error: 'Not found' });
+  data.posts.splice(idx, 1);
+  writeFieldStories(data);
+  res.json({ success: true });
+});
+
+// Admin: add post manually
+app.post('/api/admin/field-stories', authenticateAdmin, (req, res) => {
+  const data = readFieldStories();
+  const post = { ...req.body, id: 'p' + Date.now(), approved: true, createdAt: new Date().toISOString() };
+  data.posts.unshift(post);
+  writeFieldStories(data);
+  res.json({ success: true, post });
+});
+// ─────────────────────────────────────────────────────────────────────
 
 // --- GITHUB AUTO-UPDATE WEBHOOK & SYNC ENGINE ---
 const { exec } = require('child_process');

@@ -2911,9 +2911,19 @@ function submitStory() {
   const cr = document.getElementById('ff-crop').value.trim();
   const s = document.getElementById('ff-story').value.trim();
   if (!n || !p || !l || !cr || !s) { showToast('Please fill in all required fields'); return; }
-  document.getElementById('formBody').style.display = 'none';
-  document.getElementById('formSuccess').style.display = 'block';
-  setTimeout(closeForm, 2500);
+  fetch('/api/field-stories/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ author: n, phone: p, loc: l, crop: cr, caption: s, cat: 'farmer' })
+  }).then(res => res.json()).then(() => {
+    document.getElementById('formBody').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+    setTimeout(closeForm, 2500);
+  }).catch(() => {
+    document.getElementById('formBody').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+    setTimeout(closeForm, 2500);
+  });
 }
 
 /* Load more */
@@ -2946,10 +2956,26 @@ function showToast(msg) {
 document.addEventListener('DOMContentLoaded', () => {
   renderStories();
   renderTrending();
-  renderFeed(FEED_POSTS, 'feedContainer');
   renderReels();
-  renderFeed(EXTRA_POSTS, 'feedContainer2');
   renderMasonry();
+
+  async function initFieldStories() {
+    try {
+      const res = await fetch('/api/field-stories');
+      if (res.ok) {
+        const apiData = await res.json();
+        if (apiData.posts && apiData.posts.length > 0) {
+          // Use API data instead of hardcoded
+          renderFeed(apiData.posts, 'feedContainer');
+          return;
+        }
+      }
+    } catch(e) { console.log('Field stories API unavailable, using fallback'); }
+    // Fallback to hardcoded data
+    renderFeed(FEED_POSTS, 'feedContainer');
+    renderFeed(EXTRA_POSTS, 'feedContainer2');
+  }
+  initFieldStories();
 
   // Sync mobile cats input with sidebar search
   const si = document.getElementById('searchInput');

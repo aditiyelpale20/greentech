@@ -1132,10 +1132,11 @@
       <div class="section-tabs">
         <button class="section-tab-btn active" id="tabFeedbackBtn" onclick="switchTab('feedback')" data-admin-i18n="tabs.feedback">Feedback Management</button>
         <button class="section-tab-btn" id="tabInquiriesBtn" onclick="switchTab('inquiries')" data-admin-i18n="tabs.inquiries">Inquiry Management</button>
-        <button class="section-tab-btn" id="tabWorksBtn" onclick="switchTab('works')" data-admin-i18n="tabs.works">Work & Salary Tracker</button>
+        <button class="section-tab-btn" id="tabWorksBtn" onclick="switchTab('works')" data-admin-i18n="tabs.works">Work &amp; Salary Tracker</button>
         <button class="section-tab-btn" id="tabTrashBtn" onclick="switchTab('trash')" data-admin-i18n="tabs.trash">Trash Bin</button>
         <button class="section-tab-btn" id="tabActivityLogBtn" onclick="switchTab('activityLog')" data-admin-i18n="tabs.activityLog">Activity Log</button>
         <button class="section-tab-btn" id="tabSettingsBtn" onclick="switchTab('settings')" data-admin-i18n="tabs.settings">Settings</button>
+        <button class="section-tab-btn" id="tabFieldStoriesBtn" onclick="switchTab('fieldStories')">Field Stories</button>
       </div>
 
       <!-- FEEDBACK TAB PANEL -->
@@ -1295,6 +1296,20 @@
             </tbody>
           </table>
         </div>
+      </div>
+
+      <!-- FIELD STORIES TAB PANEL -->
+      <div id="panelFieldStories" style="display: none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+          <h2 style="margin:0;font-size:1.2rem;">Field Stories</h2>
+          <button onclick="loadAdminFieldStories()" style="padding:8px 16px;background:var(--primary-green,#2e7d32);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">Refresh</button>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+          <button onclick="filterFSAdmin('all')" id="fsAdminFilterAll" style="padding:6px 14px;border-radius:20px;border:2px solid #2e7d32;background:#2e7d32;color:#fff;cursor:pointer;font-weight:600;">All</button>
+          <button onclick="filterFSAdmin('pending')" id="fsAdminFilterPending" style="padding:6px 14px;border-radius:20px;border:1px solid #ccc;background:#fff;cursor:pointer;">Pending</button>
+          <button onclick="filterFSAdmin('approved')" id="fsAdminFilterApproved" style="padding:6px 14px;border-radius:20px;border:1px solid #ccc;background:#fff;cursor:pointer;">Approved</button>
+        </div>
+        <div id="fsAdminList" style="min-height:200px;">Loading...</div>
       </div>
 
       <!-- Shared Empty state placeholder -->
@@ -1536,7 +1551,12 @@
         worksSearchField.value = '';
         worksSearch = '';
       }
-      
+
+      // Field Stories tab
+      document.getElementById('tabFieldStoriesBtn').classList.toggle('active', tab === 'fieldStories');
+      document.getElementById('panelFieldStories').style.display = tab === 'fieldStories' ? 'block' : 'none';
+      if (tab === 'fieldStories') { loadAdminFieldStories(); return; }
+
       // Load specific tab datasets
       loadDashboardData();
     }
@@ -2908,6 +2928,73 @@
         renderData();
       });
     }
+
+    // ─── FIELD STORIES ADMIN ───────────────────────────────────────────
+    let allFSPosts = [];
+    let fsCurFilter = 'all';
+
+    async function loadAdminFieldStories() {
+      const listEl = document.getElementById('fsAdminList');
+      listEl.innerHTML = 'Loading...';
+      try {
+        const res = await fetch(`${API_BASE}/admin/field-stories`, { headers: { 'Authorization': 'Bearer ' + token } });
+        const data = await res.json();
+        allFSPosts = data.posts || [];
+        renderFSAdminList();
+      } catch(e) { listEl.innerHTML = '<p style="color:red">Failed to load: ' + e.message + '</p>'; }
+    }
+
+    function filterFSAdmin(f) {
+      fsCurFilter = f;
+      ['all','pending','approved'].forEach(x => {
+        const btn = document.getElementById('fsAdminFilter' + x.charAt(0).toUpperCase() + x.slice(1));
+        if (btn) { btn.style.background = x === f ? '#2e7d32' : '#fff'; btn.style.color = x === f ? '#fff' : '#333'; }
+      });
+      renderFSAdminList();
+    }
+
+    function renderFSAdminList() {
+      const listEl = document.getElementById('fsAdminList');
+      let posts = allFSPosts;
+      if (fsCurFilter === 'pending') posts = posts.filter(p => !p.approved);
+      if (fsCurFilter === 'approved') posts = posts.filter(p => p.approved);
+      if (posts.length === 0) { listEl.innerHTML = '<p style="color:#888;text-align:center;padding:40px">No stories found.</p>'; return; }
+      listEl.innerHTML = posts.map(p => `
+        <div style="border:1px solid #e0e0e0;border-radius:12px;padding:16px;margin-bottom:12px;background:${p.approved ? '#f8fff8' : '#fffbf0'};">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:200px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                <span style="font-size:1.4rem;">${p.avi || '👨\u200d🌾'}</span>
+                <strong>${p.author || 'Unknown'}</strong>
+                <span style="font-size:0.75rem;color:#888;">${p.loc || ''}</span>
+                <span style="padding:2px 8px;border-radius:10px;font-size:0.72rem;font-weight:700;background:${p.approved ? '#e8f5e9' : '#fff8e1'};color:${p.approved ? '#2e7d32' : '#f57c00'};">${p.approved ? 'APPROVED' : 'PENDING'}</span>
+              </div>
+              <p style="margin:0 0 6px;font-size:0.9rem;color:#333;line-height:1.5;">${(p.caption || '').slice(0,200)}${p.caption && p.caption.length > 200 ? '...' : ''}</p>
+              <div style="font-size:0.75rem;color:#888;">${p.cat || ''} &bull; ${p.type || ''} &bull; ${new Date(p.createdAt || p.time || Date.now()).toLocaleDateString('en-IN')}</div>
+              ${p.phone ? `<div style="font-size:0.75rem;color:#888;margin-top:2px;">Phone: ${p.phone}</div>` : ''}
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+              ${!p.approved ? `<button onclick="approveFS('${p.id}')" style="padding:6px 14px;background:#2e7d32;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">Approve</button>` : ''}
+              <button onclick="deleteFS('${p.id}')" style="padding:6px 14px;background:#d32f2f;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">Delete</button>
+            </div>
+          </div>
+        </div>`).join('');
+    }
+
+    async function approveFS(id) {
+      if (!confirm('Approve this story?')) return;
+      const res = await fetch(`${API_BASE}/admin/field-stories/` + id + '/approve', { method: 'PATCH', headers: { 'Authorization': 'Bearer ' + token } });
+      if (res.ok) { await loadAdminFieldStories(); }
+      else alert('Failed to approve');
+    }
+
+    async function deleteFS(id) {
+      if (!confirm('Delete this story permanently?')) return;
+      const res = await fetch(`${API_BASE}/admin/field-stories/` + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token } });
+      if (res.ok) { allFSPosts = allFSPosts.filter(p => p.id !== id); renderFSAdminList(); }
+      else alert('Failed to delete');
+    }
+    // ───────────────────────────────────────────────────────────────────
   </script>
 </body>
 </html>
