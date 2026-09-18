@@ -757,8 +757,6 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       border: 1px solid var(--border-light);
-      max-width: 600px;
-      margin: 0 auto;
     }
 
     /* LOADING OVERLAY */
@@ -909,6 +907,11 @@
 
       /* Settings card */
       .settings-card { padding: 20px 16px; max-width: 100%; }
+
+      /* Settings panel grid — single column on mobile */
+      #panelSettings > div {
+        grid-template-columns: 1fr !important;
+      }
 
       /* Empty state */
       .empty-state { padding: 40px 20px; }
@@ -1224,42 +1227,105 @@
 
       <!-- ACTIVITY LOG TAB PANEL -->
       <div id="panelActivityLog" style="display: none;">
+        <!-- Activity Log Controls -->
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px;">
+          <div class="search-box" style="flex:1;min-width:220px;">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="activityLogSearch" placeholder="Search by admin, action, type..." oninput="filterActivityLog()" style="border:none;outline:none;flex:1;font-size:0.9rem;background:transparent;">
+          </div>
+          <select id="activityLogTypeFilter" onchange="filterActivityLog()" style="padding:8px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-light);font-weight:600;font-size:0.85rem;cursor:pointer;color:var(--forest-green);">
+            <option value="all">All Types</option>
+            <option value="feedback">Feedback</option>
+            <option value="inquiry">Inquiry</option>
+            <option value="work">Work</option>
+            <option value="field_story">Field Story</option>
+            <option value="config">Settings</option>
+          </select>
+          <button onclick="clearActivityLogUI()" style="padding:8px 16px;background:#FFEBEE;color:#C62828;border:none;border-radius:var(--radius-sm);font-weight:700;cursor:pointer;">🗑 Clear View</button>
+        </div>
+        <!-- Activity Log Table -->
         <div style="background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow); padding:25px; border:1px solid var(--border-light); overflow-x: auto;">
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; min-width: 800px;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left; min-width: 750px;">
             <thead>
               <tr style="border-bottom: 2px solid var(--border-light); font-weight: 700; color: var(--text-dark);">
                 <th style="padding: 12px 10px;">Time</th>
                 <th style="padding: 12px 10px;">Admin</th>
                 <th style="padding: 12px 10px;">Action</th>
                 <th style="padding: 12px 10px;">Type</th>
-                <th style="padding: 12px 10px;">Record ID</th>
-                <th style="padding: 12px 10px;">Previous State</th>
-                <th style="padding: 12px 10px;">New State</th>
+                <th style="padding: 12px 10px;">Details</th>
               </tr>
             </thead>
             <tbody id="activityLogTableBody">
-              <!-- Dyn rows -->
+              <!-- Dynamic rows -->
             </tbody>
           </table>
+          <div id="activityLogEmpty" style="display:none;padding:40px;text-align:center;color:#aaa;">No activity logs found.</div>
         </div>
       </div>
 
       <!-- SETTINGS TAB PANEL -->
       <div id="panelSettings" style="display: none;">
-        <div class="settings-card">
-          <h3 style="margin-bottom: 20px; font-family:'Outfit'; color: var(--forest-green);" data-admin-i18n="tabs.settings">Settings</h3>
-          <div id="settingsMessage" style="display: none; padding: 12px; background: #E8F5E9; color: var(--primary-green); border-radius: var(--radius-sm); font-size: 0.9rem; font-weight: 600; margin-bottom: 15px; text-align: center;"></div>
-          <form id="settingsForm" onsubmit="saveConfigSettings(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+
+          <!-- Card 1: Data Retention -->
+          <div class="settings-card">
+            <h3 style="margin-bottom:16px;font-family:'Outfit';color:var(--forest-green);">🗄️ Data Retention</h3>
+            <div id="settingsMessage" style="display:none;padding:12px;background:#E8F5E9;color:var(--primary-green);border-radius:var(--radius-sm);font-size:0.9rem;font-weight:600;margin-bottom:15px;text-align:center;"></div>
+            <form id="settingsForm" onsubmit="saveConfigSettings(event)">
+              <div class="form-group">
+                <label for="settingRetentionDays">Trash Retention Period (Days)</label>
+                <input type="number" id="settingRetentionDays" min="1" max="365" style="padding:10px;border-radius:var(--radius-sm);border:1px solid var(--border-light);outline:none;width:100%;" required>
+              </div>
+              <div class="form-group" style="flex-direction:row;align-items:center;gap:10px;cursor:pointer;margin-top:10px;margin-bottom:20px;">
+                <input type="checkbox" id="settingAutoCleanup" style="width:18px;height:18px;cursor:pointer;accent-color:var(--primary-green);">
+                <label for="settingAutoCleanup" style="cursor:pointer;font-weight:500;font-size:0.92rem;">Enable automatic cleanup after retention period</label>
+              </div>
+              <button type="submit" class="btn-login">Save Configuration</button>
+            </form>
+          </div>
+
+          <!-- Card 2: Admin Account -->
+          <div class="settings-card">
+            <h3 style="margin-bottom:16px;font-family:'Outfit';color:var(--forest-green);">🔐 Admin Account</h3>
+            <div id="pwChangeMsg" style="display:none;padding:12px;border-radius:var(--radius-sm);font-size:0.9rem;font-weight:600;margin-bottom:15px;text-align:center;"></div>
             <div class="form-group">
-              <label for="settingRetentionDays" data-admin-i18n="settingsPanel.retentionDays">Trash Retention Period (Days)</label>
-              <input type="number" id="settingRetentionDays" min="1" max="365" style="padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); outline: none;" required>
+              <label>Current Password</label>
+              <input type="password" id="pwCurrent" placeholder="Current password" style="padding:10px;border-radius:var(--radius-sm);border:1px solid var(--border-light);outline:none;width:100%;">
             </div>
-            <div class="form-group" style="flex-direction: row; align-items: center; gap: 10px; cursor: pointer; margin-top: 10px; margin-bottom: 25px;">
-              <input type="checkbox" id="settingAutoCleanup" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-green);">
-              <label for="settingAutoCleanup" style="cursor: pointer; font-weight: 500; font-size: 0.92rem;" data-admin-i18n="settingsPanel.autoCleanup">Enable automatic cleanup after retention period</label>
+            <div class="form-group">
+              <label>New Password</label>
+              <input type="password" id="pwNew" placeholder="New password" style="padding:10px;border-radius:var(--radius-sm);border:1px solid var(--border-light);outline:none;width:100%;">
             </div>
-            <button type="submit" class="btn-login" data-admin-i18n="settingsPanel.saveBtn">Save Configuration</button>
-          </form>
+            <div class="form-group">
+              <label>Confirm New Password</label>
+              <input type="password" id="pwConfirm" placeholder="Confirm new password" style="padding:10px;border-radius:var(--radius-sm);border:1px solid var(--border-light);outline:none;width:100%;">
+            </div>
+            <button onclick="changeAdminPassword()" class="btn-login" style="margin-top:8px;">Change Password</button>
+          </div>
+
+          <!-- Card 3: Data Export -->
+          <div class="settings-card">
+            <h3 style="margin-bottom:16px;font-family:'Outfit';color:var(--forest-green);">📤 Data Export</h3>
+            <p style="font-size:0.88rem;color:#666;margin-bottom:16px;">Download all data as CSV files for offline use or backup.</p>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <button onclick="exportInquiriesToCsv()" class="btn-logout" style="background:var(--soil-brown);">⬇️ Export All Inquiries</button>
+              <button onclick="exportWorksToCsv()" class="btn-logout" style="background:#5D4037;">⬇️ Export Work Records</button>
+              <button onclick="exportFeedbackToCsv()" class="btn-logout" style="background:#37474F;">⬇️ Export Feedback</button>
+            </div>
+          </div>
+
+          <!-- Card 4: System Info -->
+          <div class="settings-card">
+            <h3 style="margin-bottom:16px;font-family:'Outfit';color:var(--forest-green);">ℹ️ System Info</h3>
+            <div style="display:flex;flex-direction:column;gap:10px;font-size:0.88rem;">
+              <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="color:#888;">Site</span><strong>Bharti Green Tech</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="color:#888;">Server</span><strong>64.118.137.163</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="color:#888;">URL</span><strong>avya.gen.in/bhartigreentech</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="color:#888;">Stack</span><strong>Node.js + PM2 + nginx</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;"><span style="color:#888;">Data</span><strong>JSON File Store</strong></div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -1276,6 +1342,26 @@
             </div>
             <button class="btn-logout" style="background-color: var(--soil-brown); min-width: 200px;" onclick="exportWorksToCsv()" data-admin-i18n="worksPanel.exportBtn">Download Excel (CSV)</button>
             <button class="btn-logout" style="background-color: var(--primary-green); min-width: 200px;" onclick="openWorkModal()" data-admin-i18n="worksPanel.addBtn">Add Work Record</button>
+          </div>
+        </div>
+
+        <!-- Works Summary Bar -->
+        <div id="worksSummaryBar" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:18px;">
+          <div class="stat-card" style="text-align:center;">
+            <h3>Total Workers</h3>
+            <div class="value" id="worksSumWorkers">—</div>
+          </div>
+          <div class="stat-card" style="text-align:center;">
+            <h3>Total Paid (₹)</h3>
+            <div class="value" style="color:var(--primary-green);" id="worksSumPaid">—</div>
+          </div>
+          <div class="stat-card" style="text-align:center;">
+            <h3>Total Pending (₹)</h3>
+            <div class="value" style="color:#FB8C00;" id="worksSumPending">—</div>
+          </div>
+          <div class="stat-card" style="text-align:center;">
+            <h3>This Month (₹)</h3>
+            <div class="value" style="color:#1E88E5;" id="worksSumMonth">—</div>
           </div>
         </div>
 
@@ -2035,6 +2121,20 @@
         const tableBody = document.getElementById('worksTableBody');
         tableBody.innerHTML = '';
 
+        // Update works summary stats
+        const uniqueWorkers = new Set(worksList.map(w => w.workerName)).size;
+        const totalPaid = worksList.filter(w => w.status === 'Paid').reduce((s, w) => s + (parseFloat(w.salary) || 0), 0);
+        const totalPending = worksList.filter(w => w.status !== 'Paid').reduce((s, w) => s + (parseFloat(w.salary) || 0), 0);
+        const thisMonth = worksList.filter(w => {
+          const d = new Date(w.date);
+          const now = new Date();
+          return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+        }).reduce((s, w) => s + (parseFloat(w.salary) || 0), 0);
+        document.getElementById('worksSumWorkers').textContent = uniqueWorkers;
+        document.getElementById('worksSumPaid').textContent = '₹' + totalPaid.toFixed(0);
+        document.getElementById('worksSumPending').textContent = '₹' + totalPending.toFixed(0);
+        document.getElementById('worksSumMonth').textContent = '₹' + thisMonth.toFixed(0);
+
         const filtered = worksList.filter(w => {
           const sQuery = worksSearch.toLowerCase();
           return w.workerName.toLowerCase().includes(sQuery) ||
@@ -2151,47 +2251,88 @@
       }
     }
 
-    // Render activity audit logs in a table
     function renderActivityLogs() {
       const tableBody = document.getElementById('activityLogTableBody');
-      const emptyState = document.getElementById('emptyState');
-      const t = window.adminI18n ? window.adminI18n.t.bind(window.adminI18n) : (k)=>k;
-
+      const emptyDiv = document.getElementById('activityLogEmpty');
+      if (!tableBody) return;
       tableBody.innerHTML = '';
+
       if (!apiActivitySuccess) {
-        document.getElementById('emptyStateText').textContent = "Unable to load activity logs. Please try again.";
-        emptyState.style.display = 'block';
-        return;
-      } else if (activityLogs.length === 0) {
-        document.getElementById('emptyStateText').textContent = t('empty.noLogs');
-        emptyState.style.display = 'block';
+        if (emptyDiv) { emptyDiv.textContent = 'Unable to load activity logs. Please try again.'; emptyDiv.style.display = 'block'; }
         return;
       }
 
-      emptyState.style.display = 'none';
+      const searchQ = (document.getElementById('activityLogSearch') || {}).value || '';
+      const typeF = (document.getElementById('activityLogTypeFilter') || {}).value || 'all';
 
-      activityLogs.forEach(log => {
+      const filtered = activityLogs.filter(log => {
+        const matchSearch = !searchQ ||
+          (log.admin || '').toLowerCase().includes(searchQ.toLowerCase()) ||
+          (log.action || '').toLowerCase().includes(searchQ.toLowerCase()) ||
+          (log.recordType || '').toLowerCase().includes(searchQ.toLowerCase()) ||
+          (log.newStatus || '').toLowerCase().includes(searchQ.toLowerCase());
+        const matchType = typeF === 'all' || (log.recordType || '').toLowerCase() === typeF.toLowerCase();
+        return matchSearch && matchType;
+      });
+
+      if (emptyDiv) emptyDiv.style.display = filtered.length === 0 ? 'block' : 'none';
+      if (emptyDiv && filtered.length === 0) { emptyDiv.textContent = activityLogs.length === 0 ? 'No activity recorded yet.' : 'No logs match your filter.'; }
+
+      // Action icon map
+      const actionIcons = {
+        'archived': '📦', 'trashed': '🗑️', 'restored': '♻️', 'deleted_permanently': '❌',
+        'approved': '✅', 'rejected': '🚫', 'hidden': '👁️', 'Work Record Created': '➕',
+        'Work Record Updated': '✏️', 'Work Record Deleted': '🗑️', 'settings_updated': '⚙️',
+        'Field Story Submitted': '📸', 'Story Approved': '✅', 'bulk': '📋'
+      };
+
+      // Type badge colors
+      const typeBadgeMap = {
+        'feedback': 'background:#E8F5E9;color:#2E7D32;',
+        'inquiry': 'background:#E3F2FD;color:#1565C0;',
+        'work': 'background:#FFF3E0;color:#E65100;',
+        'field_story': 'background:#F3E5F5;color:#6A1B9A;',
+        'config': 'background:#ECEFF1;color:#546E7A;'
+      };
+
+      filtered.forEach(log => {
         const row = document.createElement('tr');
         row.style.borderBottom = '1px solid var(--border-light)';
-        
-        let typeBadge = `<span class="badge badge-primary" style="font-size:0.7rem;">${log.recordType}</span>`;
-        if (log.recordType === 'feedback') {
-          typeBadge = `<span class="badge badge-primary" style="font-size:0.7rem; background:#E8F5E9; color:#2E7D32;">Feedback</span>`;
-        } else if (log.recordType === 'inquiry') {
-          typeBadge = `<span class="badge badge-secondary" style="font-size:0.7rem; background:#EFEBE9; color:#5D4037;">Inquiry</span>`;
-        }
+        row.style.transition = 'background 0.15s';
+        row.onmouseover = () => row.style.background = '#f9fafb';
+        row.onmouseout = () => row.style.background = '';
+
+        const icon = Object.entries(actionIcons).find(([k]) => (log.action || '').toLowerCase().includes(k.toLowerCase()))?.[1] || '📝';
+        const typeKey = (log.recordType || '').toLowerCase();
+        const typeStyle = typeBadgeMap[typeKey] || 'background:#f5f5f5;color:#666;';
+        const typeName = (log.recordType || 'system').replace(/_/g, ' ');
+
+        // Show details: new status or prev→new or action summary
+        let details = '';
+        if (log.newStatus && log.newStatus !== 'N/A') details = log.newStatus;
+        else if (log.prevStatus && log.prevStatus !== 'N/A') details = log.prevStatus + ' → ' + log.newStatus;
 
         row.innerHTML = `
-          <td style="padding: 12px 10px; font-weight: 500; color: var(--text-muted); font-size: 0.8rem;">${formatTime(log.timestamp)}</td>
-          <td style="padding: 12px 10px; font-weight: 700; color: var(--forest-green);">${log.admin}</td>
-          <td style="padding: 12px 10px; font-weight: 600; text-transform: uppercase; font-size: 0.78rem;">${log.action.replace(/_/g, ' ')}</td>
-          <td style="padding: 12px 10px;">${typeBadge}</td>
-          <td style="padding: 12px 10px; font-family: monospace; font-size: 0.75rem; color: var(--soil-brown);">${log.recordId}</td>
-          <td style="padding: 12px 10px; font-weight: 600; color: #C62828;">${log.prevStatus}</td>
-          <td style="padding: 12px 10px; font-weight: 600; color: var(--primary-green);">${log.newStatus}</td>
+          <td style="padding:10px;font-size:0.78rem;color:#888;white-space:nowrap;">${formatTime(log.timestamp)}</td>
+          <td style="padding:10px;font-weight:700;color:var(--forest-green);">${log.admin || 'system'}</td>
+          <td style="padding:10px;font-weight:600;">${icon} ${(log.action || '').replace(/_/g, ' ')}</td>
+          <td style="padding:10px;"><span style="padding:3px 10px;border-radius:20px;font-size:0.72rem;font-weight:700;${typeStyle}">${typeName}</span></td>
+          <td style="padding:10px;color:#666;font-size:0.82rem;max-width:260px;word-break:break-word;">${details || (log.recordId ? 'ID: ' + String(log.recordId).slice(0, 12) + '…' : '—')}</td>
         `;
         tableBody.appendChild(row);
       });
+    }
+
+    function filterActivityLog() {
+      renderActivityLogs();
+    }
+
+    function clearActivityLogUI() {
+      const search = document.getElementById('activityLogSearch');
+      const typeF = document.getElementById('activityLogTypeFilter');
+      if (search) search.value = '';
+      if (typeF) typeF.value = 'all';
+      renderActivityLogs();
     }
 
     // --- BULK ACTION SELECTIONS ---
@@ -2640,6 +2781,69 @@
       } finally {
         hideLoading();
       }
+    }
+
+    async function changeAdminPassword() {
+      const current = document.getElementById('pwCurrent').value.trim();
+      const newPw = document.getElementById('pwNew').value.trim();
+      const confirm = document.getElementById('pwConfirm').value.trim();
+      const msg = document.getElementById('pwChangeMsg');
+
+      if (!current || !newPw || !confirm) {
+        msg.textContent = 'Please fill in all fields.';
+        msg.style.background = '#FFEBEE'; msg.style.color = '#C62828';
+        msg.style.display = 'block'; return;
+      }
+      if (newPw !== confirm) {
+        msg.textContent = 'New passwords do not match.';
+        msg.style.background = '#FFEBEE'; msg.style.color = '#C62828';
+        msg.style.display = 'block'; return;
+      }
+      if (newPw.length < 6) {
+        msg.textContent = 'Password must be at least 6 characters.';
+        msg.style.background = '#FFEBEE'; msg.style.color = '#C62828';
+        msg.style.display = 'block'; return;
+      }
+      try {
+        const res = await fetch(`${API_BASE}/admin/config`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ changePassword: true, currentPassword: current, newPassword: newPw })
+        });
+        if (res.ok) {
+          msg.textContent = 'Password changed successfully!';
+          msg.style.background = '#E8F5E9'; msg.style.color = '#2E7D32';
+          msg.style.display = 'block';
+          document.getElementById('pwCurrent').value = '';
+          document.getElementById('pwNew').value = '';
+          document.getElementById('pwConfirm').value = '';
+        } else {
+          const err = await res.json();
+          msg.textContent = err.error || 'Failed to change password.';
+          msg.style.background = '#FFEBEE'; msg.style.color = '#C62828';
+          msg.style.display = 'block';
+        }
+      } catch(e) {
+        msg.textContent = 'Network error. Try again.';
+        msg.style.background = '#FFEBEE'; msg.style.color = '#C62828';
+        msg.style.display = 'block';
+      }
+      setTimeout(() => msg.style.display = 'none', 4000);
+    }
+
+    function exportFeedbackToCsv() {
+      if (feedbackList.length === 0) { alert('No feedback to export.'); return; }
+      const headers = ['ID','Date','Name','Mobile','District','Crop','Rating','Status','Feedback Text'];
+      const rows = [headers];
+      feedbackList.forEach(fb => {
+        rows.push([fb.id, fb.submissionDateTime, fb.name, fb.mobileNumber, fb.district, fb.crop, fb.rating, fb.status, (fb.text || '').replace(/"/g,'""')]);
+      });
+      const csv = rows.map(r => r.map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `feedback_export_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
     }
 
     // --- CSV EXPORTER ---

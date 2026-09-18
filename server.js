@@ -631,18 +631,29 @@ app.get('/api/admin/config', authenticateAdmin, async (req, res) => {
 
 app.post('/api/admin/config', authenticateAdmin, async (req, res) => {
   try {
-    const { trashRetentionDays, autoCleanupEnabled } = req.body;
-    
+    // Handle password change request
+    if (req.body.changePassword) {
+      const { currentPassword, newPassword } = req.body;
+      const adminConfig = require('./admin_config.json');
+      if (adminConfig.password !== currentPassword) {
+        return res.status(400).json({ error: 'Current password is incorrect.' });
+      }
+      adminConfig.password = newPassword;
+      const fs2 = require('fs');
+      fs2.writeFileSync(path.join(__dirname, 'admin_config.json'), JSON.stringify(adminConfig, null, 2));
+      await db.addActivityLogEntry(req.adminUser, 'password_changed', 'config', 'admin', '', 'Admin password updated');
+      return res.json({ success: true, message: 'Password changed successfully.' });
+    }
+    // Regular config save
     const config = {
-      trashRetentionDays: parseInt(trashRetentionDays) || 30,
-      autoCleanupEnabled: !!autoCleanupEnabled
+      trashRetentionDays: parseInt(req.body.trashRetentionDays) || 30,
+      autoCleanupEnabled: Boolean(req.body.autoCleanupEnabled)
     };
-
     await db.saveConfig(config);
     await db.addActivityLogEntry(req.adminUser, 'settings_updated', 'config', 'settings', '', `Retention: ${config.trashRetentionDays} days, Auto: ${config.autoCleanupEnabled}`);
-    
     return res.json({ message: 'Settings saved successfully.', config });
   } catch (err) {
+    console.error('Config save error:', err);
     return res.status(500).json({ error: 'Failed to save configuration.' });
   }
 });
